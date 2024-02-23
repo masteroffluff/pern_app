@@ -6,19 +6,15 @@ import configureStore from 'redux-mock-store'; // Import configureStore from you
 import { Provider } from 'react-redux';
 import MainDisplay from '../components/mainPage/MainDisplay'
 import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from '../components/mainPage/subitems'
-
-// import { Appointment, NewAppointment } from '../components/calandar/appointment'
-// import { Event, NewEvent } from '../components/calandar/event'
-// import { Reminder, NewReminder } from '../components/calandar/reminder'
-// import { Note, NewNote } from '../components/items/note'
-// import { Todo, NewTodo } from '../components/items/todo'
-// import { UserDisplay, UserDetails, UserFriends } from './components/user'
+import { UserDetails,UserDisplay,UserFriends } from '../components/user';
 
 jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
 jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
 jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/items/todo/Todo', () => ({ items }) => (
+jest.mock('../components/items/todo/Todo', () => ({ title, value, items }) => (
     <div data-testid="mocked-Todo">
+        <h3>title</h3>
+        <p>value</p>
         <ul>
             {items.map((todo, index) => (
                 <li key={index}>
@@ -39,14 +35,14 @@ jest.mock('../components/items/note/Note', () => ({ value, title, owner, date })
 
 const date = new Date() // todays date so that all items appear as today that have dates
 
-const initialState = {
+const dummyStore = {
     calendar: [
         { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
         { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
         { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
         { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
         { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 },
     ],
     items: [
         {
@@ -56,14 +52,14 @@ const initialState = {
             todoItems: [
                 { value: 'foo', state: true },
                 { value: 'bar', state: false },
-                { value: 'baz', state: false }
+                { value: 'baz', state: false },
             ]
         }
     ],
     notes: [
         { id: 1, title: 'hello1', value: 'foo' },
         { id: 2, title: 'hello2', value: 'bar' },
-        { id: 3, title: 'hello3', value: 'baz' }
+        { id: 3, title: 'hello3', value: 'baz' },
     ],
     wall: [
         { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
@@ -71,8 +67,18 @@ const initialState = {
         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
         { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
         { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
-        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
-    ]
+        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) },
+    ],
+    user: {
+        displayName:'alice',
+        telephoneNumber:'07123 456789',
+        email:'foo@bar.baz',
+        friends:[
+            {name:'bob',status:'friend'},
+            {name:'charlie',status:'unfollow'},
+            {name:'dan',status:'blocked'},
+        ],
+    },
 };
 // Component List and tests
 // MainDisplay 
@@ -114,33 +120,33 @@ describe('DisplayToday', () => {
     let store;
 
     beforeEach(() => {
-        store = mockStore(initialState); // Initialize the mock store with initial state
+        store = mockStore(dummyStore); // Initialize the mock store with initial state
     });
 
     it('renders DisplayToday with mocked components', () => {
-        const { getByTestId, getByText } = render(
+        render(
             <Provider store={store}>
                 <DisplayToday />
             </Provider>
         );
         // - has title "Today"
-        expect(getByText('Today')).toBeInTheDocument();
+        expect(screen.getByText('Today')).toBeInTheDocument();
         // - contains mocked Appointment
-        expect(getByTestId('mocked-appointment')).toHaveTextContent('foo');
+        expect(screen.getByTestId('mocked-appointment')).toHaveTextContent('foo');
 
         // - contains mocked Event
-        expect(getByTestId('mocked-event')).toHaveTextContent('bar');
+        expect(screen.getByTestId('mocked-event')).toHaveTextContent('bar');
 
         // - contains mocked Reminder
-        expect(getByTestId('mocked-reminder')).toHaveTextContent('baz');
+        expect(screen.getByTestId('mocked-reminder')).toHaveTextContent('baz');
         // - does not contain mocked Appointment for tomorrow
-        expect(getByTestId('mocked-appointment')).toHaveTextContent('qux');
+        expect(screen.getByTestId('mocked-appointment')).toHaveTextContent('qux');
 
         // - does not contain mocked Event for tomorrow
-        expect(getByTestId('mocked-event')).toHaveTextContent('quux');
+        expect(screen.getByTestId('mocked-event')).toHaveTextContent('quux');
 
         // - does not contain mocked Reminder for tomorrow
-        expect(getByTestId('mocked-reminder')).toHaveTextContent('corge');
+        expect(screen.getByTestId('mocked-reminder')).toHaveTextContent('corge');
     });
 });
 
@@ -202,7 +208,7 @@ describe('DisplayNotes', () => {
     const mockStore = configureStore();
     let store;
     beforeEach(() => {
-        store = mockStore(initialState);
+        store = mockStore(dummyStore);
     });
 
     it('renders DisplayNotes with mocked Note components', () => {
@@ -216,9 +222,9 @@ describe('DisplayNotes', () => {
         // - contains mocked Notes
         // Assert that Note components are properly rendered with correct values from the store
         const noteComponents = getByTestId('mocked-note');
-        expect(noteComponents.length).toBe(initialState.notes.length);
+        expect(noteComponents.length).toBe(dummyStore.notes.length);
 
-        initialState.notes.forEach((note, index) => {
+        dummyStore.notes.forEach((note, index) => {
             const noteComponent = noteComponents[index];
             expect(noteComponent).toHaveTextContent(note.title);
             expect(noteComponent).toHaveTextContent(note.value);
@@ -236,7 +242,7 @@ describe('DisplayCalendar', () => {
     let store;
 
     beforeEach(() => {
-        store = mockStore(initialState); // Initialize the mock store with initial state
+        store = mockStore(dummyStore); // Initialize the mock store with initial state
     });
 
     it('renders DisplayCalendar with mocked components', () => {
@@ -282,15 +288,10 @@ describe('DisplayCalendar', () => {
 
 describe("Display Wall", () => {
 
-
-    const mockStore = configureStore(); // Create a mock Redux store
-    let store;
-
-    beforeEach(() => {
-        store = mockStore(initialState); // Initialize the mock store with initial state
-    });
     it('renders DisplayWall with mocked Todo and TodoItem components', () => {
-        
+        const mockStore = configureStore(); // Create a mock Redux store
+        let store;
+        store = mockStore(dummyStore); // Initialize the mock store with initial state
         render(
             <Provider store={store}>
                 <DisplayWall />
@@ -304,7 +305,7 @@ describe("Display Wall", () => {
         // - does not contain mocked item not from friend -- handle this in backend
         // displays name title and owner for each item
         const wallComponents = screen.getByTestId('mocked-wallItem');
-        initialState.wall.forEach((wallItem, index) => {
+        dummyStore.wall.forEach((wallItem, index) => {
             const wallComponent = wallComponents[index];
             expect(wallComponent).toHaveTextContent(wallItem.title);
             expect(wallComponent).toHaveTextContent(wallItem.value);
@@ -327,3 +328,75 @@ describe("Display Wall", () => {
 
 })
 
+// UserDisplay
+describe('UserDisplay', () => {
+    const mockStore = configureStore(); // Create a mock Redux store
+    let store;
+    store = mockStore(dummyStore); // Initialize the mock store with initial state
+    render(
+        <Provider store={store}>
+            <UserDisplay />
+        </Provider>
+    );
+    
+        
+    // - contains UserDetails
+    it('renders UserDetails', () => {
+        const userDetails = screen.getByTestId('userDetails');
+        expect(userDetails).toBeInTheDocument();
+    });
+    // - constins UserFriends
+    it('renders UserFriends', () => {
+        const userFriends = screen.getByTestId('userFriends');
+        expect(userFriends).toBeInTheDocument();
+    });
+})
+// UserDetails
+// - (all tests use a mocked user)
+// - displays user display name
+// - displays user phone number
+// - displays user email
+describe('UserDetails', () => {
+    const mockStore = configureStore(); // Create a mock Redux store
+    let store;
+    store = mockStore(dummyStore); // Initialize the mock store with initial state
+    render(
+        <Provider store={store}>
+            <UserDetails />
+        </Provider>
+    );
+
+    it('displays user display name', () => {
+        expect(screen.getByLabelText("displayName")).toHaveTextContent(dummyStore.user.displayName);
+    });
+    it('displays user phone number', () => {
+        expect(screen.getByLabelText("phone")).toHaveTextContent(dummyStore.user.telephoneNumber);
+    });
+    it('displays user email', () => {
+        expect(screen.getByLabelText("email")).toHaveTextContent(dummyStore.user.email);
+    });
+})
+// UserFriends
+// - has title "Friends"
+// - displays friend
+// - displays blocked friend as blocked
+// - displays unfollowed friend as unfollowed
+describe('UserFriends', () => {
+    const mockStore = configureStore(); // Create a mock Redux store
+    let store;
+    store = mockStore(dummyStore); // Initialize the mock store with initial state
+    render(
+        <Provider store={store}>
+            <UserFriends />
+        </Provider>
+    );
+    it('displays friend', () => {
+        expect(screen.getByLabelText("friends")).toHaveTextContent('bob');
+    });
+    it('displays blocked friend as blocked', () => {
+        expect(screen.getByLabelText("blocked")).toHaveTextContent('charlie');
+    });
+    it('displays unfollowed friend as unfollowed', () => {
+        expect(screen.getByLabelText("unfollowed")).toHaveTextContent('dan');
+    });
+})
