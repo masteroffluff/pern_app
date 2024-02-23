@@ -1,6 +1,6 @@
 
-Component List and tests
-appLayout 
+#Component List and tests
+MainDisplay 
 - contains DisplayToday
 - constins DisplayTodo
 - constins DisplayWall
@@ -59,6 +59,11 @@ Todo
 - has list of TodoItem components
 TodoItem
 - has checkbox
+
+
+UserDisplay
+- contains UserDetails
+- constins UserFriends
 
 UserDetails
 - (all tests use a mocked user)
