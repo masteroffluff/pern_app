@@ -404,215 +404,215 @@ const initialState = {
 // - has cancel button
 // - cancel gracefully closes form
 
-function boilerplateTests(Component, componentName, componentTitle) {
-    describe(`Boilerplate tests for ${componentName}`, () => {
-        const notes = 'foo';
-        const title = 'bar'
+// function boilerplateTests(Component, componentName, componentTitle) {
+//     describe(`Boilerplate tests for ${componentName}`, () => {
+//         const notes = 'foo';
+//         const title = 'bar'
 
-        beforeEach(() => {
-            // Render the parent component and store its container
-            ({ getByLabelText, getByTestId, container, getByText } = render(<Component notes={notes} title={title} />));
+//         beforeEach(() => {
+//             // Render the parent component and store its container
+//             ({ getByLabelText, getByTestId, container, getByText } = render(<Component notes={notes} title={title} />));
 
-        });
-        it(`has header "${componentTitle}"`, () => {
-            expect(getByText(componentTitle)).toBeInTheDocument();
-        });
-        it('has textbox labelled "notes" ', () => {
-            expect(getByLabelText("notes")).toHaveTextContent(notes);
-        });
-        it('has textbox labelled "title" ', () => {
-            expect(getByLabelText("title")).toHaveTextContent(title);
-        });
-        it('state update for "notes"', () => {
+//         });
+//         it(`has header "${componentTitle}"`, () => {
+//             expect(getByText(componentTitle)).toBeInTheDocument();
+//         });
+//         it('has textbox labelled "notes" ', () => {
+//             expect(getByLabelText("notes")).toHaveTextContent(notes);
+//         });
+//         it('has textbox labelled "title" ', () => {
+//             expect(getByLabelText("title")).toHaveTextContent(title);
+//         });
+//         it('state update for "notes"', () => {
 
-            // Initial state assertion
-            const textbox = getByTestId('notes');
-            expect(textbox.value).toBe(notes);
+//             // Initial state assertion
+//             const textbox = getByTestId('notes');
+//             expect(textbox.value).toBe(notes);
 
-            // Simulate typing into the textbox
-            fireEvent.change(textbox, { target: { value: 'baz' } });
+//             // Simulate typing into the textbox
+//             fireEvent.change(textbox, { target: { value: 'baz' } });
 
-            // Assert that the state has changed as expected
-            expect(textbox.value).toBe('baz');
+//             // Assert that the state has changed as expected
+//             expect(textbox.value).toBe('baz');
 
-            // Assert that the state has changed as expected
-            expect(getByTestId('notes').textContent).toBe('baz');
-        });
-        it('state update for "title"', () => {
-            // Initial state assertion
-            const textbox = getByTestId('title');
-            expect(textbox.value).toBe(notes);
+//             // Assert that the state has changed as expected
+//             expect(getByTestId('notes').textContent).toBe('baz');
+//         });
+//         it('state update for "title"', () => {
+//             // Initial state assertion
+//             const textbox = getByTestId('title');
+//             expect(textbox.value).toBe(notes);
 
-            // Simulate typing into the textbox
-            fireEvent.change(textbox, { target: { value: 'baz' } });
+//             // Simulate typing into the textbox
+//             fireEvent.change(textbox, { target: { value: 'baz' } });
 
-            // Assert that the state has changed as expected
-            expect(textbox.value).toBe('baz');
+//             // Assert that the state has changed as expected
+//             expect(textbox.value).toBe('baz');
 
-            // Assert that the state has changed as expected
-            expect(getByTestId('notes').textContent).toBe('baz');
-        });
-        it('has confirm button"', () => {
-            const testElement = screen.getByTestId('confirmButton');
-            expect(testElement).toBeInTheDocument();
-        });
-        it('has cancel button ', () => {
-            const testElement = screen.getByTestId('cancelButton');
-            expect(testElement).toBeInTheDocument();
-        });
-        // it('cancel gracefully closes form', () => {
+//             // Assert that the state has changed as expected
+//             expect(getByTestId('notes').textContent).toBe('baz');
+//         });
+//         it('has confirm button"', () => {
+//             const testElement = screen.getByTestId('confirmButton');
+//             expect(testElement).toBeInTheDocument();
+//         });
+//         it('has cancel button ', () => {
+//             const testElement = screen.getByTestId('cancelButton');
+//             expect(testElement).toBeInTheDocument();
+//         });
+//         // it('cancel gracefully closes form', () => {
 
-        // });
+//         // });
 
-    });
-}
-// NewNote
-// - has title - "Note"
-boilerplateTests(NewNote, 'NewNote', 'Note')
+//     });
+// }
+// // NewNote
+// // - has title - "Note"
+// boilerplateTests(NewNote, 'NewNote', 'Note')
 
-// - has button labelled "share"
-describe('NewNote specific', () => {
-    const notes = 'foo';
-    const title = 'bar';
-    // Render the parent component and store its container
+// // - has button labelled "share"
+// describe('NewNote specific', () => {
+//     const notes = 'foo';
+//     const title = 'bar';
+//     // Render the parent component and store its container
 
-    it('has share button"', () => {
-        const { container } = render(<NewNote notes={notes} title={title} date={date} />);
-        const testElement = screen.getByTestId('shareButton');
-        expect(testElement).toBeInTheDocument();
-    });
-})
-// NewReminder
-// - has title - "Reminder"
-boilerplateTests(NewReminder, 'NewReminder', "Reminder")
+//     it('has share button"', () => {
+//         const { container } = render(<NewNote notes={notes} title={title} date={date} />);
+//         const testElement = screen.getByTestId('shareButton');
+//         expect(testElement).toBeInTheDocument();
+//     });
+// })
+// // NewReminder
+// // - has title - "Reminder"
+// boilerplateTests(NewReminder, 'NewReminder', "Reminder")
 
-// - has button labelled "share"
-describe('NewReminder specific', () => {
-    const notes = 'foo';
-    const title = 'bar';
-    // Render the parent component and store its container
+// // - has button labelled "share"
+// describe('NewReminder specific', () => {
+//     const notes = 'foo';
+//     const title = 'bar';
+//     // Render the parent component and store its container
 
-    it('has share button"', () => {
-        const { container } = render(<NewReminder notes={notes} title={title} dateFrom={date} dateTo={date} />);
-        const testElement = screen.getByTestId('shareButton');
-        expect(testElement).toBeInTheDocument();
-    });
-})
-// NewAppointment
-// - has title - "Appointement"
-boilerplateTests(NewAppointment, 'NewAppointment', "Appointement")
-describe('NewAppointment specific', () => {
-    let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
-    beforeEach(() => {
-        // Render the parent component and store its container
-        ({ getByLabelText, getByTestId, container, getByText } = render(<NewAppointment />));
+//     it('has share button"', () => {
+//         const { container } = render(<NewReminder notes={notes} title={title} dateFrom={date} dateTo={date} />);
+//         const testElement = screen.getByTestId('shareButton');
+//         expect(testElement).toBeInTheDocument();
+//     });
+// })
+// // NewAppointment
+// // - has title - "Appointement"
+// boilerplateTests(NewAppointment, 'NewAppointment', "Appointement")
+// describe('NewAppointment specific', () => {
+//     let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
+//     beforeEach(() => {
+//         // Render the parent component and store its container
+//         ({ getByLabelText, getByTestId, container, getByText } = render(<NewAppointment />));
 
-    });
-    // - has textbox labelled "start date"    
-    it('has textbox labelled "start date"', () => {
-        expect(getByLabelText("Start Date")).toBeInTheDocument();
+//     });
+//     // - has textbox labelled "start date"    
+//     it('has textbox labelled "start date"', () => {
+//         expect(getByLabelText("Start Date")).toBeInTheDocument();
 
-    });
-    // - has textbox labelled "end date"
-    it('has textbox labelled "end date"', () => {
-        expect(getByLabelText("End Date")).toBeInTheDocument();
+//     });
+//     // - has textbox labelled "end date"
+//     it('has textbox labelled "end date"', () => {
+//         expect(getByLabelText("End Date")).toBeInTheDocument();
 
-    });
-    // - has textbox labelled "place"
-    it('has textbox labelled "place"', () => {
-        expect(getByLabelText("Place")).toBeInTheDocument();
+//     });
+//     // - has textbox labelled "place"
+//     it('has textbox labelled "place"', () => {
+//         expect(getByLabelText("Place")).toBeInTheDocument();
 
-    });
-    // - has a button marked "Invite attendees"
-    it('has textbox labelled "Invite Attendees"', () => {
-        expect(getByLabelText("Invite Attendees")).toBeInTheDocument();
+//     });
+//     // - has a button marked "Invite attendees"
+//     it('has textbox labelled "Invite Attendees"', () => {
+//         expect(getByLabelText("Invite Attendees")).toBeInTheDocument();
 
-    });
-    // - has textbox to contain the list of attendees
-    it('has textbox labelled "Attendees"', () => {
-        expect(getByLabelText("Attendees")).toBeInTheDocument();
+//     });
+//     // - has textbox to contain the list of attendees
+//     it('has textbox labelled "Attendees"', () => {
+//         expect(getByLabelText("Attendees")).toBeInTheDocument();
 
-    });
-    // // - if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"
-    // it('if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"', () => {
-    //     expect(screen.getByTestId('confirmButton')).toHaveTextContent("Accept");
-    //     expect(screen.getByTestId('cancelButton')).toHaveTextContent("Reject");
+//     });
+//     // // - if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"
+//     // it('if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"', () => {
+//     //     expect(screen.getByTestId('confirmButton')).toHaveTextContent("Accept");
+//     //     expect(screen.getByTestId('cancelButton')).toHaveTextContent("Reject");
 
-    // }); 
-})
-
-
+//     // }); 
+// })
 
 
-// NewEvent
-// - has title - "Event"
-boilerplateTests(NewEvent, 'NewEvent', "Event")
 
-// - has textbox labelled "start date"
-// - has textbox labelled "end date"
-// - has textbox labelled "place"
-describe('NewEvent specific', () => {
-    let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
-    beforeEach(() => {
-        // Render the parent component and store its container
-        ({ getByLabelText, getByTestId, container, getByText } = render(<NewAppointment />));
 
-    });
-    // - has textbox labelled "start date"    
-    it('has textbox labelled "start date"', () => {
-        expect(getByLabelText("Start Date")).toBeInTheDocument();
+// // NewEvent
+// // - has title - "Event"
+// boilerplateTests(NewEvent, 'NewEvent', "Event")
 
-    });
-    // - has textbox labelled "end date"
-    it('has textbox labelled "end date"', () => {
-        expect(getByLabelText("End Date")).toBeInTheDocument();
+// // - has textbox labelled "start date"
+// // - has textbox labelled "end date"
+// // - has textbox labelled "place"
+// describe('NewEvent specific', () => {
+//     let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
+//     beforeEach(() => {
+//         // Render the parent component and store its container
+//         ({ getByLabelText, getByTestId, container, getByText } = render(<NewAppointment />));
 
-    });
-    // - has textbox labelled "place"
+//     });
+//     // - has textbox labelled "start date"    
+//     it('has textbox labelled "start date"', () => {
+//         expect(getByLabelText("Start Date")).toBeInTheDocument();
 
-})
-// NewTodo
-boilerplateTests(NewTodo, 'NewTodo', "Todo")
-let todoItems;
-describe('NewTodo specific', () => {
-    let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
-    beforeEach(() => {
-        // Render the parent component and store its container
-        ({ getByLabelText, getByTestId, container, getByText } = render(<NewTodo />));
-        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        todoItems = screen.getByRole('li');
-    });
-    // - has list list of todo items
-    it('has list list of todo items"', () => {
-        expect(todoItems).toBeInTheDocument()
+//     });
+//     // - has textbox labelled "end date"
+//     it('has textbox labelled "end date"', () => {
+//         expect(getByLabelText("End Date")).toBeInTheDocument();
 
-    });
-    // - hasbutton Labelled addTodo item
-    it('has button Labelled addTodo item', () => {
-        expect(getByLabelText('Add Todo Item')).toBeInTheDocument()
+//     });
+//     // - has textbox labelled "place"
 
-    });
-    describe('After pressing todo', () => {
-        beforeEach(() => {
-            fireEvent.click(getByLabelText('Add Todo Item'));
-        })
-        it('has element Labelled "To Do Notes"', () => {
-            expect(getByLabelText('To Do Notes')).toBeInTheDocument()
+// })
+// // NewTodo
+// boilerplateTests(NewTodo, 'NewTodo', "Todo")
+// let todoItems;
+// describe('NewTodo specific', () => {
+//     let getByLabelText, getByTestId, container, getByText; // functions and container for rendered component
+//     beforeEach(() => {
+//         // Render the parent component and store its container
+//         ({ getByLabelText, getByTestId, container, getByText } = render(<NewTodo />));
+//         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+//         todoItems = screen.getByRole('li');
+//     });
+//     // - has list list of todo items
+//     it('has list list of todo items"', () => {
+//         expect(todoItems).toBeInTheDocument()
 
-        });
+//     });
+//     // - hasbutton Labelled addTodo item
+//     it('has button Labelled addTodo item', () => {
+//         expect(getByLabelText('Add Todo Item')).toBeInTheDocument()
 
-        // - toto list item has button labelled "Remove To do"
-        it('has button Labelled "Remove Todo Item', () => {
-            expect(getByLabelText('Remove Todo Item')).toBeInTheDocument()
+//     });
+//     describe('After pressing todo', () => {
+//         beforeEach(() => {
+//             fireEvent.click(getByLabelText('Add Todo Item'));
+//         })
+//         it('has element Labelled "To Do Notes"', () => {
+//             expect(getByLabelText('To Do Notes')).toBeInTheDocument()
 
-        });
-        // - toto list item has checkbox labelled "done"
-        it('has button Labelled addTodo item', () => {
-            expect(getByLabelText('Done')).toBeInTheDocument()
+//         });
 
-        });
-    })
-})
+//         // - toto list item has button labelled "Remove To do"
+//         it('has button Labelled "Remove Todo Item', () => {
+//             expect(getByLabelText('Remove Todo Item')).toBeInTheDocument()
+
+//         });
+//         // - toto list item has checkbox labelled "done"
+//         it('has button Labelled addTodo item', () => {
+//             expect(getByLabelText('Done')).toBeInTheDocument()
+
+//         });
+//     })
+// })
 
 // Middleware routes to test mocked error responses and changes to the redux store
 // Each route needs 2 tests 1 error one for mocked change to base state. 

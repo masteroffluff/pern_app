@@ -6,66 +6,30 @@ import { Note, NewNote, Todo, NewTodo } from '../components/items'
 import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
 
 
-jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/items/todo/Todo', () => ({ items }) => (
-    <div data-testid="mocked-Todo">
-        <ul>
-            {items.map((todo, index) => (
-                <li key={index}>
-                    {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
-                </li>
-            ))}
-        </ul>
-    </div>
-));
-jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
-    <div data-testid="mocked-note">
-        <h3>{title}</h3>
-        <p>{value}</p>
-        <p>{owner}</p>
-        <p>{date}</p>
-    </div>
-));
+// jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/items/todo/Todo', () => ({ items }) => (
+//     <div data-testid="mocked-Todo">
+//         <ul>
+//             {items.map((todo, index) => (
+//                 <li key={index}>
+//                     {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
+//                 </li>
+//             ))}
+//         </ul>
+//     </div>
+// ));
+// jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
+//     <div data-testid="mocked-note">
+//         <h3>{title}</h3>
+//         <p>{value}</p>
+//         <p>{owner}</p>
+//         <p>{date}</p>
+//     </div>
+// ));
 
 const date = new Date() // todays date so that all items appear as today that have dates
-
-const initialState = {
-    calendar: [
-        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-        { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-    ],
-    items: [
-        {
-            id: 1,
-            type: 'Todo',
-            title: "corge",
-            todoItems: [
-                { value: 'foo', state: true },
-                { value: 'bar', state: false },
-                { value: 'baz', state: false }
-            ]
-        }
-    ],
-    notes: [
-        { id: 1, title: 'FOO', value: 'foo' },
-        { id: 2, title: 'BAR', value: 'bar' },
-        { id: 3, title: 'BAZ', value: 'baz' }
-    ],
-    wall: [
-        { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-        { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-        { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
-        { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
-        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
-    ]
-};
 
 
 function boilerplateTests(Component, componentName, componentTitle) {

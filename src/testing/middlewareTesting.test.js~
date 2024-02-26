@@ -1,0 +1,308 @@
+// // Middleware routes to test mocked error responses and changes to the redux store
+// // Each route needs 2 tests 1 error one for mocked change to base state. 
+// // request route                       slicer          action/dispatch  returns
+// // post    /login                      userSlice       userLogin        user bearer token
+// // post    /register                   userSlice       userRegister     user bearer token
+// // post    /auth/[3rd party site]      userSlice       userAuth         3rd part auth token
+// // get     /user                       userSlice       userDetails      list of user details (display name, email, phone number)
+// // update  /user                       userSlice       userUpdate       list of user details (display name, email, phone number)
+// // post    /userPfp                    userSlice       userDetails      user PFP
+// // update  /userPfp                    userSlice       userDetails      user PFP
+// // get     /userPfp                    userSlice       userDetails      user PFP
+// // get     /friends                    friendsSlice    friendsList      list of users freinds and their state (freind, unfollowed, blocked)
+// // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/confirm            friendsSlice    friendConfirm    confirmation message
+// // update  /friends/unfollow           friendsSlice    friendsUnfollow  confirmation message
+// // update  /friends/block              friendsSlice    friendsBlock     confirmation message
+// // get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
+// // post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
+// // update  /items/note                 itemsSlice      itemsNoteUpdate  list of notes in descending date order
+// // delete  /items/note                 itemsSlice      itemsNoteDelete  list of notes in descending date order
+// // get     /items/todo                 itemsSlice      itemsTodoFetch   list of todos in descending date order
+// // post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
+// // update  /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
+// // delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
+// // get     /items/calendar             calendarSlice   calendarGet      list of users calendar items in date range
+// // post    /items/calendar             calendarSlice   calendarPost     list of users calendar items in date range
+// // delete  /items/calendar             calendarSlice   CalendarDelete   list of users calendar items in date range
+// // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
+
+// //import { renderHook } from '@testing-library/react-hooks';
+// import { Provider, useDispatch, useSelector } from 'react-redux';
+// import configureStore from 'redux-mock-store';
+// import { rest } from 'msw';
+// import { setupServer } from 'msw/node';
+// import { act } from 'react-test-renderer'; // Needed to trigger updates
+// import yourFetchFunction from './yourFetchFunction';
+// import { itemsNoteAdd, fetchNotes } from './yourSlice'; // Assuming fetchNotes is an action creator that triggers a fetch request
+// import fetchMock from 'jest-fetch-mock';
+
+
+// import { renderHook } from '@testing-library/react';
+
+// // Set up Mock Service Worker
+// const server = setupServer(
+//     rest.get('/api/data', (req, res, ctx) => {
+//         return res(ctx.json({ data: 'Mocked Data' }));
+//     })
+// );
+// const date = new Date()
+
+// const mockServerData = {
+//     calendar: [
+//         { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+//         { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+//         { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+//         { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+//         { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+//         { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+//     ],
+//     items: {
+//         todos: [
+//             {
+//                 id: 1,
+//                 title: "corge",
+//                 todoItems: [
+//                     { value: 'foo', state: true },
+//                     { value: 'bar', state: false },
+//                     { value: 'baz', state: false }
+//                 ]
+//             }
+//         ],
+//         notes: [
+//             { id: 1, title: 'FOO', value: 'foo' },
+//             { id: 2, title: 'BAR', value: 'bar' },
+//             { id: 3, title: 'BAZ', value: 'baz' }
+//         ]
+//     },
+//     wall: [
+//         { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
+//         { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
+//         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+//         { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
+//         { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
+//         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
+//     ],
+//     user: {
+//         displayName: 'alice',
+//         telephoneNumber: '07123 456789',
+//         email: 'foo@bar.baz',
+//         friends: [
+//             { name: 'bob', status: 'friend' },
+//             { name: 'charlie', status: 'unfollow' },
+//             { name: 'dan', status: 'blocked' },
+//         ],
+//     },
+//     userpfp: { pfp: ['00', '00', '00'] }
+// };
+// const initialState = {
+//     calendar: [],
+//     items: {
+//         todos: [],
+//         notes: [],
+//     },
+//     wall: [],
+//     user: {
+//         displayName: '',
+//         telephoneNumber: '',
+//         email: '',
+//         friends: [],
+//     },
+// };
+
+// describe('dispatch tests', () => {
+//     // Set up Mock Service Worker
+//     const server = setupServer(
+
+//         rest.get('/api/data', (req, res, ctx) => {
+//             return res(ctx.json({ data: 'Mocked Data' }));
+//         }),
+//         rest.get('/user', (req, res, ctx) => {
+//             const { displayName, mail, telephoneNumber } = mockServerData.user
+//             return res(ctx.json({ displayName, mail, telephoneNumber }));
+//         }),
+//         rest.update('/user ', (req, res, ctx) => {
+//             const { displayName, mail, telephoneNumber } = mockServerData.user
+//             return res(ctx.json({ displayName, mail, telephoneNumber }));
+//         }),
+//         rest.post('/userPfp', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.userpfp));
+//         }),
+//         rest.update('/userPfp', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.userpfp));
+//         }),
+//         rest.get('/userPfp', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.userpfp));
+//         }),
+//         rest.get('/friends', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.user.friends));
+//         }),
+//         rest.post('/friends', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.user.friends));
+//         }),
+//         rest.update('/friends/confirm', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.user.friends));
+//         }),
+//         rest.update('/friends/unfollow', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.user.friends));
+//         }),
+//         rest.update('/friends/block', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.user.friends));
+//         }),
+//         rest.get('/items/note', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.notes));
+//         }),
+//         rest.post('/items/note', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.notes));
+//         }),
+//         rest.update('/items/note', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.notes));
+//         }),
+//         rest.delete('/items/note', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.notes));
+//         }),
+//         rest.get('/items/todo', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.todos));
+//         }),
+//         rest.post('/items/todo', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.todos));
+//         }),
+//         rest.update('/items/todo', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.todos));
+//         }),
+//         rest.delete('/items/todo', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.items.todos));
+//         }),
+//         rest.get('/items/calendar', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.calendar));
+//         }),
+//         rest.post('/items/calendar', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.calendar));
+//         }),
+//         rest.delete('/items/calendar', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.calendar));
+//         }),
+//         rest.get('/wall ', (req, res, ctx) => {
+//             return res(ctx.json(mockServerData.wall));
+//         })
+//     );
+
+//     beforeAll(() => {
+//         // Start the Mock Service Worker server before tests run
+//         server.listen();
+//         fetchMock.enableMocks(); // Enable fetch mocking
+//     });
+
+//     afterEach(() => {
+//         // Reset any request handlers that we may add during the tests,
+//         // so they don't affect other tests
+//         server.resetHandlers();
+//     });
+
+//     afterAll(() => {
+//         // Clean up after all tests are done, to avoid any resource leaks
+//         server.close();
+//     });
+//     // Each route needs 2 tests 1 error one for mocked change to base state. 
+//     // request route                       slicer          action/dispatch  returns
+//     // get     /user                       userSlice       userDetails      list of user details (display name, email, phone number)
+//     test('get User details', () => {
+
+//     })
+//     // update  /user                       userSlice       userUpdate       list of user details (display name, email, phone number)
+
+//     // post    /userPfp                    userSlice       userDetails      user PFP
+//     // update  /userPfp                    userSlice       userDetails      user PFP
+//     // get     /userPfp                    userSlice       userDetails      user PFP
+//     // get     /friends                    friendsSlice    friendsList      list of users freinds and their state (freind, unfollowed, blocked)
+//     // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
+//     // update  /friends/confirm            friendsSlice    friendConfirm    confirmation message
+//     // update  /friends/unfollow           friendsSlice    friendsUnfollow  confirmation message
+//     // update  /friends/block              friendsSlice    friendsBlock     confirmation message
+//     // get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
+//     it('dispatches itemsNoteFetch action and makes fetch request', async () => {
+//         // Mock response from the server for the fetch request
+//         const route = '/items/note', method = 'GET'
+//         const mockResponse = { title: 'test', value: 'bar' };
+//         fetchMock.mockResponseOnce(JSON.stringify(mockResponse));
+
+//         // Render the hook to access useDispatch
+//         const { result } = renderHook(() => ({
+//             dispatch: useDispatch(),
+//             notes: useSelector(state => state.notes)
+//         }));
+
+//         // Dispatch the itemsNoteAdd action
+//         result.current.dispatch(itemsNoteAdd({ title: 'foo', value: 'bar' }));
+
+//         // Wait for the asynchronous operation to complete (e.g., useEffect in the component)
+//         await Promise.resolve();
+
+//         // Check if the fetch request was made with the expected data
+//         expect(fetchMock).toHaveBeenCalledWith(route, {
+//             method: method,
+//             body: "",
+//             headers: {
+//                 'Content-Type': 'application/json'
+
+//             }
+//         });
+
+//         // Check if the response from the server matches the expected response
+//         const response = await yourFetchFunction(route, {
+//             method: method,
+//             body: JSON.stringify({ text: 'Test Note' }),
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         expect(response).toEqual(mockResponse);
+//     });
+
+//     // post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
+//     it('gets a list of notes', async () => {
+//         // Mock response from the server for the fetch request
+//         const mockResponse = mockServerData.notes;
+//         fetchMock.mockResponseOnce(JSON.stringify(mockResponse));
+
+//         // Render the hook to access useDispatch
+//         const { result } = renderHook(() => ({
+//             dispatch: useDispatch(),
+//         }));
+
+//         // Dispatch the itemsNoteAdd action
+//         result.current.dispatch(itemsNoteAdd({ title: 'foo', value: 'bar' }));
+
+//         // Wait for the asynchronous operation to complete (e.g., useEffect in the component)
+//         await Promise.resolve();
+
+//         // Check if the fetch request was made with the expected data
+//         expect(fetchMock).toHaveBeenCalledWith('/items/note', {
+//             method: 'POST',
+//             body: JSON.stringify({ text: 'Test Note' }),
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         // Check if the response from the server matches the expected response
+//         const response = await yourFetchFunction('/api/notes', {
+//             method: 'POST',
+//             body: JSON.stringify({ text: 'Test Note' }),
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         expect(response).toEqual(mockResponse);
+//     });
+//     // update  /items/note                 itemsSlice      itemsNoteUpdate  list of notes in descending date order
+//     // delete  /items/note                 itemsSlice      itemsNoteDelete  list of notes in descending date order
+//     // get     /items/todo                 itemsSlice      itemsTodoFetch   list of todos in descending date order
+//     // post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
+//     // update  /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
+//     // delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
+//     // get     /items/calendar             calendarSlice   calendarGet      list of users calendar items in date range
+//     // post    /items/calendar             calendarSlice   calendarPost     list of users calendar items in date range
+//     // delete  /items/calendar             calendarSlice   CalendarDelete   list of users calendar items in date range
+//     // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
+// })
