@@ -70,6 +70,9 @@ const initialState = {
         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
     ]
 };
+
+
+
 // Component List and tests
 // MainDisplay 
 // describe('MainDisplay', () => {

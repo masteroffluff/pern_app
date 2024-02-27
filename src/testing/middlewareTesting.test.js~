@@ -11,9 +11,9 @@
 // // get     /userPfp                    userSlice       userDetails      user PFP
 // // get     /friends                    friendsSlice    friendsList      list of users freinds and their state (freind, unfollowed, blocked)
 // // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
-// // update  /friends/confirm            friendsSlice    friendConfirm    confirmation message
-// // update  /friends/unfollow           friendsSlice    friendsUnfollow  confirmation message
-// // update  /friends/block              friendsSlice    friendsBlock     confirmation message
+// // update  /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/block              friendsSlice    friendsBlock     list of users freinds and their state (freind, unfollowed, blocked)
 // // get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
 // // post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
 // // update  /items/note                 itemsSlice      itemsNoteUpdate  list of notes in descending date order
@@ -22,9 +22,9 @@
 // // post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
 // // update  /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
 // // delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
-// // get     /items/calendar             calendarSlice   calendarGet      list of users calendar items in date range
-// // post    /items/calendar             calendarSlice   calendarPost     list of users calendar items in date range
-// // delete  /items/calendar             calendarSlice   CalendarDelete   list of users calendar items in date range
+// // get     /calendar                   calendarSlice   calendarGet      list of users calendar items in date range
+// // post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
+// // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
 // // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
 
 // //import { renderHook } from '@testing-library/react-hooks';
@@ -103,11 +103,13 @@
 //     },
 //     wall: [],
 //     user: {
-//         displayName: '',
-//         telephoneNumber: '',
-//         email: '',
-//         friends: [],
-//     },
+//         details:{
+    //         displayName: '',
+    //         telephoneNumber: '',
+    //         email: '',
+//              },
+//          friends: []
+//     }
 // };
 
 // describe('dispatch tests', () => {
