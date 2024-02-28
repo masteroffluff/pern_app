@@ -236,9 +236,9 @@ export const itemSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                .addDefaultCase(
-                    (_, action) => { console.log(action) }
-                )
+                // .addDefaultCase(
+                //     (_, action) => { console.log(action) }
+                // )
         }
 })
 

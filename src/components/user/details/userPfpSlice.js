@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
-import apiFetch from '../../utils/apiFetch';
+import apiFetch from '../../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState =''
+const initialState ={
+    date:'',
+    isLoading: false,
+    hasError: null,       
+}
 
 const name = "pfp"
 // // get     /userpfp                       userSlice       userPfp      list of user details (display name, email, phone number)
@@ -64,7 +68,9 @@ export const userPfpSlice = createSlice({
                     ),
                     (state, action) => {
                         //console.log(action.payload)
-
+                        state.isLoading = false;
+                        state.hasError = null;
+                        state.data=action.payload
                     })
   
                 .addMatcher(
@@ -74,7 +80,7 @@ export const userPfpSlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -88,9 +94,9 @@ export const userPfpSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                .addDefaultCase(
-                    (_, action) => { console.log(action) }
-                )
+                // .addDefaultCase(
+                //     (_, action) => { console.log(action) }
+                // )
         }
 })
 
@@ -99,7 +105,7 @@ export const userPfpSlice = createSlice({
 /* export const selectedUserPfpId = (state) => state.userpfp.userpfp_id; */
 export const isLoadingUserPfp = (state) => state.userpfp.isLoading;
 export const hasErrorUserPfp = (state) => state.userpfp.hasError;
-export const selectedUserPfp = (state) => state.userpfp;
+export const selectedUserPfp = (state) => state.userpfp.data;
 
 
 export default userPfpSlice.reducer

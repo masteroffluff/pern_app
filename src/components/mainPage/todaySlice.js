@@ -72,7 +72,7 @@ export const todaySlice = createSlice({
 /* export const selectedTodayId = (state) => state.today.today_id; */
 export const isLoadingToday = (state) => state.today.isLoading;
 export const hasErrorToday = (state) => state.today.hasError;
-export const selectedToday = (state) => state.today;
+export const selectToday = (state) => state.today;
 
 
 export default todaySlice.reducer

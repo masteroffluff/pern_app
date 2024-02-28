@@ -6,7 +6,7 @@ import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selec
 import { selectCalendar } from '../components/calandar/calendarSlice.js'
 import { selectTodos, selectedNotes } from '../components/items/itemSlice.js'
 import { selectWall } from '../components/mainPage/wallSlice.js'
-import { selectToday } from '.../components/mainPage/todaySlice.js'
+import { selectToday } from '../components/mainPage/todaySlice.js'
 
 import { cleanup } from '@testing-library/react'
 

@@ -15,7 +15,9 @@ export const calendarGet = createAsyncThunk(
     async ({ authToken }, { rejectWithValue }) => {
 
         const endPoint = `${apiUrl}/items/note`
-        //console.log (endPoint)
+        //                // .addDefaultCase(
+                //     (_, action) => { console.log(action) }
+                // ) (endPoint)
         const options = {
             method: 'GET',
             credentials: 'include',
@@ -111,9 +113,9 @@ export const calendarSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                .addDefaultCase(
-                    (_, action) => { console.log(action) }
-                )
+                // .addDefaultCase(
+                //     (_, action) => { console.log(action) }
+                // )
         }
 })
 

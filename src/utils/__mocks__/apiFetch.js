@@ -26,42 +26,46 @@ const mockServerData = {
             { id: 3, title: 'BAZ', value: 'baz' }
         ]
     },
-    wall: [
+    wall: {wallItems:[
         { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
         { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
         { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
         { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
-    ],
+    ]},
     user: {
         displayName: 'alice',
         telephoneNumber: '07123 456789',
         email: 'foo@bar.baz',
-        friends: [
-            { name: 'bob', status: 'friend' },
-            { name: 'charlie', status: 'unfollow' },
-            { name: 'dan', status: 'blocked' },
-        ],
+        friends: {
+            list: [
+                { name: 'bob', status: 'friend' },
+                { name: 'charlie', status: 'unfollow' },
+                { name: 'dan', status: 'blocked' },
+            ]
+        },
     },
     userpfp: { pfp: ['00', '00', '00'] }
 };
-// const initialState = {
-//     calendar: [],
-//     items: {
-//         todos: [],
-//         notes: [],
-//     },
-//     wall: [],
-//     user: {
-//         details: {
-//             displayName: '',
-//             telephoneNumber: '',
-//             email: '',
-//         },
-//         friends: []
-//     }
-// };
+const initialState = {
+    calendar: {
+        calendarItems:[]
+    },
+    items: {
+        todos: [],
+        notes: [],
+    },
+    wall: [],
+    user: {
+        details: {
+            displayName: '',
+            telephoneNumber: '',
+            email: '',
+        },
+        friends: []
+    }
+};
 
 
 // i was using the msw rest object so i'm trying to salvge as much as i can :)
@@ -71,7 +75,7 @@ class Rest {
 
     }
     addToMDO(action, path, callback) {
-        this.mockDataObject[action][path]=callback
+        this.mockDataObject[action][path] = callback
 
     }
     get(path, callback) { this.addToMDO('get', path, callback) };
@@ -160,24 +164,24 @@ rest.get('/wall ', (req) => {
 export default async function apiFetch(endPoint, options, rejectionCallback) {
     try {
         const params = new URLSearchParams(endPoint.split('?')[1]);
-        const entries = Object.fromEntries (params.entries());
-        options.params= entries
+        const entries = Object.fromEntries(params.entries());
+        options.params = entries
         return new Promise(resolve => {
             setTimeout(() => {
-              const data = rest.mockDataObject[options.method||'get'][endPoint](options);
-              if (data) {
-                resolve({
-                  json: async () => data,
-                });
-              } else {
-                resolve({
-                  json: async () => {
-                    throw new Error(`Mock data not found for ${endPoint}`);
-                  },
-                });
-              }
+                const data = rest.mockDataObject[options.method || 'get'][endPoint](options);
+                if (data) {
+                    resolve({
+                        json: async () => data,
+                    });
+                } else {
+                    resolve({
+                        json: async () => {
+                            throw new Error(`Mock data not found for ${endPoint}`);
+                        },
+                    });
+                }
             }, 100);
-          });
+        });
 
     } catch (e) {
 

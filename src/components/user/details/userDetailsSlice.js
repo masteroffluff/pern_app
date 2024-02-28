@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
-import apiFetch from '../../utils/apiFetch';
+import apiFetch from '../../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
@@ -53,9 +53,6 @@ export const userDetailsUpdate = createAsyncThunk(
 )
 
 
-
-
-
 export const userDetailsSlice = createSlice({
     name,
     initialState,
@@ -69,7 +66,13 @@ export const userDetailsSlice = createSlice({
 
                     ),
                     (state, action) => {
-                        //console.log(action.payload)
+                        const {displayName,email, telephoneNumber} = action.payload
+                        state.displayName = displayName
+                        state.email = email
+                        state.telephoneNumber = telephoneNumber
+                        state.isLoading = false;
+                        state.hasError =  null;
+                        
 
                     })
   
@@ -80,7 +83,7 @@ export const userDetailsSlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError =  null;
                     }
                 )
                 .addMatcher(
@@ -92,11 +95,12 @@ export const userDetailsSlice = createSlice({
                         //console.log(action)
                         state.isLoading = false;
                         state.hasError = action.error;
+                        //console.log(action)
                     }
                 )
-                .addDefaultCase(
-                    (_, action) => { console.log(action) }
-                )
+                // .addDefaultCase(
+                //     (_, action) => { console.log(action) }
+                // )
         }
 })
 

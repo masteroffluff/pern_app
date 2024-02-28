@@ -3,7 +3,7 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { addTodo } from './redux/actions';
+import { addTodo } from '../components/items/itemSlice';
 import { NewAppointment, NewEvent, NewReminder } from '../components/calandar';
 import { NewNote, NewTodo } from '../components/items';
 
@@ -94,7 +94,7 @@ describe('NewAppointment', () => {
         const textBox_place = screen.getByLabelText("value");
         const textBox_dateFrom = screen.getByLabelText("date from");
         const textBox_dateTo = screen.getByLabelText("date to");
-        const selection_invites = screen.getByLabelText("invites");// not sure how to add invitees yet
+        //const selection_invites = screen.getByLabelText("invites");// not sure how to add invitees yet
 
         // add the title
         fireEvent.change(textBox_title, { target: { value: 'New Appointment' } });

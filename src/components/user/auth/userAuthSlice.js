@@ -1,6 +1,6 @@
 import {createSlice,createAsyncThunk, isAnyOf} from '@reduxjs/toolkit';
-import apiFetch from '../../utils/apiFetch';
-import {isTokenExpired} from '../../utils/decodeJwtToken'
+import apiFetch from '../../../utils/apiFetch';
+import {isTokenExpired} from '../../../utils/decodeJwtToken'
 //import {fetchCartbyId} from  '../cart/cartSlice'
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client

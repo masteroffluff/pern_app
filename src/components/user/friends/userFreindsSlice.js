@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
-import apiFetch from '../../utils/apiFetch';
+import apiFetch from '../../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState =[]
+const initialState ={
+    list:[],
+    isLoading:false,
+    hasError: null
+}
 
 const name = "friends"
 // // get     /friends                    friendsSlice    friendsFetch     list of users freinds and their state (freind, unfollowed, blocked)
@@ -50,7 +54,7 @@ export const friendsAdd = createAsyncThunk(
 // // update  /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
 
 export const friendConfirm = createAsyncThunk(
-    'userDetailsUpdate',
+    'friendsUpdate',
     async ({ authToken }, { rejectWithValue }) => {
 
         const endPoint = `${apiUrl}/friends/confirm`
@@ -71,7 +75,7 @@ export const friendConfirm = createAsyncThunk(
 // // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users freinds and their state (freind, unfollowed, blocked)
 
 export const friendsUnfollow = createAsyncThunk(
-    'userDetailsUpdate',
+    'friendsUpdate',
     async ({ authToken }, { rejectWithValue }) => {
 
         const endPoint = `${apiUrl}/friends/unfollow`
@@ -92,7 +96,7 @@ export const friendsUnfollow = createAsyncThunk(
 // // update  /friends/block              friendsSlice    friendsBlock     list of users freinds and their state (freind, unfollowed, blocked)
 
 export const friendsBlock = createAsyncThunk(
-    'userDetailsUpdate',
+    'friendsUpdate',
     async ({ authToken }, { rejectWithValue }) => {
 
         const endPoint = `${apiUrl}/friends/block`
@@ -127,8 +131,10 @@ export const friendsSlice = createSlice({
 
                     ),
                     (state, action) => {
-                        console.log(action.payload)
-
+                        //console.log(action.payload)
+                        state.isLoading = false;
+                        state.hasError = null;
+                        state.list = action.payload;
                     })
   
                 .addMatcher(
@@ -141,7 +147,7 @@ export const friendsSlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -158,19 +164,17 @@ export const friendsSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                .addDefaultCase(
-                    (_, action) => { console.log(action) }
-                )
+
         }
 })
 
 
-/* export const selectedUserDetailsId = (state) => state.userdetails.userdetails_id; */
-export const isLoadingUserDetails = (state) => state.userdetails.isLoading;
-export const hasErrorUserDetails = (state) => state.userdetails.hasError;
-export const selectedUserDetails = (state) => state.userdetails;
-export const selectedNotes = (state) => state.userdetails.todos;
-export const selectedTodos = (state) => state.userdetails.notes;
+/* export const selectedfriendsId = (state) => state.friends.friends_id; */
+export const isLoadingfriends = (state) => state.friends.isLoading;
+export const hasErrorfriends = (state) => state.friends.hasError;
+export const selectedfriends = (state) => state.friends;
+export const selectedNotes = (state) => state.friends.todos;
+export const selectedTodos = (state) => state.friends.notes;
 
 
 export default friendsSlice.reducer
