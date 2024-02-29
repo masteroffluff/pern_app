@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import apiFetch from '../../../utils/apiFetch';
+import { createSelector } from '@reduxjs/toolkit'
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
@@ -172,9 +173,16 @@ export const friendsSlice = createSlice({
 /* export const selectedfriendsId = (state) => state.friends.friends_id; */
 export const isLoadingfriends = (state) => state.user.friends.isLoading;
 export const hasErrorfriends = (state) => state.user.friends.hasError;
-export const selectFriends_Live = (state) => state.user.friends.list.filter((e)=>e.status === 'friend');
-export const selectFriends_Blocked = (state) => state.user.friends.list.filter((e)=>e.status === 'blocked');;
-export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
-export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
+const selectFreinds = (state) => state.user.friends.list
+// export const selectFriends_Live = (state) => state.user.friends.list.filter((e)=>e.status === 'friend');
+// export const selectFriends_Blocked = (state) => state.user.friends.list.filter((e)=>e.status === 'blocked');;
+// export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
+// export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
+// memoizing friends selectors to improve efficiency
+export const selectFriends_Live = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'friend'))
+export const selectFriends_Blocked = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'blocked'))
+export const selectFriends_Unfollowed = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'unfollowed'))
+export const selectFriends_Pending = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'pending'))
+
 
 export default friendsSlice.reducer

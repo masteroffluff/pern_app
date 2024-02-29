@@ -8,20 +8,30 @@ import { selectTodos, selectNotes } from '../components/items/itemSlice.js'
 import { selectWall } from '../components/mainPage/wallSlice.js'
 import { selectToday } from '../components/mainPage/todaySlice.js'
 
-import { cleanup } from '@testing-library/react'
+// import { cleanup } from '@testing-library/react'
 
 
 
 const date = new Date()
+date.setHours(0, 0, 0, 0);
+const tomorrow = new Date(date.getDate()+1)
+const time1 = new Date().setHours(1)
+const time2 = new Date().setHours(2)
+
+
+
+
 const state = {
-  calendar: [
-    { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-    { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-    { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-    { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-    { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-    { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-  ],
+  calendar: {
+    calendarItems: [
+      { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+      { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+      { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+      { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date, dateTo: tomorrow},
+      { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: tomorrow, dateTo: tomorrow },
+      { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow}
+    ]
+  },
   items: {
     todos: [
       {
@@ -45,8 +55,8 @@ const state = {
       { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
       { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
       { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-      { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
-      { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
+      { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1},
+      { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2},
     ]
   },
   today: {
@@ -72,18 +82,16 @@ const state = {
     },
 
     authentication: {
-      authToken:"1234567890",
-      isLoggedIn:true,
-      customer_id:1,
-      userAlreadyExists:false,
+      authToken: "1234567890",
+      isLoggedIn: true,
+      customer_id: 1,
+      userAlreadyExists: false,
     },
     pfp: { data: '00 00 00 00' }
   },
-  
+
 };
-afterEach(() => {
-  cleanup();
-})
+
 
 // selectors to test
 // selectTodos 
@@ -116,14 +124,16 @@ describe('display', () => {
   //     - returns list of items fromuser and users friends
   //     - does not return any items from blocked or unfollowed friends 
   describe('wallSelector', () => {
-    test('returns todo items', () => {
+    test('returns wall', () => {
+      
       const expected = [
         { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
         { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
-        { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
+        { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1 },
+        { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2 },
       ]
+
       const selectedItems = selectWall(state);
       //console.log(selectedItems)
       expect(selectedItems).toEqual(expected);
@@ -153,11 +163,20 @@ describe('display', () => {
 // selectCalendar
 //     - returns items by date for user
 describe('Calendar Selector', () => {
-  test('returns todo items', () => {
+  test('returns calendar items', () => {
 
     const selectedItems = selectCalendar(state);
 
-    expect(selectedItems).toEqual(state.calendar);
+    expect(selectedItems).toEqual(
+      [
+        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date, dateTo: tomorrow},
+        { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: tomorrow, dateTo: tomorrow },
+        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow}
+      ]
+    );
   });
 })
 

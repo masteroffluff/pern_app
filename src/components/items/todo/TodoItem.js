@@ -5,7 +5,7 @@ export default function TodoItem({ index, value, done, callBack }) {
         e.preventdefault()
         callBack(index, e.target.value)
     }
-    return <div data-testid="todoItem" className='todoItem'>
-        <label htmlFor="donecheckbox">{value}</label><input type='checkbox' value={done} onClick={checkboxClick} />
+    return <div data-testid="todo-item" className='todoItem'>
+        <label htmlFor="donecheckbox" data-testid="todo-item-value">{value}</label><input data-testid="todo-item-done" value={value} type='checkbox' checked={done} onChange={checkboxClick} />
     </div>
 }

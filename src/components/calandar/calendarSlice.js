@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
+const authToken = ""
+
 
 const initialState = {
     calendarItems: [],
@@ -39,9 +41,9 @@ export const calendarFetch = createAsyncThunk(
 
 export const calendarPost = createAsyncThunk(
     'calendarPost',
-    async ({ authToken }, { rejectWithValue }) => {
+    async ({ title,type, value, place, dateFrom, dateTo}, { rejectWithValue }) => {
 
-        const endPoint = `${apiUrl}/items/note`
+        const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
         const options = {
             method: 'POST',
@@ -127,7 +129,7 @@ export const calendarSlice = createSlice({
 
 export const isLoadingCalendar = (state) => state.calendar.isLoading;
 export const hasErrorCalendar = (state) => state.calendar.hasError;
-export const selectCalendar = (state) => state.calendar;
+export const selectCalendar = (state) => state.calendar.calendarItems;
 
 
 export default calendarSlice.reducer

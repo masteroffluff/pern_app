@@ -3,18 +3,32 @@ import React from 'react';
 import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import store from '../store'
 import { addTodo } from '../components/items/itemSlice';
 import { NewAppointment, NewEvent, NewReminder } from '../components/calandar';
 import { NewNote, NewTodo } from '../components/items';
+import calendar, { calendarPost } from '../components/calandar/calendarSlice';
 
-const date = new Date()
+const date = new Date().setHours(0, 0, 0, 0);
 
+// const initialState = {
+//     calendar: { calendarItems: [] },
+//     items: {
+//         todos: [],
+//         notes: [],
+//     },
+//     wall: [],
+//     user: {
+//         displayName: '',
+//         telephoneNumber: '',
+//         email: '',
+//         friends: [],
+//     },
+// };
 const initialState = {
-    calendar: [],
-    items: {
-        todos: [],
-        notes: [],
-    },
+    calendarItems: [],
+    todos: [],
+    notes: [],
     wall: [],
     user: {
         displayName: '',
@@ -25,14 +39,14 @@ const initialState = {
 };
 
 
-const mockStore = configureStore([]);
+//const mockStore = configureStore([]);
 describe("action tests", () => {
-    afterEach(()=>{
+    afterEach(() => {
         cleanup()
     })
     describe('NewTodo', () => {
         test('dispatches addTodo action when button is clicked', () => {
-            const store = mockStore(initialState); // Initial store state
+            // const store = mockStore(initialState); // Initial store state
 
             render(
                 <Provider store={store}>
@@ -61,7 +75,7 @@ describe("action tests", () => {
 
     describe('NewNote', () => {
         test('dispatches addNote action when button is clicked', () => {
-            const store = mockStore(initialState); // Initial store state
+            // const store = mockStore(initialState); // Initial store state
 
             render(
                 <Provider store={store}>
@@ -85,7 +99,7 @@ describe("action tests", () => {
 
     describe('NewAppointment', () => {
         test('dispatches addAppointment action when button is clicked', () => {
-            const store = mockStore(initialState); // Initial store state
+            // const store = mockStore(initialState); // Initial store state
 
             render(
                 <Provider store={store}>
@@ -117,7 +131,7 @@ describe("action tests", () => {
 
     describe('NewReminder', () => {
         test('dispatches addReminder action when button is clicked', () => {
-            const store = mockStore(initialState); // Initial store state
+            // const store = mockStore(initialState); // Initial store state
 
             render(
                 <Provider store={store}>
@@ -148,18 +162,18 @@ describe("action tests", () => {
 
     describe('NewEvent', () => {
         test('dispatches addEvent action when button is clicked', () => {
-            const store = mockStore(initialState); // Initial store state
+            // const store = mockStore(initialState); // Initial store state
 
             render(
                 <Provider store={store}>
                     <NewEvent />
                 </Provider>
             );
-            const textBox_title = screen.getByLabelText("title");
-            const textBox_value = screen.getByLabelText("value");
-            const textBox_place = screen.getByLabelText("value");
-            const textBox_dateFrom = screen.getByLabelText("date from");
-            const textBox_dateTo = screen.getByLabelText("date to");
+            const textBox_title = screen.getByLabelText("Title");
+            const textBox_value = screen.getByLabelText("Description");
+            const textBox_place = screen.getByLabelText("Place");
+            const textBox_dateFrom = screen.getByLabelText("Date From");
+            const textBox_dateTo = screen.getByLabelText("Date To");
 
             // add the title
             fireEvent.change(textBox_title, { target: { value: 'New Event' } });
@@ -173,7 +187,8 @@ describe("action tests", () => {
 
             // Check if the expected action was dispatched
             const actions = store.getActions();
-            expect(actions).toEqual([addTodo({ title: 'New Event', value: 'Lorem Ipsum', place: 'Dolores sit', dateFrom: date, dateTo: date + 1 })]);
+            console.log("actions", actions)
+            expect(store.getActions()).toEqual([calendarPost.pending()]);
         });
     });
 });

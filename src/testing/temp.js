@@ -1,75 +1,75 @@
-/* eslint-disable */
-/* eslint-disable testing-library/no-render-in-setup */
-import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
-import { Provider } from 'react-redux';
-import MainDisplay from '../components/mainPage/MainDisplay'
-import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from '../components/mainPage/subitems'
-import { Note, NewNote, Todo, NewTodo } from '../components/items'
-import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
+// /* eslint-disable */
+// /* eslint-disable testing-library/no-render-in-setup */
+// import '@testing-library/jest-dom';
+// import { render, screen } from '@testing-library/react';
+// import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
+// import { Provider } from 'react-redux';
+// import MainDisplay from '../components/mainPage/MainDisplay.js'
+// import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from '../components/mainPage/subitems/index.js'
+// import { Note, NewNote, Todo, NewTodo } from '../components/items/index.js'
+// import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar/index.js';
 
 
-jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/items/todo/Todo', () => ({ items }) => (
-    <div data-testid="mocked-Todo">
-        <ul>
-            {items.map((todo, index) => (
-                <li key={index}>
-                    {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
-                </li>
-            ))}
-        </ul>
-    </div>
-));
-jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
-    <div data-testid="mocked-note">
-        <h3>{title}</h3>
-        <p>{value}</p>
-        <p>{owner}</p>
-        <p>{date}</p>
-    </div>
-));
+// jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
+// jest.mock('../components/items/todo/Todo', () => ({ items }) => (
+//     <div data-testid="mocked-Todo">
+//         <ul>
+//             {items.map((todo, index) => (
+//                 <li key={index}>
+//                     {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
+//                 </li>
+//             ))}
+//         </ul>
+//     </div>
+// ));
+// jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
+//     <div data-testid="mocked-note">
+//         <h3>{title}</h3>
+//         <p>{value}</p>
+//         <p>{owner}</p>
+//         <p>{date}</p>
+//     </div>
+// ));
 
-const date = new Date() // todays date so that all items appear as today that have dates
+// const date = new Date() // todays date so that all items appear as today that have dates
 
-const initialState = {
-    calendar: [
-        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-        { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-    ],
-    items: [
-        {
-            id: 1,
-            type: 'Todo',
-            title: "Todo list",
-            todoItems: [
-                { value: 'foo', state: true },
-                { value: 'bar', state: false },
-                { value: 'baz', state: false }
-            ]
-        }
-    ],
-    notes: [
-        { id: 1, title: 'hello1', value: 'foo' },
-        { id: 2, title: 'hello2', value: 'bar' },
-        { id: 3, title: 'hello3', value: 'baz' }
-    ],
-    wall: [
-        { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-        { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-        { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
-        { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
-        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
-    ]
-};
+// const initialState = {
+//     calendar: [
+//         { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+//         { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+//         { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+//         { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+//         { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+//         { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+//     ],
+//     items: [
+//         {
+//             id: 1,
+//             type: 'Todo',
+//             title: "Todo list",
+//             todoItems: [
+//                 { value: 'foo', state: true },
+//                 { value: 'bar', state: false },
+//                 { value: 'baz', state: false }
+//             ]
+//         }
+//     ],
+//     notes: [
+//         { id: 1, title: 'hello1', value: 'foo' },
+//         { id: 2, title: 'hello2', value: 'bar' },
+//         { id: 3, title: 'hello3', value: 'baz' }
+//     ],
+//     wall: [
+//         { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
+//         { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
+//         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+//         { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
+//         { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
+//         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
+//     ]
+// };
 
 
 
@@ -679,3 +679,8 @@ const initialState = {
 //     - returns list of users friends that are blocked
 // selecetedFriends_Unfollowed
 //     - returns list of users friends that are unfollowed
+
+
+
+
+
