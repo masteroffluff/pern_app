@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 /* eslint-disable testing-library/no-render-in-setup */
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
 import { Provider } from 'react-redux';
 import MainDisplay from '../components/mainPage/MainDisplay'
@@ -11,12 +11,12 @@ import { UserDetails,UserDisplay,UserFriends } from '../components/user';
 jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
 jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
 jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
-jest.mock('../components/items/todo/Todo', () => ({ title, value, items }) => (
+jest.mock('../components/items/todo/Todo', () => ({ title, value, todoItems }) => (
     <div data-testid="mocked-Todo">
-        <h3>title</h3>
-        <p>value</p>
+        <h3>{title}</h3>
+        <p>{value}</p>
         <ul>
-            {items.map((todo, index) => (
+            {todoItems.map((todo, index) => (
                 <li key={index}>
                     {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
                 </li>
@@ -70,23 +70,44 @@ const dummyStore = {
         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) },
     ],
     user: {
-        displayName:'alice',
-        telephoneNumber:'07123 456789',
-        email:'foo@bar.baz',
-        friends:[
-            {name:'bob',status:'friend'},
-            {name:'charlie',status:'unfollow'},
-            {name:'dan',status:'blocked'},
-        ],
-    },
+        details: {
+          displayName: 'alice',
+          telephoneNumber: '07123 456789',
+          email: 'foo@bar.baz',
+        },
+        friends: {
+          list: [
+            { name: 'bob', status: 'friend' },
+            { name: 'charlie', status: 'unfollowed' },
+            { name: 'dan', status: 'blocked' },
+            { name: 'edd', status: 'pending' }
+          ]
+        },
+    
+        authentication: {
+          authToken:"1234567890",
+          isLoggedIn:true,
+          customer_id:1,
+          userAlreadyExists:false,
+        },
+        pfp: { data: '00 00 00 00' }
+      },
 };
 // Component List and tests
 // MainDisplay 
 describe('MainDisplay', () => {
 
+    const mockStore = configureStore();
+    let store;
+    beforeEach(() => {
+        store = mockStore(dummyStore);
+    });
+    afterEach(()=>{
+        cleanup()
+    })
     it('renders child components', () => {
         // Render the parent component and store its container
-        render(<MainDisplay />);
+        render(<Provider store={store}><MainDisplay /></Provider>);
 
         // - contains DisplayToday
         const displayToday = screen.getByTestId('displayToday');
@@ -122,6 +143,9 @@ describe('DisplayToday', () => {
     beforeEach(() => {
         store = mockStore(dummyStore); // Initialize the mock store with initial state
     });
+    afterEach(()=>{
+        cleanup()
+    })
 
     it('renders DisplayToday with mocked components', () => {
         render(
@@ -350,6 +374,7 @@ describe('UserDisplay', () => {
         const userFriends = screen.getByTestId('userFriends');
         expect(userFriends).toBeInTheDocument();
     });
+    cleanup()
 })
 // UserDetails
 // - (all tests use a mocked user)
@@ -375,6 +400,7 @@ describe('UserDetails', () => {
     it('displays user email', () => {
         expect(screen.getByLabelText("email")).toHaveTextContent(dummyStore.user.email);
     });
+    cleanup()
 })
 // UserFriends
 // - has title "Friends"
@@ -394,9 +420,9 @@ describe('UserFriends', () => {
         expect(screen.getByLabelText("friends")).toHaveTextContent('bob');
     });
     it('displays blocked friend as blocked', () => {
-        expect(screen.getByLabelText("blocked")).toHaveTextContent('charlie');
+        expect(screen.getByLabelText("blocked")).toHaveTextContent('dan');
     });
     it('displays unfollowed friend as unfollowed', () => {
-        expect(screen.getByLabelText("unfollowed")).toHaveTextContent('dan');
+        expect(screen.getByLabelText("unfollowed")).toHaveTextContent('charlie');
     });
 })

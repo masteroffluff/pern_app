@@ -4,7 +4,7 @@ import apiFetch from '../../../utils/apiFetch';
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
 const initialState ={
-    date:'',
+    data:'',
     isLoading: false,
     hasError: null,       
 }
@@ -103,9 +103,9 @@ export const userPfpSlice = createSlice({
 
 
 /* export const selectedUserPfpId = (state) => state.userpfp.userpfp_id; */
-export const isLoadingUserPfp = (state) => state.userpfp.isLoading;
-export const hasErrorUserPfp = (state) => state.userpfp.hasError;
-export const selectedUserPfp = (state) => state.userpfp.data;
+export const isLoadingUserPfp = (state) => state.user.pfp.isLoading;
+export const hasErrorUserPfp = (state) => state.user.pfp.hasError;
+export const selectUserPfp = (state) => state.user.pfp.data;
 
 
 export default userPfpSlice.reducer

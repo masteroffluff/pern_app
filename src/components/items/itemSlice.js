@@ -175,10 +175,6 @@ export const itemsTodoDelete = createAsyncThunk(
     }
 )
 
-
-
-
-
 export const itemSlice = createSlice({
     name,
     initialState,
@@ -193,7 +189,9 @@ export const itemSlice = createSlice({
                     itemsNoteDelete.fulfilled),
                     (state, action) => {
                         //console.log(action.payload)
-
+                        state.notes = action.payload
+                        state.isLoading = false;
+                        state.hasError = null;
                     })
                 .addMatcher(isAnyOf(
                     itemsTodoFetch.fulfilled ,
@@ -202,7 +200,9 @@ export const itemSlice = createSlice({
                     itemsTodoDelete.fulfilled),
                     (state, action) => {
                         //console.log(action.payload)
-
+                        state.todos = action.payload
+                        state.isLoading = false;
+                        state.hasError = null;
                     })    
                 .addMatcher(
                     isAnyOf(
@@ -217,7 +217,7 @@ export const itemSlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -246,8 +246,8 @@ export const itemSlice = createSlice({
 /* export const selectedItemsId = (state) => state.items.items_id; */
 export const isLoadingItems = (state) => state.items.isLoading;
 export const hasErrorItems = (state) => state.items.hasError;
-export const selectedNotes = (state) => state.items.todos;
-export const selectedTodos = (state) => state.items.notes;
+export const selectTodos = (state) => state.items.todos;
+export const selectNotes = (state) => state.items.notes;
 
 
 export default itemSlice.reducer

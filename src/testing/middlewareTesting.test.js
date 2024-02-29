@@ -28,7 +28,7 @@
 // get     /today                      todaySlice      todayFetch       list of items for today
 // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
-import userAuth, { userAuthCheck, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
+import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
 import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow } from '../components/user/friends/userFreindsSlice.js'
 import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
 
@@ -40,26 +40,26 @@ import today, { todayFetch } from '../components/mainPage/todaySlice.js'
 const date = new Date()
 
 
-const initialState_master = {
-  calendar: [],
-  items: {
-    todos: [],
-    notes: [],
-    isLoading: false,
-    hasError: null,
-  },
-  wall: [],
-  user: {
-    details: {
-      displayName: '',
-      telephoneNumber: '',
-      email: '',
-      isLoading: false,
-      hasError: null,
-    },
-    friends: []
-  }
-};
+// const initialState_master = {
+//   calendar: [],
+//   items: {
+//     todos: [],
+//     notes: [],
+//     isLoading: false,
+//     hasError: null,
+//   },
+//   wall: [],
+//   user: {
+//     details: {
+//       displayName: '',
+//       telephoneNumber: '',
+//       email: '',
+//       isLoading: false,
+//       hasError: null,
+//     },
+//     friends: []
+//   }
+// };
 
 // get     /user                       userSlice       userDetails      list of user details (display name, email, phone number)
 describe('dispatch tests', () => {
@@ -207,7 +207,7 @@ describe('dispatch tests', () => {
   // get     /userPfp                    userPfp       userPfp      user PFP
   describe('userPfp', () => {
     describe('userPfpFetch', () => {
-      it('should handle fetchUser.pending', () => {
+      it('should handle userPfpFetch.pending', () => {
         const initialState = {
           data: '',
           isLoading: false,
@@ -225,16 +225,14 @@ describe('dispatch tests', () => {
       });
 
       ///////////////////////////////////////////////////////////////////////
-      it('should handle fetchUser.fulfilled', () => {
+      it('should handle userPfpFetch.fulfilled', () => {
         const initialState = {
           data: '',
           isLoading: true,
           hasError: null,
         }
 
-        const userPfpData = {
-          data: 'ae 34e 89 a0 b5 89',
-        };
+        const userPfpData = 'ae 34e 89 a0 b5 89';
 
         const action = userPfpFetch.fulfilled(userPfpData);
 
@@ -243,11 +241,11 @@ describe('dispatch tests', () => {
         // Check state after dispatching the fulfilled action
 
         expect(newState.isLoading).toBe(false);
-        expect(newState.data).toEqual(userPfpData.data);
+        expect(newState.data).toEqual(userPfpData);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////
-      it('should handle fetchUser.rejected', () => {
+      it('should handle userPfpFetch.rejected', () => {
         const initialState = {
           data: '',
           isLoading: true,
@@ -304,7 +302,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the fulfilled action
         //console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.data).toEqual(userPfpData.data);
+        expect(newState.data).toEqual(userPfpData);
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
@@ -336,7 +334,7 @@ describe('dispatch tests', () => {
 
   describe('friends', () => {
     describe('friendsFetch', () => {
-      it('should handle fetchUser.pending', () => {
+      it('should handle friendsFetch.pending', () => {
         const initialState = {
           list: [],
           isLoading: true,
@@ -349,38 +347,37 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
-        expect(newState.list).toBe([]);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toBe(null);
       });
 
       ///////////////////////////////////////////////////////////////////////
-      it('should handle fetchUser.fulfilled', () => {
+      it('should handle friendsFetch.fulfilled', () => {
         const initialState = {
           list: [],
           isLoading: true,
           hasError: null,
         }
 
-        const userPfpData = {
-          list: [
-            { name: 'bob', status: 'friend' },
-            { name: 'charlie', status: 'unfollow' },
-            { name: 'dan', status: 'blocked' },
-          ]
-        };
+        const friendsData = [
+          { name: 'bob', status: 'friend' },
+          { name: 'charlie', status: 'unfollow' },
+          { name: 'dan', status: 'blocked' },
+        ]
 
-        const action = friendsFetch.fulfilled(userPfpData);
+
+        const action = friendsFetch.fulfilled(friendsData);
 
         const newState = friends(initialState, action);
 
         // Check state after dispatching the fulfilled action
-
+        //console.log('friendsFetch.fulfilled', newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(userPfpData.list);
+        expect(newState.list).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////
-      it('should handle fetchUser.rejected', () => {
+      it('should handle friendsFetch.rejected', () => {
         const initialState = {
           list: [],
           isLoading: true,
@@ -395,7 +392,7 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toBe([]);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
       });
 
@@ -415,7 +412,7 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
-        expect(newState.list).toBe(initialState.list);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////
@@ -426,22 +423,20 @@ describe('dispatch tests', () => {
           hasError: null,
         }
 
-        const userPfpData = {
-          list: [
-            { name: 'bob', status: 'friend' },
-            { name: 'charlie', status: 'unfollow' },
-            { name: 'dan', status: 'blocked' },
-          ]
-        };
+        const friendsData = [
+          { name: 'bob', status: 'friend' },
+          { name: 'charlie', status: 'unfollow' },
+          { name: 'dan', status: 'blocked' },
+        ]
 
-        const action = friendsAdd.fulfilled(userPfpData);
+        const action = friendsAdd.fulfilled(friendsData);
 
         const newState = friends(initialState, action);
 
         // Check state after dispatching the fulfilled action
         //console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(userPfpData.list);
+        expect(newState.list).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
@@ -460,8 +455,26 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toBe(initialState.list);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+      });
+      ///////////////////////////////////////////////////////////////////////
+    });
+
+    describe('friendConfirm', () => {
+      it('should handle friendConfirm.pending', () => {
+        const initialState = {
+          list: [],
+          isLoading: false,
+          hasError: null,
+        }
+
+        const newState = friends(initialState, friendConfirm.pending());
+
+        // Check state after dispatching the pending action
+        expect(newState.isLoading).toBe(true);
+        expect(newState.list.length).toBe(0);
+        expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle friendConfirm.fulfilled', () => {
@@ -471,25 +484,24 @@ describe('dispatch tests', () => {
           hasError: null,
         }
 
-        const userPfpData = {
-          list: [
-            { name: 'bob', status: 'friend' },
-            { name: 'charlie', status: 'unfollow' },
-            { name: 'dan', status: 'blocked' },
-          ]
-        };
+        const friendsData = [
+          { name: 'bob', status: 'friend' },
+          { name: 'charlie', status: 'unfollow' },
+          { name: 'dan', status: 'blocked' },
+        ]
 
-        const action = friendConfirm.fulfilled(userPfpData);
+        const action = friendConfirm.fulfilled(friendsData);
 
         const newState = friends(initialState, action);
 
         // Check state after dispatching the fulfilled action
         //console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(userPfpData.list);
+        expect(newState.list).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
+
       it('should handle friendConfirm.rejected', () => {
         const initialState = {
           list: [],
@@ -505,8 +517,26 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toBe(initialState.list);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+      });
+
+    })
+    ///////////////////////////////////////////////////////////////////////
+    describe('friendsUnfollow', () => {
+      it('should handle friendsUnfollow.pending', () => {
+        const initialState = {
+          list: [],
+          isLoading: false,
+          hasError: null,
+        }
+
+        const newState = friends(initialState, friendsUnfollow.pending());
+
+        // Check state after dispatching the pending action
+        expect(newState.isLoading).toBe(true);
+        expect(newState.list.length).toBe(0);
+        expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle friendsUnfollow.fulfilled', () => {
@@ -516,22 +546,20 @@ describe('dispatch tests', () => {
           hasError: null,
         }
 
-        const userPfpData = {
-          list: [
-            { name: 'bob', status: 'friend' },
-            { name: 'charlie', status: 'unfollow' },
-            { name: 'dan', status: 'blocked' },
-          ]
-        };
+        const friendsData = [
+          { name: 'bob', status: 'friend' },
+          { name: 'charlie', status: 'unfollow' },
+          { name: 'dan', status: 'blocked' },
+        ]
 
-        const action = friendsUnfollow.fulfilled(userPfpData);
+        const action = friendsUnfollow.fulfilled(friendsData);
 
         const newState = friends(initialState, action);
 
         // Check state after dispatching the fulfilled action
         //console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(userPfpData.list);
+        expect(newState.list).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
@@ -550,130 +578,145 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toBe(initialState.list);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
       });
 
     });
-    ///////////////////////////////////////////////////////////////////////
-    it('should handle friendsBlock.fulfilled', () => {
-      const initialState = {
-        list: [],
-        isLoading: true,
-        hasError: null,
-      }
 
-      const userPfpData = {
-        list: [
-          { name: 'bob', status: 'friend' },
-          { name: 'charlie', status: 'unfollow' },
-          { name: 'dan', status: 'blocked' },
-        ]
-      };
-
-      const action = friendsBlock.fulfilled(userPfpData);
-
-      const newState = friends(initialState, action);
-
-      // Check state after dispatching the fulfilled action
-      //console.log(newState)
-      expect(newState.isLoading).toBe(false);
-      expect(newState.list).toEqual(userPfpData.list);
-      expect(newState.hasError).toBe(null);
-    });
-    /////////////////////////////////////////////////////////////////////////
-    it('should handle friendsBlock.rejected', () => {
-      const initialState = {
-        list: [],
-        isLoading: true,
-        hasError: null,
-      }
-
-      const errorMessage = 'Failed to fetch user details';
-
-      const action = friendsBlock.rejected(null, null, errorMessage);
-
-      const newState = friends(initialState, action);
-
-      // Check state after dispatching the rejected action
-      expect(newState.isLoading).toBe(false);
-      expect(newState.list).toBe(initialState.list);
-      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-    });
-  });
-
-
-
-  // get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
-  // post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
-  // update  /items/note                 itemsSlice      itemsNoteUpdate  list of notes in descending date order
-  // delete  /items/note                 itemsSlice      itemsNoteDelete  list of notes in descending date order
-  // get     /items/todo                 itemsSlice      itemsTodoFetch   list of todos in descending date order
-  // post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
-  // update  /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
-  // delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
-
-  describe('items', () => {
-    describe('itemsNoteFetch', () => {
-      it('should handle itemsNoteFetch.pending', () => {
+    describe('friendsBlock', () => {
+      it('should handle friendsBlock.pending', () => {
         const initialState = {
-          todos: [],
-          notes: [],
+          list: [],
+          isLoading: false,
+          hasError: null,
         }
 
-        const newState = items(initialState, itemsNoteFetch.pending());
+        const newState = friends(initialState, friendsAdd.pending());
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
-        expect(newState.notes).toBe(initialState.notes);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////
-      it('should handle itemsNoteFetch.fulfilled', () => {
+      it('should handle friendsBlock.fulfilled', () => {
         const initialState = {
-          todos: [],
-          notes: [],
+          list: [],
           isLoading: true,
           hasError: null,
         }
 
-        const mockData = [
-          { id: 1, title: 'FOO', value: 'foo' },
-          { id: 2, title: 'BAR', value: 'bar' },
-          { id: 3, title: 'BAZ', value: 'baz' }
-        ];
+        const friendsData = [
+          { name: 'bob', status: 'friend' },
+          { name: 'charlie', status: 'unfollow' },
+          { name: 'dan', status: 'blocked' },
+        ]
 
-        const action = itemsNoteFetch.fulfilled(mockData);
+        const action = friendsBlock.fulfilled(friendsData);
 
-        const newState = items(initialState, action);
+        const newState = friends(initialState, action);
 
         // Check state after dispatching the fulfilled action
         //console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.notes).toEqual(mockData);
+        expect(newState.list).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
-      it('should handle itemsNoteFetch.rejected', () => {
+      it('should handle friendsBlock.rejected', () => {
         const initialState = {
-          todos: [],
-          notes: [],
+          list: [],
           isLoading: true,
           hasError: null,
         }
 
         const errorMessage = 'Failed to fetch user details';
 
-        const action = itemsNoteFetch.rejected(null, null, errorMessage);
+        const action = friendsBlock.rejected(null, null, errorMessage);
 
-        const newState = items(initialState, action);
+        const newState = friends(initialState, action);
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.notes).toBe(initialState.notes);
+        expect(newState.list.length).toBe(0);
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
       });
     });
+  });
+});
+
+
+// get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
+// post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
+// update  /items/note                 itemsSlice      itemsNoteUpdate  list of notes in descending date order
+// delete  /items/note                 itemsSlice      itemsNoteDelete  list of notes in descending date order
+// get     /items/todo                 itemsSlice      itemsTodoFetch   list of todos in descending date order
+// post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
+// update  /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
+// delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
+
+describe('items', () => {
+  describe('itemsNotes', () => {
+    it('should handle itemsNoteFetch.pending', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+      }
+
+      const newState = items(initialState, itemsNoteFetch.pending());
+
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.notes).toBe(initialState.notes);
+      expect(newState.hasError).toBe(null);
+    });
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle itemsNoteFetch.fulfilled', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+        isLoading: true,
+        hasError: null,
+      }
+
+      const mockData = [
+        { id: 1, title: 'FOO', value: 'foo' },
+        { id: 2, title: 'BAR', value: 'bar' },
+        { id: 3, title: 'BAZ', value: 'baz' }
+      ];
+
+      const action = itemsNoteFetch.fulfilled(mockData);
+
+      const newState = items(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      //console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.notes).toEqual(mockData);
+      expect(newState.hasError).toBe(null);
+    });
+    /////////////////////////////////////////////////////////////////////////
+    it('should handle itemsNoteFetch.rejected', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+        isLoading: true,
+        hasError: null,
+      }
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = itemsNoteFetch.rejected(null, null, errorMessage);
+
+      const newState = items(initialState, action);
+
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.notes).toBe(initialState.notes);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
     ///////////////////////////////////////////////////////////////////////
     it('should handle itemsNoteAdd.pending', () => {
       const initialState = {
@@ -708,7 +751,7 @@ describe('dispatch tests', () => {
       const newState = items(initialState, action);
 
       // Check state after dispatching the fulfilled action
-      //console.log(newState)
+
       expect(newState.isLoading).toBe(false);
       expect(newState.notes).toEqual(mockData);
       expect(newState.hasError).toBe(null);
@@ -851,78 +894,81 @@ describe('dispatch tests', () => {
       expect(newState.notes).toBe(initialState.notes);
       expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
     });
-    describe('itemsTodoFetch', () => {
-      it('should handle itemsTodoFetch.pending', () => {
-        const initialState = {
-          todos: [],
-          notes: [],
-          isLoading: false,
-          hasError: null,
-        }
-        const newState = items(initialState, itemsTodoFetch.pending());
+  });
+  describe('itemsTodos', () => {
+    it('should handle itemsTodoFetch.pending', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+        isLoading: false,
+        hasError: null,
+      }
+      const newState = items(initialState, itemsTodoFetch.pending());
 
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle itemsTodoFetch.fulfilled', () => {
-        const initialState = {
-          todos: [],
-          notes: [],
-          isLoading: true,
-          hasError: null,
-        }
-
-        const mockData = [
-          {
-            id: 1,
-            title: "corge",
-            todoItems: [
-              { value: 'foo', state: true },
-              { value: 'bar', state: false },
-              { value: 'baz', state: false }
-            ]
-          }
-        ];
-
-        const action = itemsTodoFetch.fulfilled(mockData);
-
-        const newState = items(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        //console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.todos).toEqual(mockData);
-        expect(newState.hasError).toBe(null);
-      });
-      /////////////////////////////////////////////////////////////////////////
-      it('should handle itemsTodoFetch.rejected', () => {
-        const initialState = {
-          todos: [],
-          notes: [],
-          isLoading: true,
-          hasError: null,
-        }
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = itemsTodoFetch.rejected(null, null, errorMessage);
-
-        const newState = items(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-      });
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.todos).toBe(initialState.todos);
+      expect(newState.hasError).toBe(null);
     });
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle itemsTodoFetch.fulfilled', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+        isLoading: true,
+        hasError: null,
+      }
+
+      const mockData = [
+        {
+          id: 1,
+          title: "corge",
+          todoItems: [
+            { value: 'foo', state: true },
+            { value: 'bar', state: false },
+            { value: 'baz', state: false }
+          ]
+        }
+      ];
+
+      const action = itemsTodoFetch.fulfilled(mockData);
+
+      const newState = items(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      //console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.todos).toEqual(mockData);
+      expect(newState.hasError).toBe(null);
+    });
+    /////////////////////////////////////////////////////////////////////////
+    it('should handle itemsTodoFetch.rejected', () => {
+      const initialState = {
+        todos: [],
+        notes: [],
+        isLoading: true,
+        hasError: null,
+      }
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = itemsTodoFetch.rejected(null, null, errorMessage);
+
+      const newState = items(initialState, action);
+
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.todos).toBe(initialState.todos);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
     ///////////////////////////////////////////////////////////////////////
     it('should handle itemsTodoAdd.pending', () => {
       const initialState = {
         todos: [],
         notes: [],
+        isLoading: false,
+        hasError: null,
       }
 
       const newState = items(initialState, itemsTodoAdd.pending());
@@ -960,7 +1006,7 @@ describe('dispatch tests', () => {
       // Check state after dispatching the fulfilled action
       //console.log(newState)
       expect(newState.isLoading).toBe(false);
-      expect(newState.todo).toEqual(mockData);
+      expect(newState.todos).toEqual(mockData);
       expect(newState.hasError).toBe(null);
     });
     /////////////////////////////////////////////////////////////////////////
@@ -1114,377 +1160,371 @@ describe('dispatch tests', () => {
       expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
     });
   });
-
-  // get     /calendar                   calendarSlice   calendarGet      list of users calendar items in date range
-  // post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
-  // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
-
-  // get     /calendar                   calendarSlice   calendarFetch    list of users calendar items in date range
-  // post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
-  // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
-
-  // get     /calendar                   calendarSlice   calendarFetch    list of users calendar items in date range
-  // post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
-  // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
-
-
-  describe('calendar', () => {
-    describe('calendarFetch', () => {
-      it('should handle calendarFetch.pending', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: false,
-          hasError: null,
-        };
-
-        const newState = calendar(initialState, calendarFetch.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.calendar).toBe(undefined);
-        expect(newState.hasError).toBe(null);
-      });
-
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle calendarFetch.fulfilled', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const calendarData = [
-          { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-          { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-          { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-          { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-          { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-          { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-        ];
-
-        const action = calendarFetch.fulfilled(calendarData);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        // console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.calendarItems).toEqual(calendarData.calendarItems);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////////////////
-      it('should handle calendarFetch.rejected', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = calendarFetch.rejected(null, null, errorMessage);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-      });
-
-    })
-    describe('calendarPost', () => {
-      it('should handle calendarPost.pending', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: false,
-          hasError: null,
-        };
-
-        const newState = calendar(initialState, calendarPost.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.calendar).toBe(undefined);
-        expect(newState.hasError).toBe(null);
-      });
-
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle calendarPost.fulfilled', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const calendarData = [
-          { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-          { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-          { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-          { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-          { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-          { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-        ];
-
-        const action = calendarPost.fulfilled(calendarData);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        // console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.calendarItems).toEqual(calendarData.calendarItems);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////////////////
-      it('should handle calendarPost.rejected', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = calendarPost.rejected(null, null, errorMessage);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-      });
-
-
-
-      describe('calendarDelete', () => {
-        it('should handle calendarDelete.pending', () => {
-          const initialState = {
-            calendarItems: [],
-            isLoading: false,
-            hasError: null,
-          };
-
-          const newState = calendar(initialState, calendarDelete.pending());
-
-          // Check state after dispatching the pending action
-          expect(newState.isLoading).toBe(true);
-          expect(newState.calendar).toBe(undefined);
-          expect(newState.hasError).toBe(null);
-        });
-
-        ///////////////////////////////////////////////////////////////////////
-        it('should handle calendarDelete.fulfilled', () => {
-          const initialState = {
-            calendarItems: [],
-            isLoading: true,
-            hasError: null,
-          };
-
-          const calendarData = [
-            { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-            { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-            { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-            { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
-            { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
-            { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
-          ];
-
-          const action = calendarDelete.fulfilled(calendarData);
-
-          const newState = calendar(initialState, action);
-
-          // Check state after dispatching the fulfilled action
-          // console.log(newState)
-          expect(newState.isLoading).toBe(false);
-          expect(newState.calendarItems).toEqual(calendarData.calendarItems);
-          expect(newState.hasError).toBe(null);
-        });
-        ///////////////////////////////////////////////////////////////////////////////////
-        it('should handle calendarDelete.rejected', () => {
-          const initialState = {
-            calendarItems: [],
-            isLoading: true,
-            hasError: null,
-          };
-
-          const errorMessage = 'Failed to fetch user details';
-
-          const action = calendarDelete.rejected(null, null, errorMessage);
-
-          const newState = calendar(initialState, action);
-
-          // Check state after dispatching the rejected action
-          expect(newState.isLoading).toBe(false);
-          expect(newState.displayName).toBe('');
-          expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-        });
-
-
-
-
-      });
-    });
-
-  });
-
-  // get     /today                      todaySlice      todayFetch       list of items for today
-  describe('today', () => {
-    describe('todayFetch', () => {
-      it('should handle todayFetch.pending', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: false,
-          hasError: null,
-        };
-
-        const newState = calendar(initialState, todayFetch.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.calendar).toBe(undefined);
-        expect(newState.hasError).toBe(null);
-      });
-
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle todayFetch.fulfilled', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const todayData = [
-          { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-          { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-          { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-        ];
-
-        const action = todayFetch.fulfilled(todayData);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        // console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.calendarItems).toEqual(todayData.calendarItems);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////////////////
-      it('should handle todayFetch.rejected', () => {
-        const initialState = {
-          calendarItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = todayFetch.rejected(null, null, errorMessage);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-      });
-
-
-
-
-    });
-
-  });
-  // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
-  describe('wall', () => {
-    describe('wallFetch', () => {
-      it('should handle wallFetch.pending', () => {
-        const initialState = {
-          wallItems: [],
-          isLoading: false,
-          hasError: null,
-        };
-
-        const newState = calendar(initialState, wallFetch.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.calendar).toBe(undefined);
-        expect(newState.hasError).toBe(null);
-      });
-
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle wallFetch.fulfilled', () => {
-        const initialState = {
-          wallItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const wallData = [
-          { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-          { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-          { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-          { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
-          { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
-          { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
-        ];
-
-        const action = wallFetch.fulfilled(wallData);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        // console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.wallItems).toEqual(wallData.wallItems);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////////////////
-      it('should handle wallFetch.rejected', () => {
-        const initialState = {
-          wallItems: [],
-          isLoading: true,
-          hasError: null,
-        };
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = wallFetch.rejected(null, null, errorMessage);
-
-        const newState = calendar(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
-      });
-
-
-
-
-    });
-
-  });
-
-
-  // post    /login                      userSlice       userAuthLogin        user bearer token
-  // post    /register                   userSlice       userAuthRegister     user bearer token
-  // post    /auth/[3rd party site]      userSlice       userAuth         3rd part auth token
 });
+// get     /calendar                   calendarSlice   calendarGet      list of users calendar items in date range
+// post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
+// delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
+
+
+describe('calendar', () => {
+  describe('calendarFetch', () => {
+    it('should handle calendarFetch.pending', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: false,
+        hasError: null,
+      };
+
+      const newState = calendar(initialState, calendarFetch.pending());
+
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toBe(null);
+    });
+
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle calendarFetch.fulfilled', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const calendarData = [
+        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+        { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+      ];
+
+      const action = calendarFetch.fulfilled(calendarData);
+
+      const newState = calendar(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      // console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems).toEqual(calendarData);
+      expect(newState.hasError).toBe(null);
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    it('should handle calendarFetch.rejected', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = calendarFetch.rejected(null, null, errorMessage);
+
+      const newState = calendar(initialState, action);
+
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
+  })
+  describe('calendarPost', () => {
+    it('should handle calendarPost.pending', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: false,
+        hasError: null,
+      };
+
+      const newState = calendar(initialState, calendarPost.pending());
+
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toBe(null);
+    });
+
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle calendarPost.fulfilled', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const calendarData = [
+        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+        { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+      ];
+
+      const action = calendarPost.fulfilled(calendarData);
+
+      const newState = calendar(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      // console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems).toEqual(calendarData);
+      expect(newState.hasError).toBe(null);
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    it('should handle calendarPost.rejected', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = calendarPost.rejected(null, null, errorMessage);
+
+      const newState = calendar(initialState, action);
+
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
+
+
+    describe('calendarDelete', () => {
+      it('should handle calendarDelete.pending', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: false,
+          hasError: null,
+        };
+
+        const newState = calendar(initialState, calendarDelete.pending());
+
+        // Check state after dispatching the pending action
+        expect(newState.isLoading).toBe(true);
+        expect(newState.calendarItems.length).toBe(0);
+        expect(newState.hasError).toBe(null);
+      });
+
+      ///////////////////////////////////////////////////////////////////////
+      it('should handle calendarDelete.fulfilled', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: true,
+          hasError: null,
+        };
+
+        const calendarData = [
+          { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+          { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+          { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+          { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+          { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+          { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+        ];
+
+        const action = calendarDelete.fulfilled(calendarData);
+
+        const newState = calendar(initialState, action);
+
+        // Check state after dispatching the fulfilled action
+        // console.log(newState)
+        expect(newState.isLoading).toBe(false);
+        expect(newState.calendarItems).toEqual(calendarData);
+        expect(newState.hasError).toBe(null);
+      });
+      ///////////////////////////////////////////////////////////////////////////////////
+      it('should handle calendarDelete.rejected', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: true,
+          hasError: null,
+        };
+
+        const errorMessage = 'Failed to fetch user details';
+
+        const action = calendarDelete.rejected(null, null, errorMessage);
+
+        const newState = calendar(initialState, action);
+
+        // Check state after dispatching the rejected action
+        expect(newState.isLoading).toBe(false);
+        expect(newState.calendarItems.length).toBe(0);
+        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+      });
+
+
+
+
+    });
+  });
+
+});
+
+// get     /today                      todaySlice      todayFetch       list of items for today
+describe('today', () => {
+  describe('todayFetch', () => {
+    it('should handle todayFetch.pending', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: false,
+        hasError: null,
+      };
+
+      const newState = today(initialState, todayFetch.pending());
+
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toBe(null);
+    });
+
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle todayFetch.fulfilled', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const todayData = [
+        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+      ];
+
+      const action = todayFetch.fulfilled(todayData);
+
+      const newState = today(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      // console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems).toEqual(todayData);
+      expect(newState.hasError).toBe(null);
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    it('should handle todayFetch.rejected', () => {
+      const initialState = {
+        calendarItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = todayFetch.rejected(null, null, errorMessage);
+
+      const newState = today(initialState, action);
+      console.log(newState)
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.calendarItems.length).toBe(0);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
+
+
+
+  });
+
+});
+// get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
+describe('wall', () => {
+  describe('wallFetch', () => {
+    it('should handle wallFetch.pending', () => {
+      const initialState = {
+        wallItems: [],
+        isLoading: false,
+        hasError: null,
+      };
+
+      const newState = wall(initialState, wallFetch.pending());
+
+      // Check state after dispatching the pending action
+      expect(newState.isLoading).toBe(true);
+      expect(newState.wallItems.length).toBe(0);
+      expect(newState.hasError).toBe(null);
+    });
+
+    ///////////////////////////////////////////////////////////////////////
+    it('should handle wallFetch.fulfilled', () => {
+      const initialState = {
+        wallItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const wallData = [
+        { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+        { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: date.setHours(1, 0) },
+        { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: date.setHours(2, 0) },
+        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
+      ];
+
+      const action = wallFetch.fulfilled(wallData);
+
+      const newState = wall(initialState, action);
+
+      // Check state after dispatching the fulfilled action
+      // console.log(newState)
+      expect(newState.isLoading).toBe(false);
+      expect(newState.wallItems).toEqual(wallData);
+      expect(newState.hasError).toBe(null);
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    it('should handle wallFetch.rejected', () => {
+      const initialState = {
+        wallItems: [],
+        isLoading: true,
+        hasError: null,
+      };
+
+      const errorMessage = 'Failed to fetch user details';
+
+      const action = wallFetch.rejected(null, null, errorMessage);
+
+      const newState = wall(initialState, action);
+
+      // Check state after dispatching the rejected action
+      expect(newState.isLoading).toBe(false);
+      expect(newState.wallItems.length).toBe(0);
+      expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+    });
+
+
+
+
+  });
+
+});
+
+
+// post    /login                      userSlice       userAuthLogin        user bearer token
+// post    /register                   userSlice       userAuthRegister     user bearer token
+// post    /auth/[3rd party site]      userSlice       userAuth         3rd part auth token
+
 describe('user', () => {
   describe('userAuthLogin', () => {
     it('should handle userAuthLogin.pending', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: false,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: false,
+        hasError: null,
       }
 
-      const newState = calendar(initialState, userAuthLogin.pending());
+      const newState = userAuth(initialState, userAuthLogin.pending());
 
       // Check state after dispatching the pending action
       expect(newState.isLoading).toBe(true);
@@ -1499,34 +1539,38 @@ describe('user', () => {
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
-      const authToken = "THISISIANAUTHTOKEN";
+      const authToken = {token:"THISISIANAUTHTOKEN"};
 
       const action = userAuthLogin.fulfilled(authToken);
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the fulfilled action
       // console.log(newState)
       expect(newState.isLoading).toBe(false);
-      expect(newState.authToken).toEqual(authToken);
+      expect(newState.authToken).toEqual(authToken.token);
       expect(newState.hasError).toBe(null);
     });
     ///////////////////////////////////////////////////////////////////////////////////
     it('should handle userAuthLogin.rejected', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
       const errorMessage = 'Failed to fetch user details';
 
       const action = userAuthLogin.rejected(null, null, errorMessage);
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the rejected action
       expect(newState.isLoading).toBe(false);
@@ -1538,16 +1582,19 @@ describe('user', () => {
 
 
   });
+
   describe('userAuthRegister', () => {
     it('should handle userAuthRegister.pending', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: false,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: false,
+        hasError: null,
       }
 
-      const newState = calendar(initialState, userAuthRegister.pending());
+      const newState = userAuth(initialState, userAuthRegister.pending());
 
       // Check state after dispatching the pending action
       expect(newState.isLoading).toBe(true);
@@ -1562,34 +1609,38 @@ describe('user', () => {
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
-      const authToken = "THISISIANAUTHTOKEN";
+      const authToken = {token:"THISISIANAUTHTOKEN"};
 
       const action = userAuthRegister.fulfilled(authToken);
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the fulfilled action
       // console.log(newState)
       expect(newState.isLoading).toBe(false);
-      expect(newState.authToken).toEqual(authToken);
+      expect(newState.authToken).toEqual(authToken.token);
       expect(newState.hasError).toBe(null);
     });
     ///////////////////////////////////////////////////////////////////////////////////
     it('should handle userAuthRegister.rejected', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
       const errorMessage = 'Failed to fetch user details';
 
       const action = userAuthRegister.rejected(null, null, errorMessage);
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the rejected action
       expect(newState.isLoading).toBe(false);
@@ -1601,62 +1652,70 @@ describe('user', () => {
 
 
   });
-  describe('userAuthCheck', () => {
-    it('should handle userAuthCheck.pending', () => {
+  describe('userAuthCheckExists', () => {
+    it('should handle userAuthCheckExists.pending', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: false,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: false,
+        hasError: null,
       }
 
-      const newState = calendar(initialState, userAuthCheck.pending());
+      const newState = userAuth(initialState, userAuthCheckExists.pending());
 
       // Check state after dispatching the pending action
       expect(newState.isLoading).toBe(true);
-      expect(newState.authToken).toBe('');
+      expect(newState.userAlreadyExists).toBe(null);
       expect(newState.hasError).toBe(null);
     });
 
     ///////////////////////////////////////////////////////////////////////
-    it('should handle userAuthCheck.fulfilled', () => {
+    it('should handle userAuthCheckExists.fulfilled', () => {
       const initialState = {
         authToken: "",
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
-      const authToken = "THISISIANAUTHTOKEN";
 
-      const action = userAuthCheck.fulfilled(authToken);
+      const action = userAuthCheckExists.fulfilled({exists:true});
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the fulfilled action
       // console.log(newState)
       expect(newState.isLoading).toBe(false);
-      expect(newState.authToken).toEqual(authToken);
+      expect(newState.userAlreadyExists).toEqual(true);
       expect(newState.hasError).toBe(null);
     });
     ///////////////////////////////////////////////////////////////////////////////////
-    it('should handle userAuthCheck.rejected', () => {
+    it('should handle userAuthCheckExists.rejected', () => {
       const initialState = {
-        AuthToken: "",
+        authToken: "",
         isLoggedIn: true,
         customer_id: null,
         userAlreadyExists: null,
+        isLoading: true,
+        hasError: null,
       }
 
       const errorMessage = 'Failed to fetch user details';
 
-      const action = userAuthCheck.rejected(null, null, errorMessage);
+      const action = userAuthCheckExists.rejected(null, null, errorMessage);
 
-      const newState = calendar(initialState, action);
+      const newState = userAuth(initialState, action);
 
       // Check state after dispatching the rejected action
+      if (newState.isLoading) {
+        console.log("authckeckexists", newState)
+      }
       expect(newState.isLoading).toBe(false);
-      expect(newState.authToken).toBe('');
+      expect(newState.userAlreadyExists).toBe(null);
       expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
     });
 
@@ -1664,5 +1723,4 @@ describe('user', () => {
 
 
   });
-
 });

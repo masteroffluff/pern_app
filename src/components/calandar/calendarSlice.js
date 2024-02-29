@@ -3,14 +3,18 @@ import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState =[]
+const initialState = {
+    calendarItems: [],
+    isLoading: false,
+    hasError: null,
+  };
 
 
 
 const name = "calendar"
 // // get     /calendar                   calendarSlice   calendarGet      list of users calendar items in date range
 
-export const calendarGet = createAsyncThunk(
+export const calendarFetch = createAsyncThunk(
     'calendarGet',
     async ({ authToken }, { rejectWithValue }) => {
 
@@ -82,28 +86,30 @@ export const calendarSlice = createSlice({
         (builder) => {
             builder
                 .addMatcher(isAnyOf(
-                    calendarGet.fulfilled,   
+                    calendarFetch.fulfilled,   
                     calendarPost.fulfilled,  
                     calendarDelete.fulfilled
                     ),
                     (state, action) => {
                         //console.log(action.payload)
-
+                        state.calendarItems = action.payload
+                        state.isLoading = false;
+                        state.hasError = null;
                     }) 
                 .addMatcher(
                     isAnyOf(
-                        calendarGet.pending,   
+                        calendarFetch.pending,   
                         calendarPost.pending,  
                         calendarDelete.pending
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
                     isAnyOf(
-                        calendarGet.rejected,   
+                        calendarFetch.rejected,   
                         calendarPost.rejected,  
                         calendarDelete.rejected
                         ),

@@ -196,10 +196,10 @@ describe('NewTodo specific', () => {
     // Render the parent component and store its container
     render(<NewTodo />);
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    todoItems = screen.getByRole('li');
 
+    todoItems = screen.getByTestId('todoItems');
     // - has list list of todo items
-    it('has list list of todo items"', () => {
+    it('has list of todo items"', () => {
         expect(todoItems).toBeInTheDocument()
 
     });

@@ -106,11 +106,11 @@ export const userDetailsSlice = createSlice({
 
 
 /* export const selectedUserDetailsId = (state) => state.userdetails.userdetails_id; */
-export const isLoadingUserDetails = (state) => state.userdetails.isLoading;
-export const hasErrorUserDetails = (state) => state.userdetails.hasError;
-export const selectedUserDetails = (state) => state.userdetails;
-export const selectedNotes = (state) => state.userdetails.todos;
-export const selectedTodos = (state) => state.userdetails.notes;
+export const isLoadingUserDetails = (state) => state.user.details.isLoading;
+export const hasErrorUserDetails = (state) => state.user.details.hasError;
+export const selectedUserDetails = (state) => state.user.details;
+export const selectedNotes = (state) => state.user.details.todos;
+export const selectedTodos = (state) => state.user.details.notes;
 
 
 export default userDetailsSlice.reducer

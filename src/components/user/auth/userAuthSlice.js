@@ -8,13 +8,13 @@ export const storageKey = 'authToken';
 
 
 const initialState = {
-    AuthToken:"",
+    authToken:"",
     isLoggedIn:false,
     customer_id:null,
     userAlreadyExists:null,
 }
 
-const name= 'Auth'
+const name= 'authentication'
 
 export const userAuthLogin= createAsyncThunk(
     'userAuthLogin',
@@ -43,7 +43,7 @@ export const userAuthLogOut= createAsyncThunk(
     async (_,{rejectWithValue, getState}) => {
         //console.log(username)
         //console.log(password)
-        const authToken = getState().userAuth.AuthToken;
+        const authToken = getState().userAuth.authToken;
         const endPoint = `${apiUrl}/logout`; 
         const options = {
             method:'GET',
@@ -122,19 +122,19 @@ export const userAuthSlice = createSlice({
                 // 3. Check if token is expired
                 if(!isTokenExpired(token)){
                     //console.log('auth check logged in!')
-                    state.AuthToken=token
+                    state.authToken=token
                     state.isLoggedIn=true
                     
                 } else {
                     //console.log('auth check old token')
                     //console.log(token)
-                    state.AuthToken=""
+                    state.authToken=""
                     state.isLoggedIn=false
                     localStorage.removeItem(storageKey); // as well as not logging in remove the out of date token           
                 }
             } else {
                 //console.log('auth check, no token')
-                state.AuthToken=""
+                state.authToken=""
                 state.isLoggedIn=false
             }
         },
@@ -148,24 +148,24 @@ export const userAuthSlice = createSlice({
                 const {token} = action.payload
                 localStorage.setItem(storageKey, token);
 
-                state.AuthToken = token;
+                state.authToken = token;
                 state.isLoggedIn= true
                 state.isLoading = false;
-                state.hasError = false;
+                state.hasError = null;
         })
         .addCase(userAuthLogOut.fulfilled,
             (state)=>{
-                state.AuthToken=""
+                state.authToken=""
                 state.isLoggedIn=false
                 localStorage.removeItem(storageKey);
                 state.isLoading = false;
-                state.hasError = false;
+                state.hasError = null;
             })
         .addCase(userAuthCheckExists.fulfilled, 
             (state,action) => {
                 state.userAlreadyExists = action.payload.exists
                 state.isLoading = false;
-                state.hasError = false;
+                state.hasError = null;
             }
         )
         .addCase(userAuthRegister.fulfilled, 
@@ -173,20 +173,20 @@ export const userAuthSlice = createSlice({
                 const {token} = action.payload
                 localStorage.setItem(storageKey, token);
 
-                state.AuthToken = token;
+                state.authToken = token;
                 state.isLoggedIn= true
                 state.isLoading = false;
-                state.hasError = false;
+                state.hasError = null;
         })
         .addCase(userAuthRegister_github.fulfilled, 
             (state, action) => {
                 const {token} = action.payload
                 localStorage.setItem(storageKey, token);
 
-                state.AuthToken = token;
+                state.authToken = token;
                 state.isLoggedIn= true
                 state.isLoading = false;
-                state.hasError = false;
+                state.hasError = null;
         })
         
         .addMatcher(
@@ -199,7 +199,7 @@ export const userAuthSlice = createSlice({
                 ),
             (state) => {
                 state.isLoading = true;
-                state.hasError = false;
+                state.hasError = null;
             }
         )
         .addMatcher(
@@ -212,18 +212,19 @@ export const userAuthSlice = createSlice({
             (state, action) => {
                 //console.log(action)
                 state.isLoading = false;
-                state.hasError = JSON.stringify({error:action.error,actionType:action.type});
+                //state.hasError = JSON.stringify({error:action.error,actionType:action.type});
+                state.hasError = action.error
             }
         )
     }
   })
 export const {userAuthCheck} = userAuthSlice.actions 
 
-export const selectIsLoggedIn = (state) => state.userAuth.isLoggedIn;
-export const selectAuthToken = (state) => state.userAuth.AuthToken;
-export const selectUserAlreadyExists = (state) => state.userAuth.userAlreadyExists;
-export const selectIsWaitingAuth = (state) => state.userAuth.isLoading;
-export const selectHasErrorAuth = (state) => state.userAuth.hasError;
+export const selectIsLoggedIn = (state) => state.user.authentication.isLoggedIn;
+export const selectAuthToken = (state) => state.user.authentication.authToken;
+export const selectUserAlreadyExists = (state) => state.user.authentication.userAlreadyExists;
+export const selectIsWaitingAuth = (state) => state.user.authentication.isLoading;
+export const selectHasErrorAuth = (state) => state.user.authentication.hasError;
 
 
 export default userAuthSlice.reducer

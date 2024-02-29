@@ -131,7 +131,7 @@ export const friendsSlice = createSlice({
 
                     ),
                     (state, action) => {
-                        //console.log(action.payload)
+                        // console.log(action.payload)
                         state.isLoading = false;
                         state.hasError = null;
                         state.list = action.payload;
@@ -170,11 +170,11 @@ export const friendsSlice = createSlice({
 
 
 /* export const selectedfriendsId = (state) => state.friends.friends_id; */
-export const isLoadingfriends = (state) => state.friends.isLoading;
-export const hasErrorfriends = (state) => state.friends.hasError;
-export const selectedfriends = (state) => state.friends;
-export const selectedNotes = (state) => state.friends.todos;
-export const selectedTodos = (state) => state.friends.notes;
-
+export const isLoadingfriends = (state) => state.user.friends.isLoading;
+export const hasErrorfriends = (state) => state.user.friends.hasError;
+export const selectFriends_Live = (state) => state.user.friends.list.filter((e)=>e.status === 'friend');
+export const selectFriends_Blocked = (state) => state.user.friends.list.filter((e)=>e.status === 'blocked');;
+export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
+export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
 
 export default friendsSlice.reducer

@@ -3,7 +3,11 @@ import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState =[]
+const initialState = {
+    calendarItems: [],
+    isLoading: true,
+    hasError: null,
+  };
 
 const name = "today"
 // // get     /today                       todaySlice       today      list of user details (display name, email, phone number)
@@ -42,8 +46,10 @@ export const todaySlice = createSlice({
                     ),
                     (state, action) => {
                         //console.log(action.payload)
-
-                    })
+                        state.calendarItems = action.payload
+                        state.isLoading = false;
+                        state.hasError = null;
+                    }) 
   
                 .addMatcher(
                     isAnyOf(
@@ -51,7 +57,7 @@ export const todaySlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -59,7 +65,7 @@ export const todaySlice = createSlice({
                         todayFetch.rejected,
                     ),
                     (state, action) => {
-                        //console.log(action)
+                        console.log('rejected today')
                         state.isLoading = false;
                         state.hasError = action.error;
                     }
@@ -72,7 +78,7 @@ export const todaySlice = createSlice({
 /* export const selectedTodayId = (state) => state.today.today_id; */
 export const isLoadingToday = (state) => state.today.isLoading;
 export const hasErrorToday = (state) => state.today.hasError;
-export const selectToday = (state) => state.today;
+export const selectToday = (state) => state.today.calendarItems
 
 
 export default todaySlice.reducer

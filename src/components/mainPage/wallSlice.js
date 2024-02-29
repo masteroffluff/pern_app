@@ -3,7 +3,11 @@ import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState =[]
+const initialState = {
+    wallItems: [],
+    isLoading: true,
+    hasError: null,
+  };
 
 const name = "wall"
 // // get     /wall                       wallSlice       wall      list of user details (display name, email, phone number)
@@ -42,7 +46,9 @@ export const wallSlice = createSlice({
                     ),
                     (state, action) => {
                         //console.log(action.payload)
-
+                        state.wallItems = action.payload
+                        state.isLoading = false;
+                        state.hasError = null;
                     })
   
                 .addMatcher(
@@ -51,7 +57,7 @@ export const wallSlice = createSlice({
                         ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError = false;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -68,11 +74,10 @@ export const wallSlice = createSlice({
 })
 
 
-
 /* export const selectedWallId = (state) => state.wall.wall_id; */
 export const isLoadingWall = (state) => state.wall.isLoading;
 export const hasErrorWall = (state) => state.wall.hasError;
-export const selectedWall = (state) => state.wall;
+export const selectWall = (state) => state.wall.wallItems;
 
 
 export default wallSlice.reducer
