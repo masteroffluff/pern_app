@@ -11,14 +11,12 @@ import { selectToday } from '../components/mainPage/todaySlice.js'
 // import { cleanup } from '@testing-library/react'
 
 
-
-const date = new Date()
-date.setHours(0, 0, 0, 0);
-const tomorrow = new Date(date.getDate()+1)
-const time1 = new Date().setHours(1)
-const time2 = new Date().setHours(2)
-
-
+const date1 = new Date()
+date1.setHours(0, 0, 0, 0);
+const tomorrow = new Date(date1.getDate()+1).toString()
+const time1 = new Date().setHours(1).toString()
+const time2 = new Date().setHours(2).toString()
+const date = date1.toString()
 
 
 const state = {

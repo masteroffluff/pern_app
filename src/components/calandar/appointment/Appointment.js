@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Appointment({title, value, dateTo, dateFrom , place}){
+export default function Appointment({title, value, dateTo, dateFrom , place, owner}){
     return <div data-testid="appointment">
         <h4 aria-label="Title">{title}</h4>
         <p aria-label="Description">{value}</p>

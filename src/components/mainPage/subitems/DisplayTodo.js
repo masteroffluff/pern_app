@@ -9,7 +9,7 @@ export default function DisplayTodo(){
          
          <h3>Todo</h3>
          <ul>
-            {todos.map((td)=><li><Todo key={td.id} title={td.title} todoItems={td.todoItems}></Todo></li>)}    
+            {todos.map((td)=><li key={td.id}><Todo  title={td.title} todoItems={td.todoItems}></Todo></li>)}    
         </ul> 
 
     </div>
