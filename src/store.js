@@ -17,7 +17,7 @@ const user = combineReducers({
   pfp: userPfpSlice
 });
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     calendar,
     items,
@@ -28,7 +28,7 @@ export default configureStore({
 });
 
 // Create the root reducer separately so we can extract the RootState type
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   calendar,
   items,
   user,

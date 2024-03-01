@@ -1422,7 +1422,7 @@ describe('today', () => {
       const action = todayFetch.rejected(null, null, errorMessage);
 
       const newState = today(initialState, action);
-      console.log(newState)
+      //console.log(newState)
       // Check state after dispatching the rejected action
       expect(newState.isLoading).toBe(false);
       expect(newState.calendarItems.length).toBe(0);

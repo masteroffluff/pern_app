@@ -2,81 +2,63 @@
 import React from 'react';
 import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import store from '../store'
-import { addTodo } from '../components/items/itemSlice';
+//import configureStore from 'redux-mock-store';
+import { setupStore } from '../store'
+import { itemsTodoAdd, itemsNoteAdd } from '../components/items/itemSlice';
+import { calendarPost } from '../components/calandar/calendarSlice';
 import { NewAppointment, NewEvent, NewReminder } from '../components/calandar';
-import { NewNote, NewTodo } from '../components/items';
-import calendar, { calendarPost } from '../components/calandar/calendarSlice';
+import { NewNote, NewTodo } from '../components/items/index.js';
 
-const date = new Date().setHours(0, 0, 0, 0);
 
-// const initialState = {
-//     calendar: { calendarItems: [] },
-//     items: {
-//         todos: [],
-//         notes: [],
-//     },
-//     wall: [],
-//     user: {
-//         displayName: '',
-//         telephoneNumber: '',
-//         email: '',
-//         friends: [],
-//     },
-// };
-const initialState = {
-    calendarItems: [],
-    todos: [],
-    notes: [],
-    wall: [],
-    user: {
-        displayName: '',
-        telephoneNumber: '',
-        email: '',
-        friends: [],
-    },
-};
+import dummyStore, { date, tomorrow, time1, time2, time3 } from './dummyData.js'
 
+import apiFetch from '../utils/apiFetch'; // Import the apifetch function
+
+jest.mock('../utils/apiFetch',()=>jest.fn());
+const apiUrl = process.env.REACT_APP_API_URL
 
 //const mockStore = configureStore([]);
 describe("action tests", () => {
     afterEach(() => {
         cleanup()
     })
-    describe('NewTodo', () => {
-        test('dispatches addTodo action when button is clicked', () => {
-            // const store = mockStore(initialState); // Initial store state
 
+    describe('NewTodo', () => {
+        
+        test('dispatches addTodo action when button is clicked', async () => {
+            
+            // const store = mockStore(initialState); // Initial store state
+            const store = setupStore(dummyStore)
             render(
                 <Provider store={store}>
                     <NewTodo />
                 </Provider>
             );
+            
             const textBox_title = screen.getByLabelText("title");
-            const textBox_newItem = screen.getByLabelText("new item");
+            const textBox_newItem = screen.getByLabelText("New Item");
+            const button_addTodoItem = screen.getByLabelText('Add Todo Item')
+            expect(button_addTodoItem).toBeInTheDocument()
             // add the title
             fireEvent.change(textBox_title, { target: { value: 'New Todo' } });
             // add some todo items 
             fireEvent.change(textBox_newItem, { target: { value: 'foo' } });
-            fireEvent.click(screen.getByText('Add new item'));
+            fireEvent.click(button_addTodoItem);
             fireEvent.change(textBox_newItem, { target: { value: 'bar' } });
-            fireEvent.click(screen.getByText('Add new item'));
+            fireEvent.click(button_addTodoItem);
             // Simulate a button click
-
-
-            fireEvent.click(screen.getByText('Add Todo'));
-
-            // Check if the expected action was dispatched
-            const actions = store.getActions();
-            expect(actions).toEqual([addTodo({ title: 'New Todo', items: [{ value: 'foo', done: false }, { value: 'bar', done: false }] })]);
+            fireEvent.click(screen.getByLabelText('Done'));
+                
+            expect(apiFetch).toHaveBeenCalledWith(apiUrl+'/items/todo',{"body": {"items": [{"done": false, "value": "foo"}, {"done": false, "value": "bar"}], "notes": "", "title": "New Todo"}, "credentials": "include", "headers": {}, "method": "POST"}, expect.any(Function))
         });
+
+
     });
 
     describe('NewNote', () => {
         test('dispatches addNote action when button is clicked', () => {
             // const store = mockStore(initialState); // Initial store state
-
+            const store = setupStore({})
             render(
                 <Provider store={store}>
                     <NewNote />
@@ -93,14 +75,14 @@ describe("action tests", () => {
 
             // Check if the expected action was dispatched
             const actions = store.getActions();
-            expect(actions).toEqual([addTodo({ title: 'New Note', value: 'Lorem Ipsum' })]);
+            expect(actions).toEqual([itemsNoteAdd({ title: 'New Note', value: 'Lorem Ipsum' })]);
         });
     });
 
     describe('NewAppointment', () => {
         test('dispatches addAppointment action when button is clicked', () => {
             // const store = mockStore(initialState); // Initial store state
-
+            const store = setupStore({})
             render(
                 <Provider store={store}>
                     <NewAppointment />
@@ -118,21 +100,21 @@ describe("action tests", () => {
             fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
             fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
             fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: date + 1 } });
+            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
             fireEvent.click(screen.getByText('Add Appointment'));
 
             // Check if the expected action was dispatched
             const actions = store.getActions();
-            expect(actions).toEqual([addTodo({ title: 'New Appointment', value: 'Lorem Ipsum', place: 'Dolores sit', dateFrom: date, dateTo: date + 1 })]);
+            expect(actions).toEqual([calendarPost({ title: 'New Appointment', value: 'Lorem Ipsum', place: 'Dolores sit', dateFrom: date, dateTo: tomorrow })]);
         });
     });
 
     describe('NewReminder', () => {
         test('dispatches addReminder action when button is clicked', () => {
             // const store = mockStore(initialState); // Initial store state
-
+            const store = setupStore({})
             render(
                 <Provider store={store}>
                     <NewReminder />
@@ -149,21 +131,21 @@ describe("action tests", () => {
             fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
             fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
             fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: date + 1 } });
+            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
             fireEvent.click(screen.getByText('Add Reminder'));
 
             // Check if the expected action was dispatched
             const actions = store.getActions();
-            expect(actions).toEqual([addTodo({ title: 'New Reminder', value: 'Lorem Ipsum', place: 'Dolores sit', dateFrom: date, dateTo: date + 1 })]);
+            expect(actions).toEqual([calendarPost({ title: 'New Reminder', value: 'Lorem Ipsum', place: 'Dolores sit', dateFrom: date, dateTo: tomorrow })]);
         });
     });
 
     describe('NewEvent', () => {
         test('dispatches addEvent action when button is clicked', () => {
             // const store = mockStore(initialState); // Initial store state
-
+            const store = setupStore({})
             render(
                 <Provider store={store}>
                     <NewEvent />
@@ -180,7 +162,7 @@ describe("action tests", () => {
             fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
             fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
             fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: date + 1 } });
+            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
             fireEvent.click(screen.getByText('Add Event'));

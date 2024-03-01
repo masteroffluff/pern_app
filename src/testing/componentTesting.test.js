@@ -4,7 +4,7 @@ import { render, screen, fireEvent, cleanup, querySelector } from '@testing-libr
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo } from '../components/items'
 import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
-import store from '../store';
+import {store} from '../store';
 
 
 

@@ -117,17 +117,22 @@ export const itemsTodoFetch = createAsyncThunk(
 
 export const itemsTodoAdd = createAsyncThunk(
     'itemsTodoAdd',
-    async ({ authToken }, { rejectWithValue }) => {
+    async ({ title,notes,items }, { rejectWithValue }) => {
 
-        const endPoint = `${apiUrl}/items/note`
+        const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
         const options = {
             method: 'POST',
             credentials: 'include',
             headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                'Authorization': 'Bearer ' + authToken,
+                // "Content-Type": "application/json; charset=utf-8",
+                // 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                'title':title,
+                'notes':notes,
+                'items':items
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)

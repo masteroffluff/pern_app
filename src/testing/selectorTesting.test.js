@@ -9,86 +9,17 @@ import { selectWall } from '../components/mainPage/wallSlice.js'
 import { selectToday } from '../components/mainPage/todaySlice.js'
 
 // import { cleanup } from '@testing-library/react'
+import state, {date, tomorrow, time1, time2, time3} from './dummyData.js'
+
+// const date1 = new Date()
+// date1.setHours(0, 0, 0, 0);
+// const tomorrow = new Date(date1.getDate()+1).toString()
+// const time1 = new Date().setHours(1).toString()
+// const time2 = new Date().setHours(2).toString()
+// const date = date1.toString()
 
 
-const date1 = new Date()
-date1.setHours(0, 0, 0, 0);
-const tomorrow = new Date(date1.getDate()+1).toString()
-const time1 = new Date().setHours(1).toString()
-const time2 = new Date().setHours(2).toString()
-const date = date1.toString()
 
-
-const state = {
-  calendar: {
-    calendarItems: [
-      { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-      { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-      { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-      { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date, dateTo: tomorrow},
-      { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: tomorrow, dateTo: tomorrow },
-      { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow}
-    ]
-  },
-  items: {
-    todos: [
-      {
-        id: 1,
-        title: "corge",
-        todoItems: [
-          { value: 'foo', state: true },
-          { value: 'bar', state: false },
-          { value: 'baz', state: false }
-        ]
-      }
-    ],
-    notes: [
-      { id: 1, title: 'FOO', value: 'foo' },
-      { id: 2, title: 'BAR', value: 'bar' },
-      { id: 3, title: 'BAZ', value: 'baz' }
-    ]
-  },
-  wall: {
-    wallItems: [
-      { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-      { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-      { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-      { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1},
-      { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2},
-    ]
-  },
-  today: {
-    calendarItems: [
-      { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-      { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-      { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
-    ]
-  },
-  user: {
-    details: {
-      displayName: 'alice',
-      telephoneNumber: '07123 456789',
-      email: 'foo@bar.baz',
-    },
-    friends: {
-      list: [
-        { name: 'bob', status: 'friend' },
-        { name: 'charlie', status: 'unfollowed' },
-        { name: 'dan', status: 'blocked' },
-        { name: 'edd', status: 'pending' }
-      ]
-    },
-
-    authentication: {
-      authToken: "1234567890",
-      isLoggedIn: true,
-      customer_id: 1,
-      userAlreadyExists: false,
-    },
-    pfp: { data: '00 00 00 00' }
-  },
-
-};
 
 
 // selectors to test
@@ -109,7 +40,8 @@ describe('items', () => {
       const expected = [
         { id: 1, title: 'FOO', value: 'foo' },
         { id: 2, title: 'BAR', value: 'bar' },
-        { id: 3, title: 'BAZ', value: 'baz' }
+        { id: 3, title: 'BAZ', value: 'baz' },
+        { id: 4, title: 'QUX', value: 'qux' },
       ]
       const selectedItems = selectNotes(state);
 
@@ -130,6 +62,7 @@ describe('display', () => {
         { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
         { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1 },
         { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2 },
+        { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: time3 },
       ]
 
       const selectedItems = selectWall(state);
@@ -147,9 +80,9 @@ describe('display', () => {
   describe('Today Selector', () => {
     test('returns todays items', () => {
       const expected = [
-        { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-        { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-        { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+        { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
       ]
       const selectedItems = selectToday(state);
 
@@ -170,9 +103,9 @@ describe('Calendar Selector', () => {
         { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
         { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
         { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date, dateTo: tomorrow},
+        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: tomorrow, dateTo: tomorrow },
         { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: tomorrow, dateTo: tomorrow },
-        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow}
+        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow },
       ]
     );
   });
@@ -269,3 +202,4 @@ describe('User Authentication Selector', () => {
   });
 
 })
+
