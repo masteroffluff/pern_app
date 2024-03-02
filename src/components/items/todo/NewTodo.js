@@ -43,13 +43,13 @@ export default function NewTodo() {
 
     const submitTodo=(e)=>{
         e.preventDefault()
-        dispatch(itemsTodoAdd({ title: 'New Todo', notes:'', items: [{ value: 'foo', done: false }, { value: 'bar', done: false }] }))
+        dispatch(itemsTodoAdd({ title, notes, items:todoItems }))
     }
 
     return <div data-testid="newTodo">
         <h3>Add Todo</h3>
         <form onSubmit={submitTodo}>
-            <label htmlFor="title">title</label>
+            <label htmlFor="title">Title</label>
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} />
 
             <label htmlFor="value">To Do Notes</label>
@@ -60,8 +60,8 @@ export default function NewTodo() {
                         <button aria-label="Remove Todo Item" value="Remove Todo Item" onClick={(e) => removeTodoItem(e, index)} /></li>)}
                 </ul>
             </div>
-            <label htmlFor="value">New Item</label>
-            <input data-testid="newItem" type='text' id='value' onChange={newItemUpdate} value={newItem} />
+            <label htmlFor="newItem">New Item</label>
+            <input data-testid="newItem" type='text' id='newItem' onChange={newItemUpdate} value={newItem} />
             <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem} />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' />
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />

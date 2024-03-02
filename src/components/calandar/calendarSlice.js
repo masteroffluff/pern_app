@@ -41,10 +41,11 @@ export const calendarFetch = createAsyncThunk(
 
 export const calendarPost = createAsyncThunk(
     'calendarPost',
-    async ({ title,type, value, place, dateFrom, dateTo}, { rejectWithValue }) => {
+    async ({ title,type, notes, place, dateFrom, dateTo, attendees}, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
+        const authToken = getState().user.authentication.authToken
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -52,6 +53,15 @@ export const calendarPost = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                type,
+                title,
+                notes,
+                place,
+                dateFrom,
+                dateTo,
+                attendees
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)

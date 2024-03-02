@@ -37,10 +37,11 @@ export const itemsNoteFetch = createAsyncThunk(
 
 export const itemsNoteAdd = createAsyncThunk(
     'itemsNoteAdd',
-    async ({ authToken }, { rejectWithValue }) => {
+    async ({ title,notes }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
+        const authToken = getState().user.authentication.authToken
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -48,6 +49,10 @@ export const itemsNoteAdd = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                title,
+                notes
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -117,16 +122,17 @@ export const itemsTodoFetch = createAsyncThunk(
 
 export const itemsTodoAdd = createAsyncThunk(
     'itemsTodoAdd',
-    async ({ title,notes,items }, { rejectWithValue }) => {
+    async ({ title,notes,items }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
+        const authToken = getState().user.authentication.authToken
         const options = {
             method: 'POST',
             credentials: 'include',
             headers: {
-                // "Content-Type": "application/json; charset=utf-8",
-                // 'Authorization': 'Bearer ' + authToken,
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
 
             },
             body:{

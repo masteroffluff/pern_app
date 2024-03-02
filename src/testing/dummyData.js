@@ -1,12 +1,15 @@
 const date1 = new Date()
 date1.setHours(0, 0, 0, 0);
-const tomorrow = new Date(date1.getDate()+1).toString()
+const date = date1.toISOString().split('T')[0];
+const tomorrow1 = new Date()
+tomorrow1.setDate(date1.getDate() + 1)
+const tomorrow = tomorrow1.toISOString().split('T')[0];
 const time1 = new Date().setHours(1).toString()
 const time2 = new Date().setHours(2).toString()
 const time3 = new Date().setHours(3).toString()
-const date = date1.toString()
 
-export {date, tomorrow, time1, time2, time3}
+
+export { date, tomorrow, time1, time2, time3 }
 
 const dummyStore = {
     calendar: {

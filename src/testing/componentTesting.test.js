@@ -182,8 +182,8 @@ describe('component Tests', () => {
 
         });
         // - has a button marked "Invite attendees"
-        it('has textbox labelled "Invite Attendees"', () => {
-            expect(screen.getByLabelText("Invite Attendees")).toBeInTheDocument();
+        it('has button labelled "Invite Attendees"', () => {
+            expect(screen.getByTestId("invite-attendee")).toBeInTheDocument();
 
         });
         // - has textbox to contain the list of attendees
