@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, cleanup, querySelector } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 // import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo } from '../components/items'

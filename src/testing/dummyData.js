@@ -67,10 +67,10 @@ const dummyStore = {
         },
         friends: {
             list: [
-                { name: 'bob', status: 'friend' },
-                { name: 'charlie', status: 'unfollowed' },
-                { name: 'dan', status: 'blocked' },
-                { name: 'edd', status: 'pending' }
+                { id:2 ,name: 'bob', status: 'friend' },
+                { id:3 , name: 'charlie', status: 'unfollowed' },
+                { id:4 , name: 'dan', status: 'blocked' },
+                { id:5 , name: 'edd', status: 'pending' }
             ]
         },
 
@@ -85,3 +85,4 @@ const dummyStore = {
 };
 
 export default dummyStore; 
+

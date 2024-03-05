@@ -5,12 +5,11 @@ import { Provider } from 'react-redux';
 //import configureStore from 'redux-mock-store';
 import { setupStore } from '../store'
 
-import { calendarPost } from '../components/calandar/calendarSlice';
 import { NewAppointment, NewEvent, NewReminder } from '../components/calandar';
 import { NewNote, NewTodo } from '../components/items/index.js';
 
 
-import dummyStore, { date, tomorrow, time1, time2, time3 } from './dummyData.js'
+import dummyStore, { date, tomorrow  } from './dummyData.js'
 
 import apiFetch from '../utils/apiFetch'; // Import the apifetch function
 

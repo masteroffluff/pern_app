@@ -7,7 +7,8 @@ const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env
 const initialState ={
     list:[],
     isLoading:false,
-    hasError: null
+    hasError: null,
+    potentials:[]
 }
 
 const name = "friends"
@@ -31,6 +32,26 @@ export const friendsFetch = createAsyncThunk(
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
+
+export const friendsPotential = createAsyncThunk(
+    'friendsPotential',
+    async ({ authToken }, { rejectWithValue }) => {
+
+        const endPoint = `${apiUrl}/friends/potential`
+        //console.log (endPoint)
+        const options = {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
+
+            }
+        };
+        return await apiFetch(endPoint, options, rejectWithValue)
+    }
+)
+
 // // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
 
 export const friendsAdd = createAsyncThunk(
@@ -52,6 +73,8 @@ export const friendsAdd = createAsyncThunk(
     }
 )
 
+
+
 // // update  /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
 
 export const friendConfirm = createAsyncThunk(
@@ -61,7 +84,7 @@ export const friendConfirm = createAsyncThunk(
         const endPoint = `${apiUrl}/friends/confirm`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -82,7 +105,7 @@ export const friendsUnfollow = createAsyncThunk(
         const endPoint = `${apiUrl}/friends/unfollow`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -103,7 +126,7 @@ export const friendsBlock = createAsyncThunk(
         const endPoint = `${apiUrl}/friends/block`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -123,6 +146,11 @@ export const friendsSlice = createSlice({
     extraReducers:
         (builder) => {
             builder
+                .addCase(friendsPotential.fulfilled,(state, action)=>{
+                    state.isLoading = false;
+                    state.hasError = null;
+                    state.potentials = action.payload;                   
+                })
                 .addMatcher(isAnyOf(
                     friendsFetch.fulfilled,    
                     friendsAdd.fulfilled,     

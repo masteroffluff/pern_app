@@ -152,7 +152,7 @@ describe('seleced freinds', () => {
 
     const selectedItems = selectFriends_Live(state);
 
-    expect(selectedItems).toEqual([{ name: 'bob', status: 'friend' }]);
+    expect(selectedItems).toEqual([{ id:2, name: 'bob', status: 'friend' }]);
   });
   // selectFriends_Blocked
   //     - returns list of users friends that are blocked
@@ -160,7 +160,7 @@ describe('seleced freinds', () => {
 
     const selectedItems = selectFriends_Blocked(state);
 
-    expect(selectedItems).toEqual([{ name: 'dan', status: 'blocked' }]);
+    expect(selectedItems).toEqual([{ id:4, name: 'dan', status: 'blocked' }]);
   });
   // selectFriends_Unfollowed
   //     - returns list of users friends that are unfollowed
@@ -168,7 +168,7 @@ describe('seleced freinds', () => {
 
     const selectedItems = selectFriends_Unfollowed(state);
 
-    expect(selectedItems).toEqual([{ name: 'charlie', status: 'unfollowed' }]);
+    expect(selectedItems).toEqual([{ "id": 3, name: 'charlie', status: 'unfollowed' }]);
   });
   // selectFriends_Pending
   //     - returns list of users friends that are pending
@@ -176,7 +176,7 @@ describe('seleced freinds', () => {
 
     const selectedItems = selectFriends_Pending(state);
 
-    expect(selectedItems).toEqual([{ name: 'edd', status: 'pending' }]);
+    expect(selectedItems).toEqual([{ "id": 5, name: 'edd', status: 'pending' }]);
   });
 
 })
