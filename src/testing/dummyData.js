@@ -67,11 +67,16 @@ const dummyStore = {
         },
         friends: {
             list: [
-                { id:2 ,name: 'bob', status: 'friend' },
-                { id:3 , name: 'charlie', status: 'unfollowed' },
-                { id:4 , name: 'dan', status: 'blocked' },
-                { id:5 , name: 'edd', status: 'pending' }
-            ]
+                { id: 2, name: 'bob', status: 'friend' },
+                { id: 3, name: 'charlie', status: 'unfollowed' },
+                { id: 4, name: 'dan', status: 'blocked' },
+                { id: 5, name: 'edd', status: 'pending' }
+            ],
+            potential: [
+                { name: 'frank', id: 7 },
+                { name: 'gertie', id: 8 },
+                { name: 'helen', id: 9 },
+            ],
         },
 
         authentication: {
@@ -84,5 +89,5 @@ const dummyStore = {
     },
 };
 
-export default dummyStore; 
+export default dummyStore;
 

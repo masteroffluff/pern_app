@@ -156,7 +156,8 @@ export const friendsSlice = createSlice({
                     friendsAdd.fulfilled,     
                     friendConfirm.fulfilled,  
                     friendsUnfollow.fulfilled,
-                    friendsBlock.fulfilled  
+                    friendsBlock.fulfilled,
+
 
                     ),
                     (state, action) => {
@@ -172,7 +173,8 @@ export const friendsSlice = createSlice({
                         friendsAdd.pending,     
                         friendConfirm.pending,  
                         friendsUnfollow.pending,
-                        friendsBlock.pending  
+                        friendsBlock.pending,
+                        friendsPotential.pending
                         ),
                     (state) => {
                         state.isLoading = true;
@@ -185,7 +187,8 @@ export const friendsSlice = createSlice({
                         friendsAdd.rejected,     
                         friendConfirm.rejected,  
                         friendsUnfollow.rejected,
-                        friendsBlock.rejected  
+                        friendsBlock.rejected,
+                        friendsPotential.rejected
                     ),
                     (state, action) => {
                         //console.log(action)

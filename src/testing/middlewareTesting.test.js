@@ -340,6 +340,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
         const action = friendsPotential.pending();
 
@@ -358,12 +359,13 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const friendsData = [
-          { name: 'bob', status: 'friend' },
-          { name: 'charlie', status: 'unfollow' },
-          { name: 'dan', status: 'blocked' },
+          { name: 'frank', id:7 },
+          { name: 'gertie', id:8 },
+          { name: 'helen', id:9 },
         ]
 
 
@@ -374,7 +376,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the fulfilled action
         //console.log('friendsFetch.fulfilled', newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(friendsData);
+        expect(newState.potentials).toEqual(friendsData);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////
@@ -383,6 +385,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch friend details';
@@ -406,6 +409,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
         const action = friendsFetch.pending();
 
@@ -449,6 +453,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch user details';
@@ -471,8 +476,9 @@ describe('dispatch tests', () => {
       it('should handle friendsAdd.pending', () => {
         const initialState = {
           list: [],
-          isLoading: false,
+          isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const newState = friends(initialState, friendsAdd.pending());
@@ -512,6 +518,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch user details';
@@ -532,8 +539,9 @@ describe('dispatch tests', () => {
       it('should handle friendConfirm.pending', () => {
         const initialState = {
           list: [],
-          isLoading: false,
+          isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const newState = friends(initialState, friendConfirm.pending());
@@ -574,6 +582,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch user details';
@@ -594,8 +603,9 @@ describe('dispatch tests', () => {
       it('should handle friendsUnfollow.pending', () => {
         const initialState = {
           list: [],
-          isLoading: false,
+          isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const newState = friends(initialState, friendsUnfollow.pending());
@@ -611,6 +621,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const friendsData = [
@@ -635,6 +646,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch user details';
@@ -655,8 +667,9 @@ describe('dispatch tests', () => {
       it('should handle friendsBlock.pending', () => {
         const initialState = {
           list: [],
-          isLoading: false,
+          isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const newState = friends(initialState, friendsAdd.pending());
@@ -672,6 +685,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const friendsData = [
@@ -696,6 +710,7 @@ describe('dispatch tests', () => {
           list: [],
           isLoading: true,
           hasError: null,
+          potentials: []
         }
 
         const errorMessage = 'Failed to fetch user details';
