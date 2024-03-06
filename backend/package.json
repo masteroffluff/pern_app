@@ -1,0 +1,16 @@
+{
+    "name": "pern-app",
+    "version": "3.0.3",
+    "description": "Basic planner app  with small amout of social media functionality",
+    "license": "UNLICENSED",
+    
+    "private": true,
+    "main": "index.js",
+    "scripts": {
+        "prestart": "npm install --only=prod",
+        "start": "node index.js"    },
+    "dependencies": {
+        "express": "^4.18.0",
+        "@oas-tools/core": "^3.0.0"
+    }
+}

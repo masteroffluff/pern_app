@@ -343,6 +343,8 @@ paths:
             schema:
               $ref: '#/components/schemas/newCalendar'
       responses:
+        200:
+          description: return calendar items 
         default:
           description: Default error sample response
       tags:
@@ -380,8 +382,10 @@ paths:
     get:
       summary: ''
       description: ''
-      operationId: ''
+      operationId: get_today
       responses:
+        200:
+          description: return todays calendar items 
         default:
           description: Default error sample response
 components:

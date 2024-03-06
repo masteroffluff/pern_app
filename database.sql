@@ -62,7 +62,7 @@ CREATE TABLE "Friends" (
   PRIMARY KEY(user_first_id,user_second_id)
 );
 
-CREATE TABLE "friends_status" (
+CREATE TABLE "Friends_status" (
   "id" int PRIMARY KEY,
   "status" varchar
 );
@@ -83,4 +83,19 @@ ALTER TABLE "Todo_Items" ADD FOREIGN KEY ("item_id") REFERENCES "Items" ("id");
 
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_first_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_second_id") REFERENCES "Users" ("id");
-ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "friends_status" ("id");
+ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
+
+INSERT INTO "Item_type" (id, type)
+VALUES
+(1, 'note'),
+(2, 'todo'),
+(3, 'reminder'),
+(4, 'appointment'),
+(5, 'event');
+
+INSERT INTO "Friends_status" (id, status)
+VALUES
+(0, 'pending'),
+(1, 'confirmed'),
+(2, 'blocked'),
+(3, 'unfollowed');
