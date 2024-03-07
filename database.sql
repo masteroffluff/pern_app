@@ -85,6 +85,8 @@ ALTER TABLE "Friends" ADD FOREIGN KEY ("user_first_id") REFERENCES "Users" ("id"
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_second_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
 
+-- populate state tables
+
 INSERT INTO "Item_type" (id, type)
 VALUES
 (1, 'note'),
@@ -99,3 +101,32 @@ VALUES
 (1, 'confirmed'),
 (2, 'blocked'),
 (3, 'unfollowed');
+
+-- add trigger to make sure friends are always paired
+CREATE OR REPLACE FUNCTION check_reverse_friendship() RETURNS TRIGGER AS $$
+BEGIN
+    -- Check if the reverse friendship exists
+    IF EXISTS (
+        SELECT 1 FROM "Friends"
+        WHERE "user_first_id" = NEW.user_second_id
+        AND "user_second_id" = NEW.user_first_id
+    ) THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Reverse friendship does not exist.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER enforce_reverse_friendship
+AFTER INSERT ON "Friends"
+FOR EACH ROW
+EXECUTE FUNCTION check_reverse_friendship();
+
+CREATE TRIGGER enforce_reverse_friendship_delete
+AFTER DELETE ON "Friends"
+FOR EACH ROW
+EXECUTE FUNCTION check_reverse_friendship();
+
+CREATE UNIQUE INDEX enforce_unique_friendship
+ON "Friends" (LEAST("user_first_id", "user_second_id"), GREATEST("user_first_id", "user_second_id"));

@@ -67,7 +67,7 @@ paths:
         - bearerAuth: []
       responses:
         default:
-          description: USer details
+          description: User details
           content:
             application/json:
               examples:

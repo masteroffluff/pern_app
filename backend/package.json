@@ -3,14 +3,24 @@
     "version": "3.0.3",
     "description": "Basic planner app  with small amout of social media functionality",
     "license": "UNLICENSED",
-    
     "private": true,
     "main": "index.js",
     "scripts": {
         "prestart": "npm install --only=prod",
-        "start": "node index.js"    },
+        "start": "node index.js"
+    },
     "dependencies": {
+        "@oas-tools/core": "^3.0.0",
+        "bcrypt": "^5.1.1",
         "express": "^4.18.0",
-        "@oas-tools/core": "^3.0.0"
+        "connect": "^3.2.0",
+        "connect-pg-simple": "^9.0.1",
+        "passport": "^0.7.0",
+        "passport-github2": ">= 0.0.0",
+        "passport-jwt": "^4.0.1",
+        "passport-local": "^1.0.0",
+        "pg": "^8.11.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1"
     }
 }

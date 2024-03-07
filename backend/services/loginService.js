@@ -5,8 +5,7 @@ module.exports.funclogin = function funclogin(req, res) {
 }
 
 module.exports.post_login = function post_login(req, res) {
-    res.send({
-        message: 'This is the mockup controller for post_login'
-    });
+    const loginDetails = res.locals.oas.security.basicAuth
+    
 }
 
