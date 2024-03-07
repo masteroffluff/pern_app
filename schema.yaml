@@ -12,8 +12,6 @@ paths:
       description: >-
         Logs the user into the database based on email address and password
         returns the id of the customer.
-      security:
-        - basicAuth: []
       operationId: post_login
       responses:
         '201':
@@ -67,7 +65,7 @@ paths:
         - bearerAuth: []
       responses:
         default:
-          description: USer details
+          description: User details
           content:
             application/json:
               examples:
@@ -390,9 +388,6 @@ paths:
           description: Default error sample response
 components:
   securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
     bearerAuth:
       type: http
       scheme: bearer

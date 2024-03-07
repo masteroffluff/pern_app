@@ -69,7 +69,7 @@ CREATE TABLE "Friends_status" (
 
 ALTER TABLE "Items" ADD FOREIGN KEY ("type") REFERENCES "Item_type" ("id");
 
-ALTER TABLE "Users" ADD FOREIGN KEY ("id") REFERENCES "User_PFP" ("id");
+ALTER TABLE "User_PFP" ADD FOREIGN KEY ("id") REFERENCES "Users" ("id");
 
 ALTER TABLE "Items" ADD FOREIGN KEY ("creator_id") REFERENCES "Users" ("id");
 
@@ -84,6 +84,18 @@ ALTER TABLE "Todo_Items" ADD FOREIGN KEY ("item_id") REFERENCES "Items" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_first_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_second_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
+
+-- set up session table
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 -- populate state tables
 
@@ -130,3 +142,10 @@ EXECUTE FUNCTION check_reverse_friendship();
 
 CREATE UNIQUE INDEX enforce_unique_friendship
 ON "Friends" (LEAST("user_first_id", "user_second_id"), GREATEST("user_first_id", "user_second_id"));
+
+-- set up role for users
+CREATE ROLE user1 WITH LOGIN PASSWORD 'mypassword';
+GRANT USAGE ON SCHEMA public TO user1;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO user1;
+GRANT INSERT,DELETE,UPDATE ON "Users", "User_PFP", "Items", "Shared_To", "Calendar_Details", "Attending", "Todo_Items", "Friends", "session" TO user1;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO user1;
