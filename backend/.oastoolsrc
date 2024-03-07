@@ -1,6 +1,6 @@
 {
     "packageJSON": "package.json",
-    "oasFile": "api/schema.yaml",
+    "oasFile": "api/schema2.yaml",
     "useAnnotations": false,
     "logger": {
         "customLogger": null,

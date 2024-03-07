@@ -4,9 +4,9 @@ module.exports.funcfriends = function funcfriends(req, res) {
     });
 }
 
-module.exports.get_friends = function get_friends(req, res) {
+module.exports.get_friend = function get_friend(req, res) {
     res.send({
-        message: 'This is the mockup controller for get_friends'
+        message: 'This is the mockup controller for get_friend'
     });
 }
 

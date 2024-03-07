@@ -4,8 +4,8 @@ module.exports.funcfriends = function funcfriends(req, res) {
     service.funcfriends(req, res);
 }
 
-module.exports.get_friends = function get_friends(req, res) {
-    service.get_friends(req, res);
+module.exports.get_friend = function get_friend(req, res) {
+    service.get_friend(req, res);
 }
 
 module.exports.add_friend = function add_friend(req, res) {
