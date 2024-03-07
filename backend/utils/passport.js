@@ -121,7 +121,7 @@ passport.deserializeUser((token, done) => {
         return done(err);
       }
       const identifier = decoded; // Assuming the decoded token contains the identifier directly
-          console.log('deserializeUser local'+ decoded)
+          console.log('deserializeUser local', decoded)
           userService.findById(identifier.sub, (err, user) => {
             if (err) return done(err);
             done(null, user);

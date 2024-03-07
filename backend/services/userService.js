@@ -12,6 +12,7 @@ module.exports.funcuser = function funcuser(req, res) {
 }
 
 module.exports.get_user = function get_user(req, res) {
+  //res.setHeader('content-type', 'application/json;charset=utf-8');
   res.send({
     message: 'This is the mockup controller for get_user'
   });

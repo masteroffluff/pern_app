@@ -82,6 +82,8 @@ paths:
     put:
       summary: update the user
       description: update the user's details
+      security:
+        - bearerAuth: []
       operationId: update_user
       responses:
         default:
@@ -391,6 +393,7 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: 'JWT'
   schemas:
     friend:
       type: object
