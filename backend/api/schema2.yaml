@@ -13,6 +13,11 @@ paths:
         Logs the user into the database based on email address and password
         returns the id of the customer.
       operationId: post_login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
       responses:
         '201':
           description: User found
@@ -351,6 +356,13 @@ components:
       scheme: bearer
       bearerFormat: 'JWT'
   schemas:
+    login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string  
     friend:
       type: object
       properties:

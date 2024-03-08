@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const userService = require("../services/userService");
+const userHelperFunctions = require('../utils/userHelperFunctions')
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const GitHubStrategy = require("passport-github2").Strategy;
@@ -9,30 +9,30 @@ const GitHubStrategy = require("passport-github2").Strategy;
 const jwt = require('jsonwebtoken');
 
 // Set up the Passport strategy:
-passport.use(new LocalStrategy(
-  function (username, password, done) {
-    // Look up user in the db
-    console.log('logging in user ' + username)
-    userService.findByUsername(username, async (err, user) => {
-      // If there's an error in db lookup,
-      // return err callback function
-      if(err) return done(err);
-       // If user not found,
-      // return null and false in callback
-      console.log ("no errors checking user exists")
-      if(!user) return done(null, false);
-       // If user found, but password not valid,
-      // return err and false in callback
-      console.log ("user exists checking password")
-      const matchFound = await bcrypt.compare(password, user.password);
-      if(!matchFound) return done(null, false);
-       // If user found and password valid,
-      // return the user object in callback
-      console.log ("authentication successful")
-      return done(null, user)
-    });
-  })
-);
+// passport.use(new LocalStrategy(
+//   function (username, password, done) {
+//     // Look up user in the db
+//     console.log('logging in user ' + username)
+//     userHelperFunctions.findByUsername(username, async (err, user) => {
+//       // If there's an error in db lookup,
+//       // return err callback function
+//       if(err) return done(err);
+//        // If user not found,
+//       // return null and false in callback
+//       console.log ("no errors checking user exists")
+//       if(!user) return done(null, false);
+//        // If user found, but password not valid,
+//       // return err and false in callback
+//       console.log ("user exists checking password")
+//       const matchFound = await bcrypt.compare(password, user.password);
+//       if(!matchFound) return done(null, false);
+//        // If user found and password valid,
+//       // return the user object in callback
+//       console.log ("authentication successful")
+//       return done(null, user)
+//     });
+//   })
+// );
 
 // JWT Strategy Configuration
 passport.use(
@@ -45,7 +45,7 @@ passport.use(
       try {
         // Look up user id in database.
         console.log("payload: "+ JSON.stringify (jwt_payload))
-        userService.findById(jwt_payload.sub, function (err, user) {
+        userHelperFunctions.findById(jwt_payload.sub, function (err, user) {
           if (err) return done(err);
           
           done(null, user);
@@ -56,6 +56,22 @@ passport.use(
     }
   )
 );
+
+// passport.use(new JwtStrategy({
+//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//   secretOrKey: process.env.SECRET_KEY
+// }, async (jwtPayload, done) => {
+//   try {
+//     const user = await userHelperFunctions.findById(jwtPayload.id);
+//     if (user) {
+//       return done(null, user);
+//     } else {
+//       return done(null, false);
+//     }
+//   } catch (error) {
+//     return done(error, false);
+//   }
+// }));
 
 // Use the GitHubStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -69,7 +85,7 @@ passport.use(new GitHubStrategy({
 async function(accessToken, refreshToken, profile, done) {
       
     console.log({accessToken, refreshToken, profile, done})
-    await userService.findByGitHubId(profile.id,done)
+    await userHelperFunctions.findByGitHubId(profile.id,done)
     
 
 }
@@ -91,7 +107,7 @@ passport.serializeUser((user, done) => {
         }
         console.log('Generated token:', token);
         user.token = token
-        done(null, token);
+        done(null, user);
       });
     }else{
 /*       tempUser ={
@@ -122,13 +138,13 @@ passport.deserializeUser((token, done) => {
       }
       const identifier = decoded; // Assuming the decoded token contains the identifier directly
           console.log('deserializeUser local', decoded)
-          userService.findById(identifier.sub, (err, user) => {
+          userHelperFunctions.findById(identifier.sub, (err, user) => {
             if (err) return done(err);
             done(null, user);
           });    
     });
     }else{
-      done(null,token)
+      done(null,null)
     }
     
   } catch (error) {

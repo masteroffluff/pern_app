@@ -85,18 +85,6 @@ ALTER TABLE "Friends" ADD FOREIGN KEY ("user_first_id") REFERENCES "Users" ("id"
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_second_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
 
--- set up session table
-CREATE TABLE "session" (
-  "sid" varchar NOT NULL COLLATE "default",
-  "sess" json NOT NULL,
-  "expire" timestamp(6) NOT NULL
-)
-WITH (OIDS=FALSE);
-
-ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-CREATE INDEX "IDX_session_expire" ON "session" ("expire");
-
 -- populate state tables
 
 INSERT INTO "Item_type" (id, type)

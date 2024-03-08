@@ -12,16 +12,16 @@
     "dependencies": {
         "@oas-tools/core": "^3.0.0",
         "bcrypt": "^5.1.1",
-        "express": "^4.18.0",
-        "express-session": "^1.17.3",
         "connect": "^3.2.0",
         "connect-pg-simple": "^9.0.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.0",
+        "express-session": "^1.17.3",
         "passport": "^0.7.0",
         "passport-github2": ">= 0.0.0",
         "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
-        "pg": "^8.11.3",
-        "cors": "^2.8.5",
-        "dotenv": "^16.3.1"
+        "pg": "^8.11.3"
     }
 }
