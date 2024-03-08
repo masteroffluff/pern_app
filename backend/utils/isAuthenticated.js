@@ -11,7 +11,7 @@ const isAuthenticated = (req, res, next) => {
           req.info = info;
           reject('not authenticated');
         } else {
-          console.log("isAuthenticated User:", user);
+          //console.log("isAuthenticated User:", user);
           req.user = user;
           resolve(true);
         }
