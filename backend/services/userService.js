@@ -13,17 +13,18 @@ module.exports.funcuser = function funcuser(req, res) {
 }
 
 module.exports.get_user = function get_user(req, res) {
-  isAuthenticated(req, res).then(() => {
+  try{
+    console.log('getuser')
     const { id, display_name, email, phone_no } = req.user
     return res.send({ id, display_name, email, phone_no })
-  }).catch((e) => {
-    console.log('rejected', e, req.info)
-    return res.status(401).send(e)
-  })
+  }catch(e){
+    console.log('get_user error', e)
+    return res.status(400).send(e)
+  }
 }
 
-module.exports.update_user = function update_user(req, res) {
-  isAuthenticated(req, res).then(async () => {
+module.exports.update_user = async function update_user(req, res) {
+  try {
     const { display_name, email, phone_no } = req.body
     const { id } = req.user
     const username_taken = await userHelperFunctions.findIfUserNameAlreadTaken(display_name)
@@ -39,10 +40,10 @@ module.exports.update_user = function update_user(req, res) {
     const udatedUser = await userHelperFunctions.updateUserDetails(id, newDisplay_name, newEmail, newPhone_no)
     return res.send(udatedUser)
 
-  }).catch((e) => {
-    console.log('rejected', e, req.info)
-    return res.status(401).send(e)
-  })
+  }catch(e){
+    console.log('update_user error', e)
+    return res.status(400).send(e)
+  }
 
 
   return

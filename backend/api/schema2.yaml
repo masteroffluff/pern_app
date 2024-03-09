@@ -161,6 +161,9 @@ paths:
           name: action
           schema:
             type: string
+            enum:
+              - confirm
+              - unfollow            
           required: true
           description: action type to take on listed freind
       requestBody:
@@ -171,11 +174,6 @@ paths:
       responses:
         '200':
           description: A list of the users freinds
-          content:
-            application/json:
-              examples:
-                basic list:
-                  $ref: '#/components/examples/listOfFriends'
         default:
           description: Default error sample response
       tags:

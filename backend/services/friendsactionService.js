@@ -5,8 +5,9 @@ module.exports.funcfriendsaction = function funcfriendsaction(req, res) {
 }
 
 module.exports.confirm_friend = function confirm_friend(req, res) {
+    const {action} = req.params
     res.send({
-        message: 'This is the mockup controller for confirm_friend'
+        message: `This is the mockup controller for confirm_friend/${action}`
     });
 }
 
