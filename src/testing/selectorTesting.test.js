@@ -2,7 +2,7 @@
 import { selectedUserDetails } from '../components/user/details/userDetailsSlice.js'
 import { selectUserPfp } from '../components/user/details/userPfpSlice.js'
 import { selectAuthToken, selectUserAlreadyExists, selectIsLoggedIn } from '../components/user/auth/userAuthSlice.js'
-import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed } from '../components/user/friends/userFreindsSlice.js'
+import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed,selectFriends_Sent } from '../components/user/friends/userFreindsSlice.js'
 import { selectCalendar } from '../components/calandar/calendarSlice.js'
 import { selectTodos, selectNotes } from '../components/items/itemSlice.js'
 import { selectWall } from '../components/mainPage/wallSlice.js'
@@ -153,6 +153,12 @@ describe('seleced freinds', () => {
     const selectedItems = selectFriends_Live(state);
 
     expect(selectedItems).toEqual([{ id:2, name: 'bob', status: 'friend' }]);
+  });
+  test('returns list of users friends that are sent', () => {
+
+    const selectedItems = selectFriends_Sent(state);
+
+    expect(selectedItems).toEqual([{ id: 5, name: 'faye', status: 'sent' }]);
   });
   // selectFriends_Blocked
   //     - returns list of users friends that are blocked

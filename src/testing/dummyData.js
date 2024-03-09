@@ -70,7 +70,8 @@ const dummyStore = {
                 { id: 2, name: 'bob', status: 'friend' },
                 { id: 3, name: 'charlie', status: 'unfollowed' },
                 { id: 4, name: 'dan', status: 'blocked' },
-                { id: 5, name: 'edd', status: 'pending' }
+                { id: 5, name: 'edd', status: 'pending' },
+                { id: 5, name: 'faye', status: 'sent' }
             ],
             potential: [
                 { name: 'frank', id: 7 },

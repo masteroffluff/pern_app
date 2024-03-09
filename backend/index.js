@@ -43,6 +43,8 @@ function do_auth_middleware(req, res, next) {
             console.log('rejected', e, req.info)
             return res.status(401).send(e)
         })
+    } else {
+        next()
     }
 
     //next();

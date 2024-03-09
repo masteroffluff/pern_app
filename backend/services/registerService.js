@@ -1,4 +1,4 @@
-const userHelperFunctions = require('../utils/userHelperFunctions')
+const userHelperFunctions = require('../utils/helperFunctions')
 const bcrypt = require("bcrypt");
 
 
@@ -11,7 +11,7 @@ module.exports.funcregister = function funcregister(req, res) {
 module.exports.post_register = async function post_register(req, res) {
 
     const { display_name, email, phone_no, password } = req.body
-    const username_taken = await userHelperFunctions.findIfUserNameAlreadTaken(display_name)
+    const username_taken = await userHelperFunctions.findIfUserNameExists(display_name)
     if (username_taken) {
         return res.status(401).send({ message: `Display Name ${display_name} already Taken` })
         

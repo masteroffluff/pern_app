@@ -9,7 +9,7 @@ module.exports.generate_jwt_token= function generate_jwt_token (id){
     return token
 }
 
-module.exports.findIfUserNameAlreadTaken = function findIfUserNameAlreadTaken(display_name) {
+module.exports.findIfUserNameExists = function findIfUserNameExists(display_name) {
     return db.queryPromisified('SELECT COUNT(*) AS A FROM "Users" WHERE display_name=$1', [display_name], 'findByUsername')
         .then((response) => {
             console.log('response', response.rows[0].a >= 1)
@@ -75,5 +75,25 @@ module.exports.updateUserDetails = async function updateUserDetails(id, display_
 }
 
 module.exports.findByThirdPartyId = async function findByThirdPartyId(id, third_party) {
+
+}
+
+module.exports.postWallNotification = async function (id, title, notes){
+    const now = new Date()
+    const sql =
+    `INSERT INTO "Items" ( type, creator_id, shared_to, title, notes, date )
+    VALUES ( 6, $1, 1, $2, $3, $4 );`
+    await db.queryPromisified(sql, [id, title, notes, now.toISOString()])
+}
+
+module.exports.getFreinds = async function getFreinds(id) {
+    const sql =
+    `SELECT "Users".id, "Users".display_name, "Friends_status".status
+    FROM "Users" 
+    JOIN "Friends" ON "Users".id = "Friends".user_second_id
+    JOIN "Friends_status" ON "Friends".status = "Friends_status".id
+    WHERE user_first_id = $1`
+    const response = await db.queryPromisified(sql, [id])
+    return  response.rows
 
 }

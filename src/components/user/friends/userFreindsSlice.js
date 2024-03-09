@@ -214,6 +214,6 @@ export const selectFriends_Live = createSelector(selectFreinds,(friends)=>friend
 export const selectFriends_Blocked = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'blocked'))
 export const selectFriends_Unfollowed = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'unfollowed'))
 export const selectFriends_Pending = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'pending'))
-
+export const selectFriends_Sent = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'sent'))
 
 export default friendsSlice.reducer

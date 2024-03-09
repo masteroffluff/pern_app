@@ -1,5 +1,5 @@
-const isAuthenticated = require('../utils/isAuthenticated')
-const userHelperFunctions = require('../utils/userHelperFunctions')
+//const isAuthenticated = require('../utils/isAuthenticated')
+const userHelperFunctions = require('../utils/helperFunctions')
 
 //const jwt = require('jsonwebtoken');
 //const util = require('util');
@@ -27,7 +27,7 @@ module.exports.update_user = async function update_user(req, res) {
   try {
     const { display_name, email, phone_no } = req.body
     const { id } = req.user
-    const username_taken = await userHelperFunctions.findIfUserNameAlreadTaken(display_name)
+    const username_taken = await userHelperFunctions.findIfUserNameExists(display_name)
     //console.log('username_taken', username_taken)
     if (username_taken) {
       return res.status(401).send({ message: `Display Name ${display_name} already Taken` })
@@ -46,6 +46,6 @@ module.exports.update_user = async function update_user(req, res) {
   }
 
 
-  return
+  
 }
 
