@@ -1,4 +1,13 @@
 const db = require('./db')
+const jwt = require('jsonwebtoken');
+
+module.exports.generate_jwt_token= function generate_jwt_token (id){
+    if(typeof id !='number'){
+        throw new Error({message:"unexpected token type"})
+    }
+    const token = jwt.sign({ sub: id }, process.env.SECRET_KEY, { expiresIn: '6h' });
+    return token
+}
 
 module.exports.findIfUserNameAlreadTaken = function findIfUserNameAlreadTaken(display_name) {
     return db.queryPromisified('SELECT COUNT(*) AS A FROM "Users" WHERE display_name=$1', [display_name], 'findByUsername')
@@ -36,6 +45,20 @@ module.exports.findByUsername = async function findByUsername(display_name) {
         return user
     } catch (err) {
         console.log("error in findByUsername:" + err)
+        return null
+    }
+}
+
+module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no){
+    try{
+    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no )
+                VALUES( $1, $2, $3, $4, $5, $6 )
+                RETURNING id`
+    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no])
+    const user = response.rows[0]
+    return user
+    }catch(e){
+        console.log(e)
         return null
     }
 }

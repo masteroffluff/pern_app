@@ -30,7 +30,7 @@ module.exports.update_user = function update_user(req, res) {
     //console.log('username_taken', username_taken)
     if (username_taken) {
       return res.status(401).send({ message: `Display Name ${display_name} already Taken` })
-
+      
     }
     const newDisplay_name = display_name || req.user.display_name
     const newEmail = email || req.user.email
