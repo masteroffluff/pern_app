@@ -9,7 +9,7 @@ import MainDisplay from '../components/mainPage/MainDisplay'
 import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from '../components/mainPage/subitems'
 import { UserDetails, UserDisplay, UserFriends } from '../components/user';
 
-import dummyStore, {date, tomorrow, time1, time2, time3} from './dummyData.js'
+import dummyStore, {date,  time1, time2, time3} from './dummyData.js'
 
 
 jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo, owner }) =>
