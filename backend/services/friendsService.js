@@ -23,12 +23,12 @@ module.exports.add_friend = async function add_friend(req, res) {
     try {
         console.log('add_friend')
         const { id: friendID, displayName: friendDisplayName } = req.body
-        const { id , display_name } = req.user
+        const { id, display_name } = req.user
         console.log('check friend exists')
         const friendExists = await helperFunctions.findIfUserNameExists(friendDisplayName)
         if (!friendExists) { throw new Error({ message: `${friendDisplayName} does not exist` }) }
         console.log('make sure relationship does not already exist')
-        const friendshipExists = await existingFriend(id , friendID)
+        const friendshipExists = await existingFriend(id, friendID)
         console.log('...')
         if (friendshipExists) { throw new Error({ message: `${friendDisplayName} is already a friend` }) }
         //add to fiends lists and don't forget to add the other dude too
@@ -36,7 +36,7 @@ module.exports.add_friend = async function add_friend(req, res) {
         await addFreinds(id, friendID)
         const friendsList = await helperFunctions.getFreinds(id)
         await helperFunctions.postWallNotification(id, `You have asked ${friendDisplayName} to be friends`, '')
-        await helperFunctions.postWallNotification(friendID, `${display_name} has asked to be freinds with you.` , 'Confirm on the Freinds page')
+        await helperFunctions.postWallNotification(friendID, `${display_name} has asked to be freinds with you.`, 'Confirm on the Freinds page')
         res.send(friendsList)
     } catch (e) {
         console.log('add_friend error', e)

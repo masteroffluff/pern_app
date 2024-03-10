@@ -78,12 +78,12 @@ module.exports.findByThirdPartyId = async function findByThirdPartyId(id, third_
 
 }
 
-module.exports.postWallNotification = async function (id, title, notes){
+module.exports.postWallNotification = async function (id, title, notes, client = db){
     const now = new Date()
     const sql =
     `INSERT INTO "Items" ( type, creator_id, shared_to, title, notes, date )
     VALUES ( 6, $1, 1, $2, $3, $4 );`
-    await db.queryPromisified(sql, [id, title, notes, now.toISOString()])
+    await client.query(sql, [id, title, notes, now.toISOString()])
 }
 
 module.exports.getFreinds = async function getFreinds(id) {
