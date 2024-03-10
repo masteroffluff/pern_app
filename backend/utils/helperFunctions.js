@@ -86,13 +86,13 @@ module.exports.postWallNotification = async function (id, title, notes, client =
     await client.query(sql, [id, title, notes, now.toISOString()])
 }
 
-module.exports.getFreinds = async function getFreinds(id) {
+module.exports.getfriends = async function getfriends(id) {
     const sql =
     `SELECT "Users".id, "Users".display_name, "Friends_status".status
     FROM "Users" 
-    JOIN "Friends" ON "Users".id = "Friends".user_second_id
+    JOIN "Friends" ON "Users".id = "Friends".friend_id
     JOIN "Friends_status" ON "Friends".status = "Friends_status".id
-    WHERE user_first_id = $1`
+    WHERE user_id = $1`
     const response = await db.queryPromisified(sql, [id])
     return  response.rows
 

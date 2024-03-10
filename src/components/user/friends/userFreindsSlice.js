@@ -12,7 +12,7 @@ const initialState ={
 }
 
 const name = "friends"
-// // get     /friends                    friendsSlice    friendsFetch     list of users freinds and their state (freind, unfollowed, blocked)
+// // get     /friends                    friendsSlice    friendsFetch     list of users friends and their state (friend, unfollowed, blocked)
 
 export const friendsFetch = createAsyncThunk(
     'friendsListFetch',
@@ -52,7 +52,7 @@ export const friendsPotential = createAsyncThunk(
     }
 )
 
-// // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
+// // post    /friends                    friendsSlice    friendsAdd       list of users friends and their state (friend, unfollowed, blocked)
 
 export const friendsAdd = createAsyncThunk(
     'friendsAdd',
@@ -75,7 +75,7 @@ export const friendsAdd = createAsyncThunk(
 
 
 
-// // update  /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/confirm            friendsSlice    friendConfirm    list of users friends and their state (friend, unfollowed, blocked)
 
 export const friendConfirm = createAsyncThunk(
     'friendsUpdate',
@@ -96,7 +96,7 @@ export const friendConfirm = createAsyncThunk(
     }
 )
 
-// // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users friends and their state (friend, unfollowed, blocked)
 
 export const friendsUnfollow = createAsyncThunk(
     'friendsUpdate',
@@ -117,7 +117,7 @@ export const friendsUnfollow = createAsyncThunk(
     }
 )
 
-// // update  /friends/block              friendsSlice    friendsBlock     list of users freinds and their state (freind, unfollowed, blocked)
+// // update  /friends/block              friendsSlice    friendsBlock     list of users friends and their state (friend, unfollowed, blocked)
 
 export const friendsBlock = createAsyncThunk(
     'friendsUpdate',
@@ -204,16 +204,16 @@ export const friendsSlice = createSlice({
 /* export const selectedfriendsId = (state) => state.friends.friends_id; */
 export const isLoadingfriends = (state) => state.user.friends.isLoading;
 export const hasErrorfriends = (state) => state.user.friends.hasError;
-const selectFreinds = (state) => state.user.friends.list
+const selectfriends = (state) => state.user.friends.list
 // export const selectFriends_Live = (state) => state.user.friends.list.filter((e)=>e.status === 'friend');
 // export const selectFriends_Blocked = (state) => state.user.friends.list.filter((e)=>e.status === 'blocked');;
 // export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
 // export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
 // memoizing friends selectors to improve efficiency
-export const selectFriends_Live = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'friend'))
-export const selectFriends_Blocked = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'blocked'))
-export const selectFriends_Unfollowed = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'unfollowed'))
-export const selectFriends_Pending = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'pending'))
-export const selectFriends_Sent = createSelector(selectFreinds,(friends)=>friends.filter((e)=>e.status === 'sent'))
+export const selectFriends_Live = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'friend'))
+export const selectFriends_Blocked = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'blocked'))
+export const selectFriends_Unfollowed = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'unfollowed'))
+export const selectFriends_Pending = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'pending'))
+export const selectFriends_Sent = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'sent'))
 
 export default friendsSlice.reducer

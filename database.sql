@@ -57,10 +57,10 @@ CREATE TABLE "Todo_Items" (
 );
 
 CREATE TABLE "Friends" (
-  "user_first_id" int,
-  "user_second_id" int,
+  "user_id" int,
+  "friend_id" int,
   "status" int,
-  PRIMARY KEY(user_first_id,user_second_id)
+  PRIMARY KEY(user_id,friend_id)
 );
 
 CREATE TABLE "Friends_status" (
@@ -82,8 +82,8 @@ ALTER TABLE "Calendar_Details" ADD FOREIGN KEY ("shared_to") REFERENCES "Shared_
 
 ALTER TABLE "Todo_Items" ADD FOREIGN KEY ("item_id") REFERENCES "Items" ("id");
 
-ALTER TABLE "Friends" ADD FOREIGN KEY ("user_first_id") REFERENCES "Users" ("id");
-ALTER TABLE "Friends" ADD FOREIGN KEY ("user_second_id") REFERENCES "Users" ("id");
+ALTER TABLE "Friends" ADD FOREIGN KEY ("user_id") REFERENCES "Users" ("id");
+ALTER TABLE "Friends" ADD FOREIGN KEY ("friend_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
 
 -- populate state tables
@@ -109,8 +109,8 @@ BEGIN
     -- Check if the reverse friendship exists
     IF EXISTS (
         SELECT 1 FROM "Friends"
-        WHERE "user_first_id" = NEW.user_second_id
-        AND "user_second_id" = NEW.user_first_id
+        WHERE "user_id" = NEW.friend_id
+        AND "friend_id" = NEW.user_id
     ) THEN
         RETURN NEW;
     ELSE
@@ -130,7 +130,7 @@ FOR EACH ROW
 EXECUTE FUNCTION check_reverse_friendship();
 
 CREATE UNIQUE INDEX enforce_unique_friendship
-ON "Friends" (LEAST("user_first_id", "user_second_id"), GREATEST("user_first_id", "user_second_id"));
+ON "Friends" (LEAST("user_id", "friend_id"), GREATEST("user_id", "friend_id"));
 
 -- set up role for users
 CREATE ROLE user1 WITH LOGIN PASSWORD 'mypassword';

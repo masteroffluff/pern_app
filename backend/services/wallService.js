@@ -1,3 +1,7 @@
+const helperFunctions = require('../utils/helperFunctions')
+const db = require('../utils/db')
+
+
 module.exports.funcwall = function funcwall(req, res) {
     res.send({
         message: 'This is the mockup controller for funcwall'

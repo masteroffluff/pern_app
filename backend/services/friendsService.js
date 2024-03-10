@@ -10,7 +10,7 @@ module.exports.funcfriends = function funcfriends(req, res) {
 module.exports.get_friend = async function get_friend(req, res) {
     try {
 
-        res.send(await helperFunctions.getFreinds(req.user.id));
+        res.send(await helperFunctions.getfriends(req.user.id));
 
     } catch (e) {
         console.log('get_friend error', e)
@@ -32,11 +32,11 @@ module.exports.add_friend = async function add_friend(req, res) {
         console.log('...')
         if (friendshipExists) { throw new Error({ message: `${friendDisplayName} is already a friend` }) }
         //add to fiends lists and don't forget to add the other dude too
-        console.log('adding freind and reverse relationship')
-        await addFreinds(id, friendID)
-        const friendsList = await helperFunctions.getFreinds(id)
+        console.log('adding friend and reverse relationship')
+        await addfriends(id, friendID)
+        const friendsList = await helperFunctions.getfriends(id)
         await helperFunctions.postWallNotification(id, `You have asked ${friendDisplayName} to be friends`, '')
-        await helperFunctions.postWallNotification(friendID, `${display_name} has asked to be freinds with you.`, 'Confirm on the Freinds page')
+        await helperFunctions.postWallNotification(friendID, `${display_name} has asked to be friends with you.`, 'Confirm on the friends page')
         res.send(friendsList)
     } catch (e) {
         console.log('add_friend error', e)
@@ -55,28 +55,28 @@ module.exports.update_friend = function update_friend(req, res) {
 
 // helper functions
 
-// async function getFreinds(id) {
+// async function getfriends(id) {
 //     const sql =
 //     `SELECT "Users".id, "Users".display_name, "Friends_status".status
 //     FROM "Users" 
-//     JOIN "Friends" ON "Users".id = "Friends".user_second_id
+//     JOIN "Friends" ON "Users".id = "Friends".friend_id
 //     JOIN "Friends_status" ON "Friends".status = "Friends_status".id
-//     WHERE user_first_id = $1`
+//     WHERE user_id = $1`
 //     const response = await db.queryPromisified(sql, [id])
 //     return  response.rows
 
 // }
 
 async function existingFriend(id, friendID) {
-    const sql = `SELECT COUNT(*) as fr FROM "Friends" WHERE user_first_id = $1 AND user_second_id = $2`
+    const sql = `SELECT COUNT(*) as fr FROM "Friends" WHERE user_id = $1 AND friend_id = $2`
     const response = await db.queryPromisified(sql, [id, friendID])
     return response.rows[0].fr > 0
 
 }
 
-async function addFreinds(id, friendID) {
+async function addfriends(id, friendID) {
     const sql =
-        `INSERT INTO "Friends" ( user_first_id, user_second_id, status )
+        `INSERT INTO "Friends" ( user_id, friend_id, status )
     VALUES ( $1, $2, 1 ),( $2, $1, 0 );`
     await db.queryPromisified(sql, [id, friendID])
 

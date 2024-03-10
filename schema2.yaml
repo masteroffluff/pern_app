@@ -6,17 +6,22 @@ info:
 paths:
   /login:
     summary: log in existing user
-    description: 'log in an existing user basis password and display name. '
+    description: "log in an existing user basis password and display name. "
     post:
-      summary: 'logs a user into the database returns the user id. '
+      summary: "logs a user into the database returns the user id. "
       description: >-
         Logs the user into the database based on email address and password
         returns the id of the customer.
       operationId: post_login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/login"
       responses:
-        '201':
+        "201":
           description: User found
-        '401':
+        "401":
           description: User/ password not accepted
         default:
           description: Default error sample response
@@ -29,7 +34,7 @@ paths:
       description: log user out and redirect them to the log in route.
       operationId: get_logout
       responses:
-        '200':
+        "200":
           description: ok
           content:
             text/plain; charset=utf-8:
@@ -44,10 +49,10 @@ paths:
     summary: register new user
     post:
       summary: adds new user
-      description: 'adds new user basis email, passowrd and display name. '
+      description: "adds new user basis email, passowrd and display name. "
       operationId: post_register
       responses:
-        '204':
+        "204":
           description: User created
         default:
           description: Default error sample response
@@ -86,7 +91,7 @@ paths:
       description: hearbeat to check system is running should always return '200'.
       operationId: get_heartbeat
       responses:
-        '200':
+        "200":
           description: ok
         default:
           description: Default error sample response
@@ -118,7 +123,7 @@ paths:
         - Friends
     put:
       summary: update a friend and return the updated list
-      description: ''
+      description: ""
       operationId: update_friend
       security:
         - bearerAuth: []
@@ -128,16 +133,16 @@ paths:
       tags:
         - Friends
   /friends/potential:
-    summary: list of potential freinds
-    description: 'list of other users for the user to look for people to connect to. '
+    summary: list of potential friends
+    description: "list of other users for the user to look for people to connect to. "
     get:
       summary: get a list of users the user is not friends with yet
-      description: ''
+      description: ""
       operationId: get_potentialFriends
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: list of potential friends
         default:
           description: Default error sample response
@@ -147,7 +152,7 @@ paths:
     summary: confirm friend
     put:
       summary: update a friend and return the updated list
-      description: ''
+      description: ""
       operationId: confirm_friend
       security:
         - bearerAuth: []
@@ -156,21 +161,22 @@ paths:
           name: action
           schema:
             type: string
+            enum:
+              - confirm
+              - unfollow
+              - block
+              - refollow
+              - unblock
           required: true
-          description: action type to take on listed freind
+          description: action type to take on listed friend
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/friend'
+              $ref: "#/components/schemas/friend"
       responses:
-        '200':
-          description: A list of the users freinds
-          content:
-            application/json:
-              examples:
-                basic list:
-                  $ref: '#/components/examples/listOfFriends'
+        "200":
+          description: A list of the users friends
         default:
           description: Default error sample response
       tags:
@@ -179,7 +185,7 @@ paths:
     summary: path for note items
     get:
       summary: gets a list of notes in descending date order
-      description: ''
+      description: ""
       operationId: get_notes
       security:
         - bearerAuth: []
@@ -199,7 +205,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/newNote'
+              $ref: "#/components/schemas/newNote"
       responses:
         default:
           description: Default error sample response
@@ -216,7 +222,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateNote'
+              $ref: "#/components/schemas/updateNote"
       responses:
         default:
           description: Default error sample response
@@ -227,7 +233,7 @@ paths:
     summary: path for todo items
     get:
       summary: gets a list of todos in descending date order
-      description: ''
+      description: ""
       operationId: get_todos
       security:
         - bearerAuth: []
@@ -247,7 +253,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/newTodo'
+              $ref: "#/components/schemas/newTodo"
       responses:
         default:
           description: Default error sample response
@@ -264,7 +270,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateTodo'
+              $ref: "#/components/schemas/updateTodo"
       responses:
         default:
           description: Default error sample response
@@ -275,7 +281,7 @@ paths:
     summary: path for calendar items
     get:
       summary: gets a list of calendar in descending date order
-      description: ''
+      description: ""
       operationId: get_calendar
       security:
         - bearerAuth: []
@@ -297,10 +303,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/newCalendar'
+              $ref: "#/components/schemas/newCalendar"
       responses:
         200:
-          description: return calendar items 
+          description: return calendar items
         default:
           description: Default error sample response
       tags:
@@ -316,7 +322,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateCalendar'
+              $ref: "#/components/schemas/updateCalendar"
       responses:
         default:
           description: Default error sample response
@@ -325,8 +331,8 @@ paths:
   /wall:
     summary: gwet users wall
     get:
-      summary: ''
-      description: ''
+      summary: ""
+      description: ""
       operationId: get_wall
       responses:
         default:
@@ -336,12 +342,12 @@ paths:
   /today:
     summary: get the calendar items for today
     get:
-      summary: ''
-      description: ''
+      summary: ""
+      description: ""
       operationId: get_today
       responses:
         200:
-          description: return todays calendar items 
+          description: return todays calendar items
         default:
           description: Default error sample response
 components:
@@ -349,8 +355,15 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: 'JWT'
+      bearerFormat: "JWT"
   schemas:
+    login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
     friend:
       type: object
       properties:
@@ -413,7 +426,7 @@ components:
         dateFrom:
           type: string
           description: Start date
-          example: '2017-01-01'
+          example: "2017-01-01"
           format: date
           pattern: YYYY-MM-DD
           minLength: 0
@@ -421,7 +434,7 @@ components:
         dateTo:
           type: string
           description: Start date
-          example: '2017-01-01'
+          example: "2017-01-01"
           format: date
           pattern: YYYY-MM-DD
           minLength: 0
@@ -441,4 +454,4 @@ components:
           { id:3 , name: 'charlie', status: 'unfollowed' },
           { id:4 , name: 'dan', status: 'blocked' },
           { id:5 , name: 'edd', status: 'pending' }
-        ]      
+        ]

@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import userDetails from './components/user/details/userDetailsSlice.js'
 import userAuth from './components/user/auth/userAuthSlice.js'
-import friends from './components/user/friends/userFreindsSlice.js'
+import friends from './components/user/friends/userfriendsSlice.js'
 import userPfpSlice from './components/user/details/userPfpSlice.js'
 
 import calendar from './components/calandar/calendarSlice.js'

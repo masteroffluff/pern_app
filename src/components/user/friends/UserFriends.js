@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed} from '../friends/userFreindsSlice'
+import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed} from '../friends/userfriendsSlice'
 
 export default function UserFriends(){
 
@@ -15,7 +15,7 @@ export default function UserFriends(){
         <ul >
             {friends.map((e,i)=><li key={i} aria-label="friends">{e.name}</li>)}
         </ul>
-        <h4>Pending Requests to be Freinds</h4>
+        <h4>Pending Requests to be friends</h4>
         <ul >
             {pending.map((e,i)=><li key={i} aria-label="pending">{e.name}</li>)}
         </ul>

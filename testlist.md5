@@ -18,8 +18,8 @@ DisplayTodo
 DisplayWall
 - has title "My Wall"
 - constains mocked Note from user
-- contains mocked item from freind
-- does not contain mocked item not from freind
+- contains mocked item from friend
+- does not contain mocked item not from friend
 - contains add button that calls NewNote
 DisplayNotes
 - has title "My Notes"
@@ -73,7 +73,7 @@ UserDetails
 UserFriends
 - has title "Friends"
 - (all tests use a mocked user and mocked friend)
-- displays freind
+- displays friend
 - does not display stranger
 
 all components below heve these tests:
@@ -116,11 +116,11 @@ update  /user                       userSlice       userUpdate
 get     /user                       userSlice       userDetails
 update  /user                       userSlice       userUpdate 
 get     /userPfp                    userSlice       userDetails
-get     /friends                    friendsSlice    freindsList
-post    /friends                    friendsSlice    freindsCreate   
-update  /friends/confirm            friendsSlice    freindConfirm
-update  /friends/unfollow           friendsSlice    freindsUnfollow
-update  /friends/block              friendsSlice    freindsBlock
+get     /friends                    friendsSlice    friendsList
+post    /friends                    friendsSlice    friendsCreate   
+update  /friends/confirm            friendsSlice    friendConfirm
+update  /friends/unfollow           friendsSlice    friendsUnfollow
+update  /friends/block              friendsSlice    friendsBlock
 get     /items                      itemsSlice      itemsFetch   
 get     /items/note                 itemsSlice      itemsNoteFetch   
 post    /items/note                 itemsSlice      itemsNoteCreate
@@ -140,7 +140,7 @@ Mocked store is required for all of these
 selectedTodos 
     - returns list of users totdos
 selectedWall
-    - returns list of items fromuser and users freinds
+    - returns list of items fromuser and users friends
     - does not return any items from blocked or unfollowed friends
 selectedCalendar
     - returns items by date for user
@@ -160,10 +160,10 @@ selectedUserDetails
 selectedUserPFP 
     - returns user pfp
 selecetedFriends_Live
-    - returns list of users freinds that are live
+    - returns list of users friends that are live
 selecetedFriends_Pending
-    - returns list of users freinds that are pending
+    - returns list of users friends that are pending
 selecetedFriends_Blocked
-    - returns list of users freinds that are blocked
+    - returns list of users friends that are blocked
 selecetedFriends_Unfollowed
-    - returns list of users freinds that are unfollowed
+    - returns list of users friends that are unfollowed

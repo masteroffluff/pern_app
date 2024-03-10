@@ -629,8 +629,8 @@
 // post    /userPfp                    userSlice       userDetails      user PFP
 // update  /userPfp                    userSlice       userDetails      user PFP
 // get     /userPfp                    userSlice       userDetails      user PFP
-// get     /friends                    friendsSlice    friendsList      list of users freinds and their state (freind, unfollowed, blocked)
-// post    /friends                    friendsSlice    friendsCreate    list of users freinds and their state (freind, unfollowed, blocked)
+// get     /friends                    friendsSlice    friendsList      list of users friends and their state (friend, unfollowed, blocked)
+// post    /friends                    friendsSlice    friendsCreate    list of users friends and their state (friend, unfollowed, blocked)
 // update  /friends/confirm            friendsSlice    friendConfirm    confirmation message
 // update  /friends/unfollow           friendsSlice    friendsUnfollow  confirmation message
 // update  /friends/block              friendsSlice    friendsBlock     confirmation message

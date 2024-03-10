@@ -133,7 +133,7 @@ paths:
       tags:
         - Friends
   /friends/potential:
-    summary: list of potential freinds
+    summary: list of potential friends
     description: "list of other users for the user to look for people to connect to. "
     get:
       summary: get a list of users the user is not friends with yet
@@ -168,7 +168,7 @@ paths:
               - refollow
               - unblock
           required: true
-          description: action type to take on listed freind
+          description: action type to take on listed friend
       requestBody:
         content:
           application/json:
@@ -176,7 +176,7 @@ paths:
               $ref: "#/components/schemas/friend"
       responses:
         "200":
-          description: A list of the users freinds
+          description: A list of the users friends
         default:
           description: Default error sample response
       tags:

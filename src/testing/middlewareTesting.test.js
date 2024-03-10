@@ -9,11 +9,11 @@
 // post    /userPfp                    userSlice       userDetails      user PFP
 // put  /userPfp                    userSlice       userDetails      user PFP
 // get     /userPfp                    userSlice       userDetails      user PFP
-// get     /friends                    friendsSlice    friendsFetch     list of users freinds and their state (freind, unfollowed, blocked)
-// post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
-// put     /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
-// put     /friends/unfollow           friendsSlice    friendsUnfollow  list of users freinds and their state (freind, unfollowed, blocked)
-// put     /friends/block              friendsSlice    friendsBlock     list of users freinds and their state (freind, unfollowed, blocked)
+// get     /friends                    friendsSlice    friendsFetch     list of users friends and their state (friend, unfollowed, blocked)
+// post    /friends                    friendsSlice    friendsAdd       list of users friends and their state (friend, unfollowed, blocked)
+// put     /friends/confirm            friendsSlice    friendConfirm    list of users friends and their state (friend, unfollowed, blocked)
+// put     /friends/unfollow           friendsSlice    friendsUnfollow  list of users friends and their state (friend, unfollowed, blocked)
+// put     /friends/block              friendsSlice    friendsBlock     list of users friends and their state (friend, unfollowed, blocked)
 // get     /friends/potential          friendsSlice    friendsPotential list of users who are potential friends
 // get     /items/note                 itemsSlice      itemsNoteFetch   list of notes in descending date order
 // post    /items/note                 itemsSlice      itemsNoteAdd     list of notes in descending date order
@@ -30,7 +30,7 @@
 // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
 import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
-import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFreindsSlice.js'
+import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userfriendsSlice.js'
 import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
 
 import calendar, { calendarFetch, calendarPost, calendarDelete } from '../components/calandar/calendarSlice.js'
@@ -327,11 +327,11 @@ describe('dispatch tests', () => {
       });
     });
   });
-  // get     /friends                    friendsSlice    friendsFetch     list of users freinds and their state (freind, unfollowed, blocked)
-  // post    /friends                    friendsSlice    friendsAdd       list of users freinds and their state (freind, unfollowed, blocked)
-  // put     /friends/confirm            friendsSlice    friendConfirm    list of users freinds and their state (freind, unfollowed, blocked)
-  // put     /friends/unfollow           friendsSlice    friendsUnfollow  list of users freinds and their state (freind, unfollowed, blocked)
-  // put     /friends/block              friendsSlice    friendsBlock     list of users freinds and their state (freind, unfollowed, blocked)
+  // get     /friends                    friendsSlice    friendsFetch     list of users friends and their state (friend, unfollowed, blocked)
+  // post    /friends                    friendsSlice    friendsAdd       list of users friends and their state (friend, unfollowed, blocked)
+  // put     /friends/confirm            friendsSlice    friendConfirm    list of users friends and their state (friend, unfollowed, blocked)
+  // put     /friends/unfollow           friendsSlice    friendsUnfollow  list of users friends and their state (friend, unfollowed, blocked)
+  // put     /friends/block              friendsSlice    friendsBlock     list of users friends and their state (friend, unfollowed, blocked)
 
   describe('friends', () => {
     describe('friendsPotential', () => {

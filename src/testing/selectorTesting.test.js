@@ -2,7 +2,7 @@
 import { selectedUserDetails } from '../components/user/details/userDetailsSlice.js'
 import { selectUserPfp } from '../components/user/details/userPfpSlice.js'
 import { selectAuthToken, selectUserAlreadyExists, selectIsLoggedIn } from '../components/user/auth/userAuthSlice.js'
-import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed,selectFriends_Sent } from '../components/user/friends/userFreindsSlice.js'
+import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed,selectFriends_Sent } from '../components/user/friends/userfriendsSlice.js'
 import { selectCalendar } from '../components/calandar/calendarSlice.js'
 import { selectTodos, selectNotes } from '../components/items/itemSlice.js'
 import { selectWall } from '../components/mainPage/wallSlice.js'
@@ -141,7 +141,7 @@ describe('user pfp Selector', () => {
     expect(selectedItems).toEqual(state.user.pfp.data);
   });
 })
-describe('seleced freinds', () => {
+describe('seleced friends', () => {
   // selectFriends_Live
   //     - returns list of users friends that are live
   // { name: 'bob', status: 'friend' },

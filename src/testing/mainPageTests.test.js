@@ -387,7 +387,7 @@ describe('UserFriends', () => {
     afterEach(() => {
         cleanup()
     })
-    it('renders the title freinds', () => {
+    it('renders the title friends', () => {
         expect(screen.getByText("Friends")).toBeInTheDocument()
 
     });
