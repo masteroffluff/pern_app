@@ -30,7 +30,7 @@
 // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
 import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
-import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userfriendsSlice.js'
+import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
 import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
 
 import calendar, { calendarFetch, calendarPost, calendarDelete } from '../components/calandar/calendarSlice.js'

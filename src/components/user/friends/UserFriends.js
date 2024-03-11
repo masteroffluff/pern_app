@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed} from '../friends/userfriendsSlice'
+import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed} from './userFriendsSlice'
 
 export default function UserFriends(){
 
