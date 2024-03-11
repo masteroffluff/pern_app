@@ -20,5 +20,14 @@ module.exports.update_todo = function update_todo(req, res) {
     res.send({
         message: 'This is the mockup controller for update_todo'
     });
+
+    
 }
 
+module.exports.delete_todo = function delete_todo(req, res) {
+    res.send({
+        message: 'This is the mockup controller for delete_todo'
+    });
+
+    
+}

@@ -37,7 +37,7 @@ export const itemsNoteFetch = createAsyncThunk(
 
 export const itemsNoteAdd = createAsyncThunk(
     'itemsNoteAdd',
-    async ({ title,notes }, { rejectWithValue, getState }) => {
+    async ({shared_to, title, notes} , { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
@@ -62,8 +62,8 @@ export const itemsNoteAdd = createAsyncThunk(
 
 export const itemsNoteUpdate = createAsyncThunk(
     'itemsNoteUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async ({shared_to, title, notes}, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
         const options = {
@@ -82,8 +82,8 @@ export const itemsNoteUpdate = createAsyncThunk(
 
 export const itemsNoteDelete = createAsyncThunk(
     'itemsNoteDelete',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async ({ id }, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
         const options = {
@@ -101,8 +101,8 @@ export const itemsNoteDelete = createAsyncThunk(
 // // get     /items/todo                 itemsSlice      itemsTodoFetch   list of todos in descending date order
 export const itemsTodoFetch = createAsyncThunk(
     'itemsTodoFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
         const options = {
@@ -122,7 +122,7 @@ export const itemsTodoFetch = createAsyncThunk(
 
 export const itemsTodoAdd = createAsyncThunk(
     'itemsTodoAdd',
-    async ({ title,notes,items }, { rejectWithValue, getState }) => {
+    async ({ title,notes,items}, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
@@ -138,7 +138,7 @@ export const itemsTodoAdd = createAsyncThunk(
             body:{
                 'title':title,
                 'notes':notes,
-                'items':items
+                'items':items,
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)

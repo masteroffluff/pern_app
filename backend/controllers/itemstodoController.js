@@ -16,3 +16,6 @@ module.exports.update_todo = function update_todo(req, res) {
     service.update_todo(req, res);
 }
 
+module.exports.delete_todo = function delete_todo(req, res) {
+    service.delete_todo(req, res);
+}

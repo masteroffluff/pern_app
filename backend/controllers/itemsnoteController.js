@@ -16,3 +16,6 @@ module.exports.update_note = function update_note(req, res) {
     service.update_note(req, res);
 }
 
+module.exports.delete_note = function delete_note(req, res) {
+    service.delete_note(req, res);
+}

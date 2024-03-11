@@ -81,7 +81,7 @@ module.exports.findByThirdPartyId = async function findByThirdPartyId(id, third_
 module.exports.postWallNotification = async function (id, title, notes, client = db){
     const now = new Date()
     const sql =
-    `INSERT INTO "Items" ( type, creator_id, shared_to, title, notes, date )
+    `INSERT INTO "Items" ( type, owner_id, shared_to, title, notes, date )
     VALUES ( 6, $1, 1, $2, $3, $4 );`
     await client.query(sql, [id, title, notes, now.toISOString()])
 }

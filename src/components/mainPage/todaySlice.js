@@ -65,7 +65,7 @@ export const todaySlice = createSlice({
                         todayFetch.rejected,
                     ),
                     (state, action) => {
-                        console.log('rejected today')
+                        //console.log('rejected today')
                         state.isLoading = false;
                         state.hasError = action.error;
                     }

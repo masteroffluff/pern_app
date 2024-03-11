@@ -229,6 +229,23 @@ paths:
       tags:
         - items
         - notes
+    delete:
+      summary: delete note
+      description: delete note and return delete list of notes
+      operationId: delete_note
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteNote"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - notes
   /items/todo:
     summary: path for todo items
     get:
@@ -277,6 +294,23 @@ paths:
       tags:
         - items
         - todos
+    delete:
+      summary: delete todo
+      description: delete todo and return delete list of todos
+      operationId: delete_todo
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteTodo"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - todos        
   /calendar:
     summary: path for calendar items
     get:
@@ -387,6 +421,11 @@ components:
           type: string
         value:
           type: string
+    deleteNote:
+      type: object
+      properties:
+        id:
+          type: number 
     updateTodo:
       type: object
       properties:

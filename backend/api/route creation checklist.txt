@@ -1,0 +1,39 @@
+    /login
+        POST - Log in existing user    						    x
+    /logout
+        GET - Log out user            						    N/A
+    /register
+        POST - Register new user 						        x
+    /auth/github
+        No specific method defined (summary provided) 
+    /user
+        GET - Update the user details    					    x
+        PUT - Update the user details						    x
+    /heartbeat
+        GET - Heartbeat to check if the system is running		x
+    /friends
+        GET - Get user list of friends						    x
+        POST - Add friend							            x
+        PUT - Update a friend and return the updated list		x
+    /friends/potential
+        GET - Get a list of potential friends					x
+    /friends/{action}
+        PUT - Confirm friend							        x
+    /items/note
+        GET - Gets a list of notes in descending date order		x	
+        POST - Post new note							        x
+        PUT - Update note							            x
+    /items/todo
+        GET - Gets a list of todos in descending date order
+        POST - Post new todo
+        PUT - Update todo
+    /calendar
+        GET - Gets a list of calendar in descending date order
+        POST - Post new calendar
+        PUT - Update calendar
+    /wall
+        GET - Get user's wall
+    /today
+        GET - Get the calendar items for today
+
+
