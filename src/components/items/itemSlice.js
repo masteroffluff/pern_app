@@ -62,7 +62,7 @@ export const itemsNoteAdd = createAsyncThunk(
 
 export const itemsNoteUpdate = createAsyncThunk(
     'itemsNoteUpdate',
-    async ({shared_to, title, notes}, { rejectWithValue, getState }) => {
+    async ({id, title, notes}, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
@@ -73,6 +73,11 @@ export const itemsNoteUpdate = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                id,
+                title,
+                notes
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -103,7 +108,7 @@ export const itemsTodoFetch = createAsyncThunk(
     'itemsTodoFetch',
     async (_, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/items/note`
+        const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
         const options = {
             method: 'GET',
@@ -149,9 +154,9 @@ export const itemsTodoAdd = createAsyncThunk(
 
 export const itemsTodoUpdate = createAsyncThunk(
     'itemsTodoUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
-
-        const endPoint = `${apiUrl}/items/note`
+    async ({ id, title, notes }, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
+        const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
         const options = {
             method: 'UPDATE',
@@ -160,6 +165,11 @@ export const itemsTodoUpdate = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                id,
+                title,
+                notes
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -169,9 +179,9 @@ export const itemsTodoUpdate = createAsyncThunk(
 
 export const itemsTodoDelete = createAsyncThunk(
     'itemsTodoDelete',
-    async ({ authToken }, { rejectWithValue }) => {
-
-        const endPoint = `${apiUrl}/items/note`
+    async ({ item_id }, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
+        const endPoint = `${apiUrl}/items/todo/?item_id=${item_id}`
         //console.log (endPoint)
         const options = {
             method: 'DELETE',
@@ -186,6 +196,78 @@ export const itemsTodoDelete = createAsyncThunk(
     }
 )
 
+export const itemsTodoItemsAdd = createAsyncThunk(
+    'itemsTodoItemsAdd',
+    async ({ todo_id,text}, { rejectWithValue, getState }) => {
+
+        const endPoint = `${apiUrl}/items/todo`
+        //console.log (endPoint)
+        const authToken = getState().user.authentication.authToken
+        const options = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
+
+            },
+            body:{
+                "todo_id":todo_id,
+                "text":text,
+            }
+        };
+        return await apiFetch(endPoint, options, rejectWithValue)
+    }
+)
+
+// // update  /items/TodoItems                 itemsSlice      itemsTodoItemsUpdate  list of todos in descending date order
+
+export const itemsTodoItemsUpdate = createAsyncThunk(
+    'itemsTodoItemsUpdate',
+    async ({ id, title, notes }, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
+        const endPoint = `${apiUrl}/items/note`
+        //console.log (endPoint)
+        const options = {
+            method: 'UPDATE',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
+
+            },
+            body:{
+                "id":id,
+                "title":title,
+                "notes":notes
+            }
+        };
+        return await apiFetch(endPoint, options, rejectWithValue)
+    }
+)
+// // delete  /items/TodoItems                 itemsSlice      itemsTodoItemsDelete  list of todos in descending date order
+
+export const itemsTodoItemsDelete = createAsyncThunk(
+    'itemsTodoItemsDelete',
+    async ({ todo_item }, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
+        const endPoint = `${apiUrl}/items/todo/items/?todo_item=${todo_item}`
+        //console.log (endPoint)
+        const options = {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
+
+            }
+        };
+        return await apiFetch(endPoint, options, rejectWithValue)
+    }
+)
+
+
+/// creat slice /////
 export const itemSlice = createSlice({
     name,
     initialState,

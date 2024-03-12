@@ -1,4 +1,5 @@
 const db = require('../utils/db')
+const helperFunctions = require('../utils/helperFunctions')
 
 module.exports.funcitemsnote = function funcitemsnote(req, res) {
     res.send({
@@ -63,23 +64,13 @@ module.exports.update_note = async function update_note(req, res) {
 
 module.exports.delete_note = async function delete_note(req, res) {
     try {
-        
-        const {id:item_id} = req.body
-
-        const sql =
-        `DELETE FROM "Items" 
-        WHERE id = $1
-        RETURNING *`
-        const response = await db.queryPromisified(sql, [item_id])
-        if (response.rows.length===0){
-            const err = new Error({message:'Delete Items Failed'})
-            throw err
-        }
+        await helperFunctions.deleteItem(req.res)
         const { id } = req.user
         const list = await getListOfNotes(id)
         return res.send(list)
     }catch(e){
-        res.status(400).send({message:e.message})
+        console.log(e)
+        res.status(400).send(e.message)
     }
 }
 

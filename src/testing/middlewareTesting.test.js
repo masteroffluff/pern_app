@@ -23,6 +23,9 @@
 // post    /items/todo                 itemsSlice      itemsTodoAdd     list of todos in descending date order
 // put     /items/todo                 itemsSlice      itemsTodoUpdate  list of todos in descending date order
 // delete  /items/todo                 itemsSlice      itemsTodoDelete  list of todos in descending date order
+// post    /items/todo/items           itemsSlice      itemsTodoAdd     list of todos in descending date order
+// put     /items/todo/items           itemsSlice      itemsTodoUpdate  list of todos in descending date order
+// delete  /items/todo/items           itemsSlice      itemsTodoDelete  list of todos in descending date order
 // get     /calendar                   calendarSlice   calendarGet      list of users calendar items in date range
 // post    /calendar                   calendarSlice   calendarPost     list of users calendar items in date range
 // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range

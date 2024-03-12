@@ -229,6 +229,24 @@ paths:
       tags:
         - items
         - notes
+    delete:
+      summary: delete note
+      description: delete note and return delete list of notes
+      operationId: delete_note
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: item_id
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - notes
   /items/todo:
     summary: path for todo items
     get:
@@ -277,6 +295,78 @@ paths:
       tags:
         - items
         - todos
+    delete:
+      summary: delete todo
+      description: delete todo and return delete list of todos
+      operationId: delete_todo
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - todos 
+  /items/todo/items:
+    summary: path for todo items
+    post:
+      summary: post new todo item
+      description: post new todo item and return updated list of todos in descending date order, used after the toto has been created
+      operationId: post_todo_items
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newTodo"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - todos
+    put:
+      summary: update todo
+      description: update todo item and return update list of todos
+      operationId: update_todo_items
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateTodo"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - todos
+    delete:
+      summary: delete todo
+      description: delete todo item and return delete list of todos
+      operationId: delete_todo_items
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: todo_item
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - todos          
   /calendar:
     summary: path for calendar items
     get:
@@ -387,6 +477,16 @@ components:
           type: string
         value:
           type: string
+    deleteNote:
+      type: object
+      properties:
+        id:
+          type: number 
+    deleteTodo:
+      type: object
+      properties:
+        id:
+          type: number 
     updateTodo:
       type: object
       properties:

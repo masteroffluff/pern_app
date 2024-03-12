@@ -97,3 +97,58 @@ module.exports.getfriends = async function getfriends(id) {
     return  response.rows
 
 }
+
+module.exports.deleteItem = async function deleteItem(req,res){
+       
+        const {item_id} = req.query
+
+        const sql =
+        `DELETE FROM "Items" 
+        WHERE id = $1
+        RETURNING *`
+        const response = await db.queryPromisified(sql, [item_id])
+        if (response.rows.length===0){
+            const err = new Error({message:'Delete Items Failed'})
+            throw err
+        }
+
+}
+
+
+
+function mapTodoItemsToTodos(todos, todoItems) {
+    //console.log(todos, todoItems)
+    const todoItemsMap = {};
+    todoItems.forEach(item => {
+        if (!todoItemsMap[item.item_id]) {
+            todoItemsMap[item.item_id] = [];
+        }
+        todoItemsMap[item.item_id].push(item);
+    });
+    return todos.map(todo => ({
+        ...todo,
+        items: todoItemsMap[todo.id] || []
+    }));
+}
+
+module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndTheirItems(id) {
+    const sqlParent =
+        `SELECT id, shared_to, title, notes
+        FROM "Items"
+        WHERE type = 2 AND owner_id = $1`
+    const todos_response = await db.queryPromisified(sqlParent, [id])
+    const todos = todos_response.rows
+
+    const sqlChild =
+        `SELECT "Todo_Items".id, "Todo_Items".item_id, "Todo_Items".item_text, "Todo_Items".item_done
+        FROM "Todo_Items"
+        JOIN "Items" ON "Todo_Items".item_id = "Items".id
+        WHERE "Items".owner_id = $1
+        ORDER BY "Todo_Items".id`
+    const todoItems_response = await db.queryPromisified(sqlChild, [id])
+    const todoItems = todoItems_response.rows
+    return mapTodoItemsToTodos(todos, todoItems)
+
+
+}
+
