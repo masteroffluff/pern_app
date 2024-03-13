@@ -28,8 +28,7 @@ module.exports.post_note = async function post_note(req, res) {
         VALUES (1, $1, $2, $3, $4 ,$5) RETURNING *`
         const response = await db.queryPromisified(sql, [id, shared_to, title, notes, now.toISOString()])
         if (response.rows.length===0){
-            const err = new Error({message:'Add Items Failed'})
-            throw err
+
         }
 
         const list = await getListOfNotes(id)

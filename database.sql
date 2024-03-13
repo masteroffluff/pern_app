@@ -74,7 +74,11 @@ ALTER TABLE "User_PFP" ADD FOREIGN KEY ("id") REFERENCES "Users" ("id");
 
 ALTER TABLE "Items" ADD FOREIGN KEY ("owner_id") REFERENCES "Users" ("id");
 
-ALTER TABLE "Attending" ADD FOREIGN KEY ("item_id") REFERENCES "Calendar_Details" ("id");
+ALTER TABLE "Attending"
+    ADD CONSTRAINT "Attending_calendar_id_fkey"
+    FOREIGN KEY (item_id)
+    REFERENCES "Calendar_Details"(item_id)
+    ON DELETE CASCADE;
 
 ALTER TABLE "Calendar_Details" ADD FOREIGN KEY ("id") REFERENCES "Items" ("id");
 
