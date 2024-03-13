@@ -119,16 +119,19 @@ module.exports.deleteItem = async function deleteItem(req,res){
 function mapArrayontoArray(mainArray, subAray, mappedTo) {
     //console.log(todos, todoItems)
     const hashMap = {};
-    subAray.forEach(item => {
-        if (!hashMap[item.item_id]) {
-            hashMap[item.item_id] = [];
+    subAray.forEach(subItem => {
+        if (!hashMap[subItem.item_id]) {
+            hashMap[subItem.item_id] = [];
         }
-        hashMap[item.item_id].push(item);
+        hashMap[subItem.item_id].push(subItem);
     });
-    return mainArray.map(todo => ({
-        ...todo,
-        [mappedTo]: hashMap[todo.id] || []
+    //console.log(hashMap)
+    const result = mainArray.map(mainItem => ({
+        ...mainItem,
+        [mappedTo]: hashMap[mainItem.id] || []
     }));
+    console.log(result)
+    return result
 }
 
 module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndTheirItems(id) {
@@ -147,13 +150,14 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
         ORDER BY "Todo_Items".id`
     const todoItems_response = await db.queryPromisified(sqlChild, [id])
     const todoItems = todoItems_response.rows
+    console.log(todoItems)
     return mapArrayontoArray(todos, todoItems, 'items')
 }
 
 module.exports.getListofCalendarItems = async function getListofCalendarItems(req){
     const {id} = req.user
     const sqlCalandar =
-    `SELECT "Items".shared_to, "Items".title, "Items".notes, "Item_type".type, "Calendar_Details".*
+    `SELECT "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Item_type".type, "Calendar_Details".*
     FROM "Items"
     JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
     JOIN "Item_type" ON "Items".type = "Item_type".id
@@ -161,11 +165,13 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     const calendarResponse = await db.queryPromisified(sqlCalandar, [id])
     const calendarItems = calendarResponse.rows
     const sqlAttendees =
-    `SELECT * 
+    `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
     FROM "Attending"
     JOIN "Items" ON "Attending".item_id = "Items".id
+    JOIN "Users" ON "Attending".person = "Users".id
     WHERE "Items".owner_id = $1`
     const attemdeesResponse = await db.queryPromisified(sqlAttendees, [id])
     const attendees = attemdeesResponse.rows
+    //console.log(attendees)
     return mapArrayontoArray(calendarItems, attendees, 'attendees')
 }

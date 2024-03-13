@@ -47,8 +47,9 @@ module.exports.post_calendar = async function post_calendar(req, res) {
         INSERT INTO "Attending" (item_id, person)
         VALUES ( $1, $2 );`
 
-        for(const attendee in attendees){
-            await at.query(sqlAttendees,[item_id, attendee])
+        for(const i in attendees){
+            //console.log(attendee)
+            await at.query(sqlAttendees,[item_id, attendees[i]])
         }
 
         console.log('committing')
