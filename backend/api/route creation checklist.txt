@@ -24,16 +24,17 @@
         POST - Post new note							        x
         PUT - Update note							            x
     /items/todo
-        GET - Gets a list of todos in descending date order
-        POST - Post new todo
-        PUT - Update todo
-    /calendar
-        GET - Gets a list of calendar in descending date order
-        POST - Post new calendar
-        PUT - Update calendar
+        GET - Gets a list of todos in descending date order     x
+        POST - Post new todo                                    x
+        PUT - Update todo                                       x
+    /calendar   
+        GET - Gets a list of calendar in descending date order  
+        POST - Post new calendar                                
+        PUT - Update calendar                                   
+        DELETE - Remove a calendar items                        
     /wall
-        GET - Get user's wall
+        GET - Get user's wall                                   
     /today
-        GET - Get the calendar items for today
+        GET - Get the calendar items for today                  
 
 

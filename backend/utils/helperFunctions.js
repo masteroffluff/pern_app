@@ -116,18 +116,18 @@ module.exports.deleteItem = async function deleteItem(req,res){
 
 
 
-function mapTodoItemsToTodos(todos, todoItems) {
+function mapArrayontoArray(mainArray, subAray, mappedTo) {
     //console.log(todos, todoItems)
-    const todoItemsMap = {};
-    todoItems.forEach(item => {
-        if (!todoItemsMap[item.item_id]) {
-            todoItemsMap[item.item_id] = [];
+    const hashMap = {};
+    subAray.forEach(item => {
+        if (!hashMap[item.item_id]) {
+            hashMap[item.item_id] = [];
         }
-        todoItemsMap[item.item_id].push(item);
+        hashMap[item.item_id].push(item);
     });
-    return todos.map(todo => ({
+    return mainArray.map(todo => ({
         ...todo,
-        items: todoItemsMap[todo.id] || []
+        [mappedTo]: hashMap[todo.id] || []
     }));
 }
 
@@ -147,8 +147,25 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
         ORDER BY "Todo_Items".id`
     const todoItems_response = await db.queryPromisified(sqlChild, [id])
     const todoItems = todoItems_response.rows
-    return mapTodoItemsToTodos(todos, todoItems)
-
-
+    return mapArrayontoArray(todos, todoItems, 'items')
 }
 
+module.exports.getListofCalendarItems = async function getListofCalendarItems(req){
+    const {id} = req.user
+    const sqlCalandar =
+    `SELECT "Items".shared_to, "Items".title, "Items".notes, "Item_type".type, "Calendar_Details".*
+    FROM "Items"
+    JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
+    JOIN "Item_type" ON "Items".type = "Item_type".id
+    WHERE "Items".type IN (3,4,5) AND "Items".owner_id = $1`
+    const calendarResponse = await db.queryPromisified(sqlCalandar, [id])
+    const calendarItems = calendarResponse.rows
+    const sqlAttendees =
+    `SELECT * 
+    FROM "Attending"
+    JOIN "Items" ON "Attending".item_id = "Items".id
+    WHERE "Items".owner_id = $1`
+    const attemdeesResponse = await db.queryPromisified(sqlAttendees, [id])
+    const attendees = attemdeesResponse.rows
+    return mapArrayontoArray(calendarItems, attendees, 'attendees')
+}

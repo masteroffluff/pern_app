@@ -418,6 +418,60 @@ paths:
           description: Default error sample response
       tags:
         - calendar
+    delete:
+      summary: delete calendar
+      description: delete calendar item and return update list of calendar
+      operationId: delete_calendar
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateCalendar"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - calendar
+  /calendar/attendees:
+    summary: path for calendar items
+    post:
+      summary: add an attendee
+      description: >-
+        post new user as an attendee to an event/appointment 
+      operationId: post_calendar_attendees
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newCalendar"
+      responses:
+        200:
+          description: return calendar items
+        default:
+          description: Default error sample response
+      tags:
+        - items
+        - calendar
+    delete:
+      summary: remove atendee from calendar item
+      description: delete calendar item atendee  and return update list of calendar
+      operationId: delete_calendar_attendees
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateCalendar"
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - calendar
   /wall:
     summary: gwet users wall
     get:

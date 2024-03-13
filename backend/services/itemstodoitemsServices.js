@@ -61,7 +61,6 @@ module.exports.delete_todo_items = async function delete_todo_items(req, res) {
         const response = await db.queryPromisified(sql, [todo_id, todoitem_id])
         console.log(response.rows)
         if (response.rows.length === 0) {
-            console.log("what is going on?")
             const err = new Error( 'post_todo_items Failed')
             throw err
         }
@@ -72,7 +71,6 @@ module.exports.delete_todo_items = async function delete_todo_items(req, res) {
         console.log('delete_todo_items error', e)
         return res.status(400).send({message:e.message})
     }
-
 
 }
 

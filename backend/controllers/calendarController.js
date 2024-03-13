@@ -16,3 +16,7 @@ module.exports.update_calendar = function update_calendar(req, res) {
     service.update_calendar(req, res);
 }
 
+
+module.exports.delete_calendar = function delete_calendar(req, res) {
+    service.delete_calendar(req, res);
+}
