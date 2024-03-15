@@ -16,6 +16,6 @@ export default function DisplayWall() {
         <ul>
             {wall.map((e, i) => <li data-testid='wallItem' key={i}><DisplayItem data={e} /> </li>)}
         </ul>
-        <button data-testid='newNote' value='newNote' onClick={newNote_click} />
+        <button data-testid='newNote' value='newNote' onClick={newNote_click} >New Note</button>
     </div>
 }
