@@ -1,4 +1,4 @@
-const userHelperFunctions = require('../utils/helperFunctions')
+const helperFunctions = require('../utils/helperFunctions')
 const bcrypt = require("bcrypt");
 
 
@@ -10,17 +10,17 @@ module.exports.funcregister = function funcregister(req, res) {
 
 module.exports.post_register = async function post_register(req, res) {
 
-    const { display_name, email, phone_no, password } = req.body
-    const username_taken = await userHelperFunctions.findIfUserNameExists(display_name)
+    const { display_name, email, phone_no, password, birthday } = req.body
+    const username_taken = await helperFunctions.findIfUserNameExists(display_name)
     if (username_taken) {
         return res.status(401).send({ message: `Display Name ${display_name} already Taken` })
         
       }
       const salt = await bcrypt.genSalt(10);
       const password_hash = await bcrypt.hash(password,salt)
-      const newUser = await userHelperFunctions.add_new_user(display_name, email, password_hash, 'n/a', 'local', phone_no)      
+      const newUser = await helperFunctions.add_new_user(display_name, email, password_hash, 'n/a', 'local', phone_no, birthday)      
 
-      const newToken = userHelperFunctions.generate_jwt_token(newUser.id)
+      const newToken = helperFunctions.generate_jwt_token(newUser.id)
       console.log(newToken)
       if (!newToken){
 

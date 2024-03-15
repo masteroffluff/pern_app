@@ -28,7 +28,8 @@ module.exports.post_note = async function post_note(req, res) {
         VALUES (1, $1, $2, $3, $4 ,$5) RETURNING *`
         const response = await db.queryPromisified(sql, [id, shared_to, title, notes, now.toISOString()])
         if (response.rows.length===0){
-
+            const err = new Error('Create Note Failed')
+            throw err            
         }
 
         const list = await getListOfNotes(id)
@@ -50,7 +51,7 @@ module.exports.update_note = async function update_note(req, res) {
         RETURNING *`
         const response = await db.queryPromisified(sql, [item_id, shared_to, title, notes])
         if (response.rows.length===0){
-            const err = new Error({message:'Update Items Failed'})
+            const err = new Error('Update Items Failed')
             throw err
         }
         const { id } = req.user

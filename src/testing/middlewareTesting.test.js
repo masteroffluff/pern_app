@@ -38,7 +38,7 @@ import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '
 import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
 import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
 
-import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendees, calendarDeleteAttendees } from '../components/calandar/calendarSlice.js'
+import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendees, calendarDeleteAttendees, calendarUpdateAttendees } from '../components/calandar/calendarSlice.js'
 import items, { itemsNoteFetch, itemsNoteAdd, itemsNoteDelete, itemsNoteUpdate, itemsTodoAdd, itemsTodoFetch, itemsTodoDelete, itemsTodoUpdate } from '../components/items/itemSlice.js'
 import wall, { wallFetch } from '../components/mainPage/wallSlice.js'
 import today, { todayFetch } from '../components/mainPage/todaySlice.js'
@@ -1564,6 +1564,73 @@ describe('dispatch tests', () => {
 
 
       });
+    });
+    describe('calendarUpdateAttendees', () => {
+      it('should handle calendarUpdate.pending', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: false,
+          hasError: null,
+        };
+
+        const newState = calendar(initialState, calendarUpdateAttendees.pending());
+
+        // Check state after dispatching the pending action
+        expect(newState.isLoading).toBe(true);
+        expect(newState.calendarItems.length).toBe(0);
+        expect(newState.hasError).toBe(null);
+      });
+
+      ///////////////////////////////////////////////////////////////////////
+      it('should handle calendarUpdate.fulfilled', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: true,
+          hasError: null,
+        };
+
+        const calendarData = [
+          { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
+          { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
+          { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+          { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: date + 1, dateTo: date + 1 },
+          { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: date + 1, dateTo: date + 1 },
+          { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
+        ];
+
+        const action = calendarUpdateAttendees.fulfilled(calendarData);
+
+        const newState = calendar(initialState, action);
+
+        // Check state after dispatching the fulfilled action
+        // console.log(newState)
+        expect(newState.isLoading).toBe(false);
+        expect(newState.calendarItems).toEqual(calendarData);
+        expect(newState.hasError).toBe(null);
+      });
+      ///////////////////////////////////////////////////////////////////////////////////
+      it('should handle calendarUpdateAttendees.rejected', () => {
+        const initialState = {
+          calendarItems: [],
+          isLoading: true,
+          hasError: null,
+        };
+
+        const errorMessage = 'Failed to fetch user details';
+
+        const action = calendarUpdateAttendees.rejected(null, null, errorMessage);
+
+        const newState = calendar(initialState, action);
+
+        // Check state after dispatching the rejected action
+        expect(newState.isLoading).toBe(false);
+        expect(newState.calendarItems.length).toBe(0);
+        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+      });
+
+
+
+
     });
 
   });

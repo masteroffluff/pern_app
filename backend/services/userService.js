@@ -15,8 +15,8 @@ module.exports.funcuser = function funcuser(req, res) {
 module.exports.get_user = function get_user(req, res) {
   try{
     console.log('getuser')
-    const { id, display_name, email, phone_no } = req.user
-    return res.send({ id, display_name, email, phone_no })
+    const { id, display_name, email, phone_no, birthday } = req.user
+    return res.send({ id, display_name, email, phone_no, birthday })
   }catch(e){
     console.log('get_user error', e)
     return res.status(400).send(e)

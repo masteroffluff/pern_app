@@ -49,12 +49,12 @@ module.exports.findByUsername = async function findByUsername(display_name) {
     }
 }
 
-module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no){
+module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday){
     try{
-    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no )
-                VALUES( $1, $2, $3, $4, $5, $6 )
+    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday )
+                VALUES( $1, $2, $3, $4, $5, $6, $7 )
                 RETURNING id`
-    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no])
+    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday])
     const user = response.rows[0]
     return user
     }catch(e){
@@ -63,12 +63,12 @@ module.exports.add_new_user = async function add_new_user(display_name, email, p
     }
 }
 
-module.exports.updateUserDetails = async function updateUserDetails(id, display_name, email, phone_no) {
+module.exports.updateUserDetails = async function updateUserDetails(id, display_name, email, phone_no, birthday) {
     const sql = `UPDATE "Users"
-    SET display_name = $2, email = $3, phone_no = $4
+    SET display_name = $2, email = $3, phone_no = $4, birthday=$5
     WHERE id=$1
     RETURNING display_name, email, phone_no;`
-    const response = await db.queryPromisified(sql, [id, display_name, email, phone_no], 'findByUsername')
+    const response = await db.queryPromisified(sql, [id, display_name, email, phone_no, birthday], 'findByUsername')
     //console.log('updateUserDetails',response)
     const user = response.rows[0]
     return user
@@ -93,7 +93,7 @@ module.exports.getfriends = async function getfriends(id) {
     JOIN "Friends" ON "Users".id = "Friends".friend_id
     JOIN "Friends_status" ON "Friends".status = "Friends_status".id
     WHERE user_id = $1`
-    const response = await db.queryPromisified(sql, [id])
+    const response = await db.queryPromisified(sql, [id],'getfriends')
     return  response.rows
 
 }
@@ -154,23 +154,33 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
     return mapArrayontoArray(todos, todoItems, 'items')
 }
 
-module.exports.getListofCalendarItems = async function getListofCalendarItems(req){
+module.exports.getListofCalendarItems = async function getListofCalendarItems(req, date_from, date_to){
+    if(!date_from){
+        date_from = new Date('2000/01/01')
+    }
+    if(!date_to){
+        date_to = new Date('9999/01/01')
+    }
     const {id} = req.user
     const sqlCalandar =
-    `SELECT "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Item_type".type, "Calendar_Details".*
+    `SELECT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
     FROM "Items"
     JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
     JOIN "Item_type" ON "Items".type = "Item_type".id
-    WHERE "Items".type IN (3,4,5) AND "Items".owner_id = $1`
-    const calendarResponse = await db.queryPromisified(sqlCalandar, [id])
+    JOIN "Attending" ON "Items".id = "Attending".item_id
+    JOIN "Users" ON "Items".owner_id = "Users".id
+    WHERE "Items".type IN (3,4,5) AND 
+    ("Items".owner_id = $1 OR "Attending".person=$1) AND
+    ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2, $3)`
+    const calendarResponse = await db.queryPromisified(sqlCalandar, [id, date_from, date_to])
     const calendarItems = calendarResponse.rows
+    const itemIds = calendarItems.map((e)=>e.id)
     const sqlAttendees =
     `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
     FROM "Attending"
-    JOIN "Items" ON "Attending".item_id = "Items".id
     JOIN "Users" ON "Attending".person = "Users".id
-    WHERE "Items".owner_id = $1`
-    const attemdeesResponse = await db.queryPromisified(sqlAttendees, [id])
+    WHERE "Attending".item_id = ANY($1)`
+    const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
     const attendees = attemdeesResponse.rows
     //console.log(attendees)
     return mapArrayontoArray(calendarItems, attendees, 'attendees')

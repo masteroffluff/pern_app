@@ -443,11 +443,17 @@ paths:
       operationId: post_calendar_attendees
       security:
         - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/newCalendar"
+      parameters:
+        - in: query
+          name: item_id
+          schema:
+            type: integer
+          description: The item id of the calandar item to remove
+        - in: query
+          name: attendee
+          schema:
+            type: integer
+          description: The user to remove      
       responses:
         200:
           description: return calendar items
@@ -462,11 +468,33 @@ paths:
       operationId: delete_calendar_attendees
       security:
         - bearerAuth: []
+      parameters:
+        - in: query
+          name: item_id
+          schema:
+            type: integer
+          description: The item id of the calandar item to remove
+        - in: query
+          name: attendee
+          schema:
+            type: integer
+          description: The user to remove
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - calendar
+    put:
+      summary: remove atendee from calendar item
+      description: update calendar item atendee  and return update list of calendar
+      operationId: update_calendar_attendees
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/updateCalendar"
+              $ref: "#/components/schemas/updateCalendarAttendees"
       responses:
         default:
           description: Default error sample response
@@ -476,6 +504,8 @@ paths:
     summary: gwet users wall
     get:
       summary: ""
+      security:
+        - bearerAuth: []      
       description: ""
       operationId: get_wall
       responses:
@@ -488,6 +518,8 @@ paths:
     get:
       summary: ""
       description: ""
+      security:
+        - bearerAuth: []      
       operationId: get_today
       responses:
         200:
@@ -600,6 +632,17 @@ components:
           type: string
         value:
           type: string
+    updateCalendarAttendees:
+      type: object
+      properties:
+        item_id:
+          type: number
+        attendees:
+          type: array
+          items:
+            description: attendee user id
+            type: number
+          minItems: 1
   examples:
     listOfFriends:
       value: |-

@@ -80,6 +80,9 @@ ALTER TABLE "Attending"
     REFERENCES "Calendar_Details"(item_id)
     ON DELETE CASCADE;
 
+ALTER TABLE "Attending"
+ADD CONSTRAINT attending_unique_item_id_person UNIQUE (item_id, person);
+
 ALTER TABLE "Calendar_Details" ADD FOREIGN KEY ("id") REFERENCES "Items" ("id");
 
 ALTER TABLE "Todo_Items" ADD FOREIGN KEY ("item_id") REFERENCES "Items" ("id");

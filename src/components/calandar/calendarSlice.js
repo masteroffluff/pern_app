@@ -20,7 +20,7 @@ export const calendarFetch = createAsyncThunk(
     'calendarGet',
     async (_, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/items/note`
+        const endPoint = `${apiUrl}/items/calendar`
         //                // .addDefaultCase(
                 //     (_, action) => { console.log(action) }
                 // ) (endPoint)
@@ -72,7 +72,7 @@ export const calendarPost = createAsyncThunk(
 
 export const calendarUpdate = createAsyncThunk(
     'calendarUpdate',
-    async ({ calendar_id, title,type, notes, place, dateFrom, dateTo, attendees}, { rejectWithValue, getState }) => {
+    async ({ item_id, title,type, notes, place, dateFrom, dateTo, attendees}, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
@@ -105,10 +105,10 @@ export const calendarUpdate = createAsyncThunk(
 
 export const calendarDelete = createAsyncThunk(
     'calendarDelete',
-    async ({ calendar_id }, { rejectWithValue, getState }) => {
+    async ({ item_id }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/calendar?calendar_id=${calendar_id}`
-        //console.log (endPoint)
+        const endPoint = `${apiUrl}/calendar?item_id=${item_id}`
+    
         const options = {
             method: 'DELETE',
             credentials: 'include',
@@ -122,11 +122,11 @@ export const calendarDelete = createAsyncThunk(
     }
 )
 
-export const calendarPostAttendees = createAsyncThunk(
+export const calendarPostAttendee = createAsyncThunk(
     'calendarPostAttendees',
-    async ({ calendar_id, attendees}, { rejectWithValue, getState }) => {
+    async ({ item_id, attendee}, { rejectWithValue, getState }) => {
 
-        const endPoint = `${apiUrl}/calendar/attendees`
+        const endPoint = `${apiUrl}/calendar/attendees?item_id=${item_id}&attendee=${attendee}s`
         //console.log (endPoint)
         const authToken = getState().user.authentication.authToken
         const options = {
@@ -137,10 +137,6 @@ export const calendarPostAttendees = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
-                calendar_id,
-                attendees
-            }
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -148,11 +144,11 @@ export const calendarPostAttendees = createAsyncThunk(
 
 // // delete  /calendar                   calendarSlice   calendarDelete   list of users calendar items in date range
 
-export const calendarDeleteAttendees = createAsyncThunk(
+export const calendarDeleteAttendee = createAsyncThunk(
     'calendarDeleteAttendees',
-    async ({ calendar_id, attendee }, { rejectWithValue, getState }) => {
+    async ({ item_id, attendee }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/calendar/attendees?calendar_id=${calendar_id}&attendee=${attendee}`
+        const endPoint = `${apiUrl}/calendar/attendees?item_id=${item_id}&attendee=${attendee}`
         //console.log (endPoint)
         const options = {
             method: 'DELETE',
@@ -167,6 +163,29 @@ export const calendarDeleteAttendees = createAsyncThunk(
     }
 )
 
+export const calendarUpdateAttendee = createAsyncThunk(
+    'calendarUpdateAttendee',
+    async ({ item_id, attendees}, { rejectWithValue, getState }) => {
+
+        const endPoint = `${apiUrl}/calendar/attendees`
+        //console.log (endPoint)
+        const authToken = getState().user.authentication.authToken
+        const options = {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                'Authorization': 'Bearer ' + authToken,
+
+            },
+            body:{
+                item_id,
+                attendees
+            }
+        };
+        return await apiFetch(endPoint, options, rejectWithValue)
+    }
+)
 
 export const calendarSlice = createSlice({
     name,
@@ -175,12 +194,14 @@ export const calendarSlice = createSlice({
     extraReducers:
         (builder) => {
             builder
-                .addMatcher(isAnyOf(
-                    calendarFetch.fulfilled,   
-                    calendarPost.fulfilled,  
-                    calendarDelete.fulfilled,
-                    calendarPostAttendees.fulfilled,
-                    calendarDeleteAttendees.fulfilled
+                .addMatcher(
+                    isAnyOf(
+                        calendarFetch.fulfilled,   
+                        calendarPost.fulfilled,  
+                        calendarDelete.fulfilled,
+                        calendarPostAttendee.fulfilled,
+                        calendarDeleteAttendee.fulfilled,
+                        calendarUpdateAttendee.fulfilled
                     ),
                     (state, action) => {
                         //console.log(action.payload)
@@ -193,8 +214,9 @@ export const calendarSlice = createSlice({
                         calendarFetch.pending,   
                         calendarPost.pending,  
                         calendarDelete.pending,
-                        calendarPostAttendees.pending,
-                        calendarDeleteAttendees.pending
+                        calendarPostAttendee.pending,
+                        calendarDeleteAttendee.pending,
+                        calendarUpdateAttendee.pending
                         ),
                     (state) => {
                         state.isLoading = true;
@@ -206,8 +228,9 @@ export const calendarSlice = createSlice({
                         calendarFetch.rejected,   
                         calendarPost.rejected,  
                         calendarDelete.rejected,
-                        calendarPostAttendees.rejected,
-                        calendarDeleteAttendees.rejected
+                        calendarPostAttendee.rejected,
+                        calendarDeleteAttendee.rejected,
+                        calendarUpdateAttendee.rejected
                         ),
                     (state, action) => {
                         //console.log(action)
