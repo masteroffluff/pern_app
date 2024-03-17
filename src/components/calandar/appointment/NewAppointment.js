@@ -17,7 +17,7 @@ export default function NewAppointment() {
 
     useEffect(()=>{
         dispatch(setPopup(true))
-    return dispatch(setPopup(false))
+    return ()=>dispatch(setPopup(false))
     },[dispatch])
 
     const submitAppointment = (e) => {

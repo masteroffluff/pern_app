@@ -38,7 +38,7 @@ import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '
 import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
 import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
 
-import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendees, calendarDeleteAttendees, calendarUpdateAttendees } from '../components/calandar/calendarSlice.js'
+import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendee, calendarDeleteAttendee, calendarUpdateAttendee } from '../components/calandar/calendarSlice.js'
 import items, { itemsNoteFetch, itemsNoteAdd, itemsNoteDelete, itemsNoteUpdate, itemsTodoAdd, itemsTodoFetch, itemsTodoDelete, itemsTodoUpdate } from '../components/items/itemSlice.js'
 import wall, { wallFetch } from '../components/mainPage/wallSlice.js'
 import today, { todayFetch } from '../components/mainPage/todaySlice.js'
@@ -1432,7 +1432,7 @@ describe('dispatch tests', () => {
 
   });
   describe('calendar/attenddes', () => {
-    describe('calendarPostAttendees', () => {
+    describe('calendarPostAttendee', () => {
       it('should handle calendarPost.pending', () => {
         const initialState = {
           calendarItems: [],
@@ -1440,7 +1440,7 @@ describe('dispatch tests', () => {
           hasError: null,
         };
 
-        const newState = calendar(initialState, calendarPostAttendees.pending());
+        const newState = calendar(initialState, calendarPostAttendee.pending());
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
@@ -1465,7 +1465,7 @@ describe('dispatch tests', () => {
           { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
         ];
 
-        const action = calendarPostAttendees.fulfilled(calendarData);
+        const action = calendarPostAttendee.fulfilled(calendarData);
 
         const newState = calendar(initialState, action);
 
@@ -1485,7 +1485,7 @@ describe('dispatch tests', () => {
 
         const errorMessage = 'Failed to fetch user details';
 
-        const action = calendarPostAttendees.rejected(null, null, errorMessage);
+        const action = calendarPostAttendee.rejected(null, null, errorMessage);
 
         const newState = calendar(initialState, action);
 
@@ -1497,7 +1497,7 @@ describe('dispatch tests', () => {
 
 
 
-      describe('calendarDeleteAttendees', () => {
+      describe('calendarDeleteAttendee', () => {
         it('should handle calendarDelete.pending', () => {
           const initialState = {
             calendarItems: [],
@@ -1505,7 +1505,7 @@ describe('dispatch tests', () => {
             hasError: null,
           };
 
-          const newState = calendar(initialState, calendarDeleteAttendees.pending());
+          const newState = calendar(initialState, calendarDeleteAttendee.pending());
 
           // Check state after dispatching the pending action
           expect(newState.isLoading).toBe(true);
@@ -1530,7 +1530,7 @@ describe('dispatch tests', () => {
             { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
           ];
 
-          const action = calendarDeleteAttendees.fulfilled(calendarData);
+          const action = calendarDeleteAttendee.fulfilled(calendarData);
 
           const newState = calendar(initialState, action);
 
@@ -1550,7 +1550,7 @@ describe('dispatch tests', () => {
 
           const errorMessage = 'Failed to fetch user details';
 
-          const action = calendarDeleteAttendees.rejected(null, null, errorMessage);
+          const action = calendarDeleteAttendee.rejected(null, null, errorMessage);
 
           const newState = calendar(initialState, action);
 
@@ -1565,7 +1565,7 @@ describe('dispatch tests', () => {
 
       });
     });
-    describe('calendarUpdateAttendees', () => {
+    describe('calendarUpdateAttendee', () => {
       it('should handle calendarUpdate.pending', () => {
         const initialState = {
           calendarItems: [],
@@ -1573,7 +1573,7 @@ describe('dispatch tests', () => {
           hasError: null,
         };
 
-        const newState = calendar(initialState, calendarUpdateAttendees.pending());
+        const newState = calendar(initialState, calendarUpdateAttendee.pending());
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
@@ -1598,7 +1598,7 @@ describe('dispatch tests', () => {
           { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: date + 1, dateTo: date + 1 }
         ];
 
-        const action = calendarUpdateAttendees.fulfilled(calendarData);
+        const action = calendarUpdateAttendee.fulfilled(calendarData);
 
         const newState = calendar(initialState, action);
 
@@ -1609,7 +1609,7 @@ describe('dispatch tests', () => {
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////////////////
-      it('should handle calendarUpdateAttendees.rejected', () => {
+      it('should handle calendarUpdateAttendee.rejected', () => {
         const initialState = {
           calendarItems: [],
           isLoading: true,
@@ -1618,7 +1618,7 @@ describe('dispatch tests', () => {
 
         const errorMessage = 'Failed to fetch user details';
 
-        const action = calendarUpdateAttendees.rejected(null, null, errorMessage);
+        const action = calendarUpdateAttendee.rejected(null, null, errorMessage);
 
         const newState = calendar(initialState, action);
 

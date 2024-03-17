@@ -9,16 +9,18 @@ import MainDisplay from '../components/mainPage/MainDisplay'
 import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from '../components/mainPage/subitems'
 import { UserDetails, UserDisplay, UserFriends } from '../components/user';
 
-import dummyStore, {date,  time1, time2, time3} from './dummyData.js'
+import dummyStore, { date, time1, time2, time3 } from './dummyData.js'
+import { Router, Route } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 
 
 jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo, owner }) =>
     <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo, owner  }) =>
+jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo, owner }) =>
     <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo, owner  }) =>
+jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo, owner }) =>
     <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/items/todo/Todo', () => ({ title, value, todoItems, owner  }) => (
+jest.mock('../components/items/todo/Todo', () => ({ title, value, todoItems, owner }) => (
     <div data-testid="mocked-Todo">
         <h3>{title}</h3>
         <p>{value}</p>
@@ -50,7 +52,9 @@ describe('MainDisplay', () => {
         render(
 
             <Provider store={store}>
-                <MainDisplay />
+                <BrowserRouter>
+                        <MainDisplay />
+                </BrowserRouter>
             </Provider>
         );
     })
@@ -260,7 +264,10 @@ describe("Display Wall", () => {
     beforeEach(() => {
         render(
             <Provider store={store}>
-                <DisplayWall />
+                <BrowserRouter>
+                    <DisplayWall />
+                </BrowserRouter>
+                
             </Provider>
         );
     })

@@ -9,7 +9,7 @@ export default function NewTodo() {
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(setPopup(true))
-    return dispatch(setPopup(false))
+    return ()=>dispatch(setPopup(false))
     },[dispatch])
     
     const [todoItems, setTodoItems] = useState([])
