@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
+import { useNavigate } from "react-router";
 
 export default function NewAppointment() {
 
@@ -14,7 +15,7 @@ export default function NewAppointment() {
     const [attendees, setAttendees] = useState([])
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
     useEffect(()=>{
         dispatch(setPopup(true))
     return ()=>dispatch(setPopup(false))
@@ -55,6 +56,10 @@ export default function NewAppointment() {
         e.preventDefault();
         setAttendee(e.target.value)
     }
+    const cancelAppointment=(e)=>{
+        e.preventDefault()
+        navigate('/')
+    }
 
 
     return <div data-testid="newAppointment">
@@ -80,7 +85,7 @@ export default function NewAppointment() {
             <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesUpdate} />
 
 
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' />
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}/>
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
         </form>
     </div>

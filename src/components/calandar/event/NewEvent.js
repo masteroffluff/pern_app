@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
+import { useNavigate } from "react-router";
 
 
 export default function NewEvent() {
@@ -11,12 +12,16 @@ export default function NewEvent() {
     const [dateFrom, setDateFrom] = useState('')
     const [dateTo, setDateTo] = useState('')
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const submitEvent = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'event', notes, place, dateFrom, dateTo, attendees:[] }))
     }
-
+    const cancelEvent=(e)=>{
+        e.preventDefault()
+        navigate('/')
+    }
     
 
     const titleUpdate = (e) => {
@@ -57,7 +62,7 @@ export default function NewEvent() {
             <label htmlFor="dateTo">Date To</label>
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
 
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' />
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onclick={cancelEvent} />
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
         </form>
     </div>

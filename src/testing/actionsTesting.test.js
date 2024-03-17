@@ -7,9 +7,9 @@ import { setupStore } from '../store'
 
 import { NewAppointment, NewEvent, NewReminder } from '../components/calandar';
 import { NewNote, NewTodo } from '../components/items/index.js';
+import { BrowserRouter } from 'react-router-dom';
 
-
-import dummyStore, { date, tomorrow  } from './dummyData.js'
+import dummyStore, { date, tomorrow } from './dummyData.js'
 
 import apiFetch from '../utils/apiFetch'; // Import the apifetch function
 
@@ -28,11 +28,11 @@ describe("action tests", () => {
 
             // const store = mockStore(initialState); // Initial store state
             const store = setupStore(dummyStore)
-            render(
+            render(<BrowserRouter>
                 <Provider store={store}>
                     <NewTodo />
                 </Provider>
-            );
+            </BrowserRouter>);
 
 
             const textBox_title = screen.getByLabelText("Title");
@@ -78,10 +78,11 @@ describe("action tests", () => {
             // const store = mockStore(initialState); // Initial store state
             const store = setupStore({})
             render(
-                <Provider store={store}>
-                    <NewNote />
-                </Provider>
-            );
+                <BrowserRouter>
+                    <Provider store={store}>
+                        <NewNote />
+                    </Provider>
+                </BrowserRouter>);
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Notes");
             // add the title
@@ -115,10 +116,11 @@ describe("action tests", () => {
             // const store = mockStore(initialState); // Initial store state
             const store = setupStore({})
             render(
+            <BrowserRouter>
                 <Provider store={store}>
                     <NewAppointment />
                 </Provider>
-            );
+            </BrowserRouter>);
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");
             const textBox_place = screen.getByLabelText("Place");
@@ -168,10 +170,11 @@ describe("action tests", () => {
             // const store = mockStore(initialState); // Initial store state
             const store = setupStore({})
             render(
-                <Provider store={store}>
-                    <NewReminder />
-                </Provider>
-            );
+                <BrowserRouter>
+                    <Provider store={store}>
+                        <NewReminder />
+                    </Provider>
+                </BrowserRouter>);
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");
             const textBox_place = screen.getByLabelText("Place");
@@ -218,9 +221,11 @@ describe("action tests", () => {
             // const store = mockStore(initialState); // Initial store state
             const store = setupStore({})
             render(
-                <Provider store={store}>
-                    <NewEvent />
-                </Provider>
+                <BrowserRouter>
+                    <Provider store={store}>
+                        <NewEvent />
+                    </Provider>
+                </BrowserRouter>
             );
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
+import { useNavigate } from "react-router";
 
 
 export default function NewReminder(){
@@ -10,6 +11,7 @@ export default function NewReminder(){
     const [dateFrom, setDateFrom] = useState('')
     const [dateTo, setDateTo] = useState('')
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const submitReminder = (e) => {
         e.preventDefault();
@@ -38,6 +40,10 @@ export default function NewReminder(){
         e.preventDefault();
         setDateTo(e.target.value)
     }
+    const cancelReminder=(e)=>{
+        e.preventDefault()
+        navigate('/')
+    }
 
     return <div data-testid="newReminder">
         <h3>Add Reminder</h3>
@@ -58,7 +64,7 @@ export default function NewReminder(){
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
 
             <button type='button' data-testid='shareButton' aria-label="Share" value='Share' />
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' />
+            <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder} />
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
         </form>
     </div>

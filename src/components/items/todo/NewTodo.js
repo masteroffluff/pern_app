@@ -3,9 +3,10 @@ import { useDispatch } from "react-redux";
 import TodoItem from "./TodoItem";
 import { itemsTodoAdd } from '../itemSlice'
 import { setPopup } from "../../mainPage/popupSlice";
+import { useNavigate } from "react-router";
 
 export default function NewTodo() {
-
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(setPopup(true))
@@ -50,6 +51,10 @@ export default function NewTodo() {
         e.preventDefault()
         dispatch(itemsTodoAdd({ title, notes, items:todoItems }))
     }
+    const cancelTodo=(e)=>{
+        e.preventDefault()
+        navigate('/')
+    }
 
     return <div data-testid="newTodo">
         <h3>Add Todo</h3>
@@ -68,7 +73,7 @@ export default function NewTodo() {
             <label htmlFor="newItem">New Item</label>
             <input data-testid="newItem" type='text' id='newItem' onChange={newItemUpdate} value={newItem} />
             <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem} />
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' />
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} />
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
         </form>
 

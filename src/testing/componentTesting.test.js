@@ -4,8 +4,8 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo } from '../components/items'
 import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
-import {store} from '../store';
-
+import store from '../store';
+import { BrowserRouter } from 'react-router-dom';
 
 
 
@@ -36,22 +36,20 @@ const date = new Date() // todays date so that all items appear as today that ha
 
 
 function boilerplateTests(Component, componentName, componentTitle) {
-    
-    
+
+
     describe(`Boilerplate tests for ${componentName}`, () => {
         const notes = 'foo';
         const title = 'bar'
         // Render the parent component and store its container
         //console.log(Component)
-        
-        //render(<Provider store={store}><Component /></Provider>)
-        //render(<Provider store={store}><NewNote /></Provider>);
+
         it(`has header "${componentTitle}"`, () => {
             expect(screen.getByText(componentTitle)).toBeInTheDocument();
         });
         it('has textbox labelled "notes"', () => {
             expect(screen.getByTestId("notes")).toBeInTheDocument();
-            
+
         });
         it('has textbox labelled "title"', () => {
             expect(screen.getByTestId("title")).toBeInTheDocument();
@@ -71,7 +69,7 @@ function boilerplateTests(Component, componentName, componentTitle) {
             expect(textbox.value).toBe(notes);
 
             // Assert that the state has changed as expected
-            expect(screen.getByTestId("notes").value).toBe( notes );
+            expect(screen.getByTestId("notes").value).toBe(notes);
         });
         it('state update for "title"', () => {
             // Initial state assertion
@@ -86,7 +84,7 @@ function boilerplateTests(Component, componentName, componentTitle) {
             expect(textbox.value).toBe(title);
 
             // Assert that the state has changed as expected
-            expect(screen.getByTestId('title').value).toBe( title );
+            expect(screen.getByTestId('title').value).toBe(title);
         });
         it('has confirm button"', () => {
             const testElement = screen.getByTestId('confirmButton');
@@ -113,17 +111,19 @@ describe('component Tests', () => {
     // - has button labelled "share"
 
     describe('NewNote', () => {
-        beforeEach(()=>{
+        beforeEach(() => {
             // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<Provider store={store}><NewNote /></Provider>);
+            render(<BrowserRouter>
+                <Provider store={store}><NewNote /></Provider>
+            </BrowserRouter>);
         })
-        afterEach(()=>{
+        afterEach(() => {
             cleanup();
         })
         // Render the parent component and store its container
         boilerplateTests(NewNote, 'NewNote', 'Note')
         it('has share button"', () => {
-            
+
             //render(<NewNote notes={notes} title={title} date={date} />);
             const testElement = screen.getByTestId('shareButton');
             expect(testElement).toBeInTheDocument();
@@ -137,11 +137,13 @@ describe('component Tests', () => {
     // - has button labelled "share"
     describe('NewReminder', () => {
         // Render the parent component and store its container
-        beforeEach(()=>{
+        beforeEach(() => {
             // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<Provider store={store}><NewReminder /></Provider>);
+            render(<BrowserRouter>
+                <Provider store={store}><NewReminder /></Provider>
+            </BrowserRouter>);
         })
-        afterEach(()=>{
+        afterEach(() => {
             cleanup();
         })
         boilerplateTests(NewReminder, 'NewReminder', "Add Reminder")
@@ -156,11 +158,13 @@ describe('component Tests', () => {
     // - has title - "Appointement"
 
     describe('NewAppointment', () => {
-        beforeEach(()=>{
+        beforeEach(() => {
             // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<Provider store={store}><NewAppointment /></Provider>);
+            render(<BrowserRouter>
+                <Provider store={store}><NewAppointment /></Provider>
+            </BrowserRouter>);
         })
-        afterEach(()=>{
+        afterEach(() => {
             cleanup();
         })
         boilerplateTests(NewAppointment, 'NewAppointment', "Add Appointement")
@@ -208,14 +212,19 @@ describe('component Tests', () => {
     // - has textbox labelled "place"
     describe('NewEvent specific', () => {
         // Render the parent component and store its container
-        beforeEach(()=>{
+        beforeEach(() => {
             // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<Provider store={store}><NewEvent /></Provider>);
+            render(
+                <BrowserRouter>
+                    <Provider store={store}>
+                        <NewEvent />
+                    </Provider>
+                </BrowserRouter>);
         })
-        afterEach(()=>{
+        afterEach(() => {
             cleanup();
         })
-        
+
         //render(<NewAppointment />);
         boilerplateTests(NewEvent, 'NewEvent', "Add Event")
 
@@ -237,17 +246,19 @@ describe('component Tests', () => {
     describe('NewTodo', () => {
         //afterAll(() => { cleanup() })
         // Render the parent component and store its container
-        beforeEach(()=>{
+        beforeEach(() => {
             // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<Provider store={store}><NewTodo /></Provider>);
+            render(<BrowserRouter>
+                <Provider store={store}><NewTodo /></Provider>
+            </BrowserRouter>);
         })
-        afterEach(()=>{
+        afterEach(() => {
             cleanup();
         })
         //render(<NewTodo />);
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         boilerplateTests(NewTodo, 'NewTodo', "Add Todo")
-        
+
         // - has list list of todo items
         it('has list of todo items"', () => {
             const todoItems = screen.getByTestId('todoItems');
@@ -278,9 +289,11 @@ describe('component Tests', () => {
     describe('Note', () => {
         // requires props title, value, date
         afterAll(() => { cleanup() })
-        
+
         it("renders Note Props properly", () => {
-            render(<Provider store={store}><Note title={title} value={value} date={date} /></Provider>)
+            render(<BrowserRouter>
+                <Provider store={store}><Note title={title} value={value} date={date} /></Provider>
+            </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
@@ -301,9 +314,11 @@ describe('component Tests', () => {
             { value: 'grault', done: false }
         ]
         // requires props title, value, items
-        
+
         it("renders Todo Props properly", () => {
-            render(<Provider store={store}><Todo title={title} value={value} items={items} /></Provider>)
+            render(<BrowserRouter>
+                <Provider store={store}><Todo title={title} value={value} items={items} /></Provider>
+            </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
@@ -314,7 +329,7 @@ describe('component Tests', () => {
                 expect(element).toHaveTextContent(items[index].value)
                 // eslint-disable-next-line testing-library/no-node-access
                 const checkbox = element.querySelector("input[type='checkbox']")
-                
+
                 expect(checkbox.checked).toBe(items[index].done);
             })
         })
@@ -323,9 +338,11 @@ describe('component Tests', () => {
     // Appointment
     describe('Appointment', () => {
         // requires props title, value, dateFrom, dateTo, place
-        
+
         it("renders Appointment Props properly", () => {
-            render(<Provider store={store}><Appointment title={title} value={value} dateFrom={dateFrom} dateTo={dateTo} place={place} /></Provider>)
+            render(<BrowserRouter>
+                <Provider store={store}><Appointment title={title} value={value} dateFrom={dateFrom} dateTo={dateTo} place={place} /></Provider>
+            </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
@@ -342,9 +359,11 @@ describe('component Tests', () => {
     // Event
     describe('Event', () => {
         // requires props title, value, dateFrom, dateTo, place
-        
+
         it("renders Event Props properly", () => {
-            render(<Provider store={store}><Event title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} place={place} /></Provider>)
+            render(<BrowserRouter>
+                <Provider store={store}><Event title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} place={place} /></Provider>
+            </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
@@ -361,10 +380,12 @@ describe('component Tests', () => {
     // Reminder 
     describe('Reminder', () => {
         // requires props title, value, dateFrom, dateTo
-        
-        
+
+
         it("renders Reminder props properly", () => {
-            render(<Provider store={store}><Reminder title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} /></Provider>)
+            render(<BrowserRouter>
+                <Provider store={store}><Reminder title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} /></Provider>
+            </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
@@ -376,5 +397,5 @@ describe('component Tests', () => {
         })
         cleanup()
     })
-    
+
 })

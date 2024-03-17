@@ -17,6 +17,10 @@ export default function DisplayCalendar() {
     }
 
     const calendar = useSelector(selectCalendar)
+    
+
+
+
     return <div data-testid="displayCalendar">
         <h3>Calendar</h3>
         <form>

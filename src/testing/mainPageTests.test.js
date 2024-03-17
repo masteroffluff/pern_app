@@ -10,7 +10,7 @@ import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar }
 import { UserDetails, UserDisplay, UserFriends } from '../components/user';
 
 import dummyStore, { date, time1, time2, time3 } from './dummyData.js'
-import { Router, Route } from 'react-router';
+//import { Router, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 
 

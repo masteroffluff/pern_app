@@ -19,7 +19,7 @@ const user = combineReducers({
   pfp: userPfpSlice
 });
 
-export const store = configureStore({
+ const store = configureStore({
   reducer: {
     calendar,
     items,
@@ -29,7 +29,7 @@ export const store = configureStore({
     popup
   }
 });
-
+export default store
 // Create the root reducer separately so we can extract the RootState type
 export const rootReducer = combineReducers({
   calendar,
