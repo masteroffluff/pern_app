@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import TodoItem from "./TodoItem";
 import { itemsTodoAdd } from '../itemSlice'
+import { setPopup } from "../../mainPage/popupSlice";
 
 export default function NewTodo() {
 
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(setPopup(true))
+    return dispatch(setPopup(false))
+    },[dispatch])
+    
     const [todoItems, setTodoItems] = useState([])
 
     const [title, setTitle] = useState('')

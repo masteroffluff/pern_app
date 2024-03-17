@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectedUserDetails } from "./userDetailsSlice";
+
 
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)

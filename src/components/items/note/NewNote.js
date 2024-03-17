@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { itemsNoteAdd } from "../itemSlice";
+import { setPopup } from "../../mainPage/popupSlice";
 
 export default function NewNote() {
     const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(setPopup(true))
+     return () => dispatch(setPopup(false))
+    },[dispatch])
 
     const [title,setTitle] = useState('')
     const [notes, setNotes] = useState ('')

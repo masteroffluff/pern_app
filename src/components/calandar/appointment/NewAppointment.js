@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
+import { setPopup } from "../../mainPage/popupSlice";
 
 export default function NewAppointment() {
-
-
 
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
@@ -15,6 +14,12 @@ export default function NewAppointment() {
     const [attendees, setAttendees] = useState([])
 
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(setPopup(true))
+    return dispatch(setPopup(false))
+    },[dispatch])
+
     const submitAppointment = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'appointment', notes, place, dateFrom, dateTo, attendees }))

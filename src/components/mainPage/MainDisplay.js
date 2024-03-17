@@ -4,7 +4,6 @@ import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar }
 export default function MainDisplay(){
     return (
         <div>
-            <h1>I havent thought of a title yet</h1>
             <DisplayToday />
             <DisplayTodo /> 
             <DisplayWall /> 
