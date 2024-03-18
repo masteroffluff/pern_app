@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { selectHasErrorAuth, userAuthLogin } from "./userAuthSlice";
 
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)
 // ✕ displays user email (4 ms)
 
 export default function UserLogin(){
+
+    const dispatch = useDispatch()
+
+    const authError = useSelector(selectHasErrorAuth)
+
     const [displayName, setDisplayName] = useState('')    
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
@@ -26,17 +31,19 @@ export default function UserLogin(){
             setErrorMessage('Please enter your display name and password')
             return
         }
+        dispatch(userAuthLogin({password,username:displayName}))
     }
 
-    return <div data-testid="userDetails">
-        <h3>Login</h3>
+    return <div className="App" data-testid="userDetails">
+        <h3>Please Login</h3>
         <form onSubmit={loginSubmit}>
             <label htmlFor="displayName"><h4>Display Name</h4></label>
             <input type="text" id='displayName' value = {displayName} onChange={displayNameChange} />
             <label htmlFor="password"><h4>Pasword</h4></label>
             <input type="password" id='password' value = {password} onChange={passwordChange} />
-            <input type="submit" id='submit' >Log In</input>
-            <p className="errorMessage">{errorMessage}</p>
+            <button type="submit" id='submit' >Log In</button>
+            {errorMessage?<p className="errorMessage">{errorMessage}</p>:<></>}
+            {errorMessage?<p className="errorMessage">{authError}</p>:<></>}
         </form>
     </div>
 }

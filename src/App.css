@@ -13,6 +13,7 @@ body {
   font-family:"Poppins", sans-serif;
   color: antiquewhite;
 }
+
 p{
   font-family:"Poppins", sans-serif;
 }
@@ -26,8 +27,13 @@ h2, h3, h4 {
   color: darksalmon;
  
 }
-
-
+.errorMessage{
+  color: red;
+}
 .App {
   text-align: center;
+}
+
+.wall{
+  text-align: justify;
 }

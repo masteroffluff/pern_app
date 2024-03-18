@@ -18,11 +18,12 @@ const name= 'authentication'
 
 export const userAuthLogin= createAsyncThunk(
     'userAuthLogin',
-    async ({userName:username,passWord:password},{rejectWithValue}) => {
-        //console.log(username)
-        //console.log(password)
-        
+    async ({username,password},{rejectWithValue}) => {
+        console.log(username)
+        console.log(password)
+    
         const endPoint = `${apiUrl}/login`; 
+        console.log(endPoint)
         const options = {
             method:'POST',
             headers:{

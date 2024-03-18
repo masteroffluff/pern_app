@@ -73,7 +73,7 @@ export default function NewTodo() {
             <label htmlFor="newItem">New Item</label>
             <input data-testid="newItem" type='text' id='newItem' onChange={newItemUpdate} value={newItem} />
             <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem}>Add Todo Item</button>
-            <br />
+            
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} >Cancel</button>
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>

@@ -14,8 +14,8 @@ const name = "wall"
 
 export const wallFetch = createAsyncThunk(
     'wallFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/wall`
         //console.log (endPoint)
         const options = {
