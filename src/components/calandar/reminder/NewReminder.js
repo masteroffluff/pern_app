@@ -55,21 +55,21 @@ export default function NewReminder(){
     return <div data-testid="newReminder" className='popup'>
         <h3>Add Reminder</h3>
         <form  onSubmit={submitReminder}>
-        <label htmlFor="title">Title</label>
-            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} />
+        <label htmlFor="title">Title</label><br />
+            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
-            <label htmlFor="value">Description</label>
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} />
+            <label htmlFor="value">Description</label><br />
+            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
 
-            <label htmlFor="place">Place</label>
-            <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} />
+            <label htmlFor="place">Place</label><br />
+            <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
 
             <label htmlFor="dateFrom">Date From</label>
             <input data-testid="dateFrom" type='date' id='dateFrom' onChange={dateFromUpdate} value={dateFrom} />
 
             <label htmlFor="dateTo">Date To</label>
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
-
+            <br />
             <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button>
             <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder}>Cancel</button>
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>

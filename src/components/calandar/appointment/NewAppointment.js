@@ -65,14 +65,14 @@ export default function NewAppointment() {
     return <div data-testid="newAppointment" className='popup'>
         <h3>Add Appointement</h3>
         <form onSubmit={submitAppointment}>
-            <label htmlFor="title">Title</label>
-            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} />
+            <label htmlFor="title">Title</label><br />
+            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
-            <label htmlFor="value">Description</label>
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} />
+            <label htmlFor="value">Description</label><br />
+            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
 
-            <label htmlFor="place">Place</label>
-            <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} />
+            <label htmlFor="place">Place</label><br />
+            <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
 
             <label htmlFor="dateFrom">Date From</label>
             <input data-testid="dateFrom" type='date' id='dateFrom' onChange={dateFromUpdate} value={dateFrom} />
@@ -84,7 +84,7 @@ export default function NewAppointment() {
             <input data-testid="attendee" type='text' id='attendee' onChange={attendeeUpdate} value={attendee} />
             <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesUpdate}>Invite Attendee</button>
 
-
+            <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>

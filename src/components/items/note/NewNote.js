@@ -38,15 +38,16 @@ export default function NewNote() {
     return <div data-testid="newNote" className='popup'>
         <h3>Note</h3>
         <form onSubmit={submitNote} >
-            <label htmlFor="title">Title</label>
-            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title}/>
+            <label htmlFor="title">Title</label><br />
+            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title}/><br />
 
-            <label htmlFor="value">Notes</label>
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes}/>
-
+            <label htmlFor="value">Notes</label><br />
+            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes}/><br />
+            <br />
+            <button data-testid="shareButton" value="share" id='shareButton'>Share</button>
             <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
             <button type='submit' data-testid="confirmButton" id='addNote' value='Confirm'>Confirm</button>
-            <button data-testid="shareButton" value="share" id='shareButton'>Share</button>
+            
         </form>
     </div>
 }

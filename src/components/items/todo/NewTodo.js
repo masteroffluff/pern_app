@@ -59,11 +59,11 @@ export default function NewTodo() {
     return <div data-testid="newTodo" className='popup'>
         <h3>Add Todo</h3>
         <form onSubmit={submitTodo}>
-            <label htmlFor="title">Title</label>
-            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} />
+            <label htmlFor="title">Title</label><br />
+            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
-            <label htmlFor="value">To Do Notes</label>
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} />
+            <label htmlFor="value">To Do Notes</label><br />
+            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
             <div aria-label='to do items' data-testid="todoItems">
                 <ul>
                     {todoItems.map((todoItem, index) => <li  key={index} ><TodoItem index={index} value={todoItem.value} done={todoItem.done} callBack={todoItemCallback} />
@@ -73,13 +73,9 @@ export default function NewTodo() {
             <label htmlFor="newItem">New Item</label>
             <input data-testid="newItem" type='text' id='newItem' onChange={newItemUpdate} value={newItem} />
             <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem}>Add Todo Item</button>
+            <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} >Cancel</button>
             <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>
-
-
-
-
-
     </div>
 }
