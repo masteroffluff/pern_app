@@ -45,7 +45,7 @@ export default function NewNote() {
             <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes}/>
 
             <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
-            <input type='submit' data-testid="confirmButton" id='addNote' value='Confirm' />
+            <button type='submit' data-testid="confirmButton" id='addNote' value='Confirm'>Confirm</button>
             <button data-testid="shareButton" value="share" id='shareButton'>Share</button>
         </form>
     </div>

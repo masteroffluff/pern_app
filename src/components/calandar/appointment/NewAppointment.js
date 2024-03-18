@@ -62,7 +62,7 @@ export default function NewAppointment() {
     }
 
 
-    return <div data-testid="newAppointment">
+    return <div data-testid="newAppointment" className='popup'>
         <h3>Add Appointement</h3>
         <form onSubmit={submitAppointment}>
             <label htmlFor="title">Title</label>
@@ -82,11 +82,11 @@ export default function NewAppointment() {
 
             <label htmlFor="attendee">Attendees</label>
             <input data-testid="attendee" type='text' id='attendee' onChange={attendeeUpdate} value={attendee} />
-            <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesUpdate} />
+            <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesUpdate}>Invite Attendee</button>
 
 
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}/>
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
+            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>
     </div>
 }

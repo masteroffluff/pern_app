@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
+import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
@@ -14,6 +15,12 @@ export default function NewEvent() {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(setPopup(true))
+    return ()=>dispatch(setPopup(false))
+    },[dispatch])
+
     const submitEvent = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'event', notes, place, dateFrom, dateTo, attendees:[] }))
@@ -44,9 +51,9 @@ export default function NewEvent() {
         e.preventDefault();
         setDateTo(e.target.value)
     }
-    return <div data-testid="newEvent" onSubmit={submitEvent}>
+    return <div data-testid="newEvent"  className='popup'>
         <h3>Add Event</h3>
-        <form>
+        <form onSubmit={submitEvent}>
             <label htmlFor="title">Title</label>
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} />
 
@@ -62,8 +69,8 @@ export default function NewEvent() {
             <label htmlFor="dateTo">Date To</label>
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
 
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onclick={cancelEvent} />
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelEvent}>Cancel</button>
+            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' >Done</button>
         </form>
     </div>
 }

@@ -140,9 +140,11 @@ describe('DisplayTodo', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-            <Provider store={store}>
-                <DisplayTodo />
-            </Provider>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <DisplayTodo />
+                </Provider>
+            </BrowserRouter>
         );
     })
     afterEach(() => {
@@ -170,10 +172,12 @@ describe('DisplayNotes', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-
-            <Provider store={store}>
-                <DisplayNotes />
-            </Provider>
+<BrowserRouter>
+    
+                <Provider store={store}>
+                    <DisplayNotes />
+                </Provider>
+</BrowserRouter>
         );
     })
     afterEach(() => {
@@ -213,9 +217,11 @@ describe('DisplayCalendar', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-            <Provider store={store}>
-                <DisplayCalendar />
-            </Provider>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <DisplayCalendar />
+                </Provider>
+            </BrowserRouter>
         );
     })
     afterEach(() => {

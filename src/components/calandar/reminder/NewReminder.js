@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calendarPost } from "../calendarSlice";
+import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
@@ -13,6 +14,12 @@ export default function NewReminder(){
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(setPopup(true))
+    return ()=>dispatch(setPopup(false))
+    },[dispatch])
+
     const submitReminder = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'reminder', notes, place, dateFrom, dateTo, attendees:[] }))
@@ -45,7 +52,7 @@ export default function NewReminder(){
         navigate('/')
     }
 
-    return <div data-testid="newReminder">
+    return <div data-testid="newReminder" className='popup'>
         <h3>Add Reminder</h3>
         <form  onSubmit={submitReminder}>
         <label htmlFor="title">Title</label>
@@ -63,9 +70,9 @@ export default function NewReminder(){
             <label htmlFor="dateTo">Date To</label>
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
 
-            <button type='button' data-testid='shareButton' aria-label="Share" value='Share' />
-            <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder} />
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
+            <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button>
+            <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder}>Cancel</button>
+            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>
     </div>
 }

@@ -56,7 +56,7 @@ export default function NewTodo() {
         navigate('/')
     }
 
-    return <div data-testid="newTodo">
+    return <div data-testid="newTodo" className='popup'>
         <h3>Add Todo</h3>
         <form onSubmit={submitTodo}>
             <label htmlFor="title">Title</label>
@@ -72,9 +72,9 @@ export default function NewTodo() {
             </div>
             <label htmlFor="newItem">New Item</label>
             <input data-testid="newItem" type='text' id='newItem' onChange={newItemUpdate} value={newItem} />
-            <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem} />
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} />
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' />
+            <button aria-label="Add Todo Item" value='Add Todo Item' onClick={addTodoItem}>Add Todo Item</button>
+            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} >Cancel</button>
+            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
         </form>
 
 
