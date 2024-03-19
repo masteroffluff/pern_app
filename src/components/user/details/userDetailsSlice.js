@@ -14,8 +14,8 @@ const name = "details"
 
 export const userDetailsFetch = createAsyncThunk(
     'userDetailsFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/user`
         //console.log (endPoint)
         const options = {
@@ -35,10 +35,10 @@ export const userDetailsFetch = createAsyncThunk(
 
 export const userDetailsUpdate = createAsyncThunk(
     'userDetailsUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/user`
-        //console.log (endPoint)
+        console.log (endPoint)
         const options = {
             method: 'UPDATE',
             credentials: 'include',

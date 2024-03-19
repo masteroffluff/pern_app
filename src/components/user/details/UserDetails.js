@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectedUserDetails } from "./userDetailsSlice";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectedUserDetails, userDetailsFetch } from "./userDetailsSlice";
+import { friendsFetch } from "../friends/userFriendsSlice";
 
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)
@@ -8,6 +9,11 @@ import { selectedUserDetails } from "./userDetailsSlice";
 
 export default function UserDetails(){
     const {displayName, email, telephoneNumber} = useSelector(selectedUserDetails)
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(userDetailsFetch())
+        
+    },[dispatch])
     return <div data-testid="userDetails">
         <h3>User Details</h3>
         <form>

@@ -16,7 +16,8 @@ const name = "friends"
 
 export const friendsFetch = createAsyncThunk(
     'friendsListFetch',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends`
         //console.log (endPoint)
@@ -35,7 +36,8 @@ export const friendsFetch = createAsyncThunk(
 
 export const friendsPotential = createAsyncThunk(
     'friendsPotential',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/potential`
         //console.log (endPoint)
@@ -56,7 +58,8 @@ export const friendsPotential = createAsyncThunk(
 
 export const friendsAdd = createAsyncThunk(
     'friendsAdd',
-    async ({ authToken }, { rejectWithValue }) => {
+    async ({friend_id}, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends`
         //console.log (endPoint)
@@ -79,7 +82,8 @@ export const friendsAdd = createAsyncThunk(
 
 export const friendConfirm = createAsyncThunk(
     'friendsUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/confirm`
         //console.log (endPoint)
@@ -100,7 +104,8 @@ export const friendConfirm = createAsyncThunk(
 
 export const friendsUnfollow = createAsyncThunk(
     'friendsUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/unfollow`
         //console.log (endPoint)
@@ -121,7 +126,8 @@ export const friendsUnfollow = createAsyncThunk(
 
 export const friendsBlock = createAsyncThunk(
     'friendsUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/block`
         //console.log (endPoint)

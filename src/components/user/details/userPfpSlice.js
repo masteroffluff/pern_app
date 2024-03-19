@@ -14,8 +14,8 @@ const name = "pfp"
 
 export const userPfpFetch = createAsyncThunk(
     'userPfpFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/userpfp`
         //console.log (endPoint)
         const options = {
@@ -35,7 +35,8 @@ export const userPfpFetch = createAsyncThunk(
 
 export const userPfpUpdate = createAsyncThunk(
     'userPfpUpdate',
-    async ({ authToken }, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/userpfp`
         //console.log (endPoint)

@@ -67,16 +67,16 @@ const dummyStore = {
         },
         friends: {
             list: [
-                { id: 2, name: 'bob', status: 'friend' },
-                { id: 3, name: 'charlie', status: 'unfollowed' },
-                { id: 4, name: 'dan', status: 'blocked' },
-                { id: 5, name: 'edd', status: 'pending' },
-                { id: 5, name: 'faye', status: 'sent' }
+                { id: 2, display_name: 'bob', status: 'friend' },
+                { id: 3, display_name: 'charlie', status: 'unfollowed' },
+                { id: 4, display_name: 'dan', status: 'blocked' },
+                { id: 5, display_name: 'edd', status: 'pending' },
+                { id: 5, display_name: 'faye', status: 'sent' }
             ],
             potential: [
-                { name: 'frank', id: 7 },
-                { name: 'gertie', id: 8 },
-                { name: 'helen', id: 9 },
+                { display_name: 'frank', id: 7 },
+                { display_name: 'gertie', id: 8 },
+                { display_name: 'helen', id: 9 },
             ],
         },
 

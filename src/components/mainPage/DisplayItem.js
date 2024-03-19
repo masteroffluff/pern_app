@@ -5,7 +5,7 @@ import {Note} from '../items'
 
 
 export default function DisplayItem({data}){
-    const {type, title, notes:value, owner, dateTo, dateFrom, date}=data
+    const {type, title, value, owner, dateTo, dateFrom, date}=data
     
     switch(type){
         case 'appointment':
