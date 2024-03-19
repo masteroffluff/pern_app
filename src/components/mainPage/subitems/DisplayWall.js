@@ -10,13 +10,15 @@ export default function DisplayWall() {
     
     const wall = useSelector(selectWall)
     
+    useEffect(()=>{
+        dispatch(wallFetch())
+    }, [dispatch]);
+
     const newNote_click = (e) =>{
         e.preventDefault()
         navigate('/newnote')
     }
-    useEffect(()=>{
-        dispatch(wallFetch())
-    }, [dispatch]);
+
 
     return <div data-testid="displayWall" className="wallContainer">
         <h3>My Wall</h3>

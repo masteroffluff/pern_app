@@ -35,10 +35,10 @@ const dummyStore = {
                 id: 1,
                 type: 'Todo',
                 title: "Todo list",
-                todoItems: [
-                    { value: 'foo', state: true },
-                    { value: 'bar', state: false },
-                    { value: 'baz', state: false },
+                items: [
+                    { item_text: 'foo', item_done: true },
+                    { item_text: 'bar', item_done: false },
+                    { item_text: 'baz', item_done: false },
                 ]
             }
         ],

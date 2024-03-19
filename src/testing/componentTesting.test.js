@@ -307,11 +307,11 @@ describe('component Tests', () => {
     describe('Todo', () => {
         afterAll(() => { cleanup() })
         const items = [
-            { value: 'qux', done: true },
-            { value: 'quux', done: true },
-            { value: 'qux', done: false },
-            { value: 'corge', done: false },
-            { value: 'grault', done: false }
+            { item_text: 'qux', item_done: true },
+            { item_text: 'quux', item_done: true },
+            { item_text: 'qux', item_done: false },
+            { item_text: 'corge', item_done: false },
+            { item_text: 'grault', item_done: false }
         ]
         // requires props title, value, items
 
@@ -326,11 +326,11 @@ describe('component Tests', () => {
             screen.getAllByTestId("todo-item").forEach((element, index) => {
                 //console.log(items[index])
                 // eslint-disable-next-line testing-library/prefer-screen-queries
-                expect(element).toHaveTextContent(items[index].value)
+                expect(element).toHaveTextContent(items[index].item_text)
                 // eslint-disable-next-line testing-library/no-node-access
                 const checkbox = element.querySelector("input[type='checkbox']")
 
-                expect(checkbox.checked).toBe(items[index].done);
+                expect(checkbox.checked).toBe(items[index].item_done);
             })
         })
         cleanup()

@@ -20,14 +20,14 @@ jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom,
     <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
 jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo, owner }) =>
     <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/items/todo/Todo', () => ({ title, value, todoItems, owner }) => (
+jest.mock('../components/items/todo/Todo', () => ({ title, value, items, owner }) => (
     <div data-testid="mocked-Todo">
         <h3>{title}</h3>
         <p>{value}</p>
         <ul>
-            {todoItems.map((todo, index) => (
+            {items.map((todoItem, index) => (
                 <li data-testid="mocked-TodoItem" key={index}>
-                    {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
+                    {todoItem.item_text} - {todoItem.item_done ? 'Completed' : 'Incomplete'}
                 </li>
             ))}
         </ul>
@@ -97,10 +97,12 @@ describe('DisplayToday', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-
-            <Provider store={store}>
-                <DisplayToday />
-            </Provider>
+<BrowserRouter>
+    
+                <Provider store={store}>
+                    <DisplayToday />
+                </Provider>
+</BrowserRouter>
         );
     })
     afterEach(() => {
@@ -329,9 +331,11 @@ describe('UserDisplay', () => {
     store = setupStore(dummyStore); // Initialize the mock store with initial state
     beforeEach(() => {
         render(
-            <Provider store={store}>
-                <UserDisplay />
-            </Provider>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <UserDisplay />
+                </Provider>
+            </BrowserRouter>
         );
     })
     afterEach(() => {
@@ -392,9 +396,11 @@ describe('UserFriends', () => {
     store = setupStore(dummyStore); // Initialize the mock store with initial state
     beforeEach(() => {
         render(
-            <Provider store={store}>
-                <UserFriends />
-            </Provider>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <UserFriends />
+                </Provider>
+            </BrowserRouter>
         );
     })
     afterEach(() => {
