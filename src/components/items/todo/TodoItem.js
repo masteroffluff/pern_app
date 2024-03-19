@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TodoItem({ index, item_text, item_done, callBack }) {
     const checkboxClick = (e) => {
-        e.preventdefault()
+        e.preventDefault()
         callBack(index, e.target.value)
     }
     return <div data-testid="todo-item" className='todoItem'>
