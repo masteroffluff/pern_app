@@ -14,19 +14,19 @@ export { date, tomorrow, time1, time2, time3 }
 const dummyStore = {
     calendar: {
         calendarItems: [
-            { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-            { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-            { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
-            { id: 4, type: 'appointment', title: 'QUX', value: 'qux', dateFrom: tomorrow, dateTo: tomorrow },
-            { id: 5, type: 'event', title: 'QUUX', value: 'quux', dateFrom: tomorrow, dateTo: tomorrow },
-            { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', dateFrom: tomorrow, dateTo: tomorrow },
+            { id: 1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
+            { id: 2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
+            { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
+            { id: 4, type: 'appointment', title: 'QUX', value: 'qux', date_from: tomorrow, date_to: tomorrow },
+            { id: 5, type: 'event', title: 'QUUX', value: 'quux', date_from: tomorrow, date_to: tomorrow },
+            { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', date_from: tomorrow, date_to: tomorrow },
         ]
     },
     today: {
         calendarItems: [
-            { id: 1, type: 'appointment', title: 'FOO', value: 'foo', dateFrom: date, dateTo: date },
-            { id: 2, type: 'event', title: 'BAR', value: 'bar', dateFrom: date, dateTo: date },
-            { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', dateFrom: date, dateTo: date },
+            { id: 1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
+            { id: 2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
+            { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
         ]
     },
     items: {
@@ -51,9 +51,9 @@ const dummyStore = {
     },
     wall: {
         wallItems: [
-            { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-            { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-            { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+            { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', date_from: date, date_to: date },
+            { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', date_from: date, date_to: date },
+            { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', date_from: date, date_to: date },
             { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1 },
             { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2 },
             { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: time3 },

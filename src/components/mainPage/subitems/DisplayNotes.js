@@ -1,12 +1,19 @@
 import React,{ useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectNotes } from "../../items/itemSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { itemsNoteFetch, selectNotes } from "../../items/itemSlice";
 import Note from "../../items/note/Note"
 import { useNavigate } from "react-router";
 
 export default function DisplayNotes(){
-    const notes = useSelector(selectNotes)
     const navigate = useNavigate()
+    const dispatch = useDispatch()    
+
+    const notes = useSelector(selectNotes)
+
+    useEffect(()=>{
+        dispatch(itemsNoteFetch())
+    }, [dispatch]);
+
     const newNote_click = (e) =>{
         e.preventDefault()
         navigate('/newnote')

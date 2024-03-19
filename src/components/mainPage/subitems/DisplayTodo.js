@@ -5,9 +5,11 @@ import { Todo } from '../../items/index'
 import { useNavigate } from "react-router";
 
 export default function DisplayTodo() {
-    const todos = useSelector(selectTodos)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const todos = useSelector(selectTodos)
+
 
     useEffect(()=>{
         dispatch(itemsTodoFetch())

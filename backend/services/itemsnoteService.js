@@ -11,6 +11,7 @@ module.exports.get_notes = async function get_notes(req, res) {
     try {
         const {id} = req.user
         const list = await getListOfNotes(id)
+        //console.log(list)
         res.send(list)
     }catch(e){
         res.status(400).send({message:e.message})
@@ -76,7 +77,7 @@ module.exports.delete_note = async function delete_note(req, res) {
 
 async function getListOfNotes(id){
     const sql =
-    `SELECT id, shared_to, title, notes
+    `SELECT id, shared_to, title, notes, date
     FROM "Items"
     WHERE type = 1 AND owner_id = $1`
     const response = await db.queryPromisified(sql, [id])

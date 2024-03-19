@@ -9,29 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 
 
-// jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}</div>);
-// jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}</div>);
-// jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo }) => <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}</div>);
-// jest.mock('../components/items/todo/Todo', () => ({ items }) => (
-//     <div data-testid="mocked-Todo">
-//         <ul>
-//             {items.map((todo, index) => (
-//                 <li key={index}>
-//                     {todo.value} - {todo.state ? 'Completed' : 'Incomplete'}
-//                 </li>
-//             ))}
-//         </ul>
-//     </div>
-// ));
-// jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
-//     <div data-testid="mocked-note">
-//         <h3>{title}</h3>
-//         <p>{value}</p>
-//         <p>{owner}</p>
-//         <p>{date}</p>
-//     </div>
-// ));
-
 const date = new Date() // todays date so that all items appear as today that have dates
 
 
@@ -148,7 +125,6 @@ describe('component Tests', () => {
         })
         boilerplateTests(NewReminder, 'NewReminder', "Add Reminder")
         it('has share button"', () => {
-            //render(<NewReminder notes={notes} title={title} dateFrom={date} dateTo={date} />);
             const testElement = screen.getByTestId('shareButton');
             expect(testElement).toBeInTheDocument();
         });
@@ -282,7 +258,7 @@ describe('component Tests', () => {
         })
     })
 
-    const title = "foo", value = "bar", dateFrom = date, dateTo = date, place = 'baz'
+    const title = "foo", value = "bar", date_from = date, date_to = date, place = 'baz'
 
 
     // Note
@@ -337,20 +313,20 @@ describe('component Tests', () => {
     })
     // Appointment
     describe('Appointment', () => {
-        // requires props title, value, dateFrom, dateTo, place
+        // requires props title, value, date_from, date_to, place
 
         it("renders Appointment Props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Appointment title={title} value={value} dateFrom={dateFrom} dateTo={dateTo} place={place} /></Provider>
+                <Provider store={store}><Appointment title={title} value={value} date_from={date_from} date_to={date_to} place={place} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
-            //dateFrom
-            expect(screen.getByLabelText('dateFrom')).toHaveTextContent(dateFrom.toString());
-            //dateTo
-            expect(screen.getByLabelText('dateTo')).toHaveTextContent(dateTo.toString());
+            //date_from
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            //date_to
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
             //place
             expect(screen.getByLabelText('place')).toHaveTextContent(place);
         })
@@ -358,20 +334,20 @@ describe('component Tests', () => {
     })
     // Event
     describe('Event', () => {
-        // requires props title, value, dateFrom, dateTo, place
+        // requires props title, value, date_from, date_to, place
 
         it("renders Event Props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Event title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} place={place} /></Provider>
+                <Provider store={store}><Event title={title} value={value} date_to={date_to} date_from={date_from} place={place} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
-            //dateFrom
-            expect(screen.getByLabelText('dateFrom')).toHaveTextContent(dateFrom.toString());
-            //dateTo
-            expect(screen.getByLabelText('dateTo')).toHaveTextContent(dateTo.toString());
+            //date_from
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            //date_to
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
             //place
             expect(screen.getByLabelText('place')).toHaveTextContent(place);
         })
@@ -379,21 +355,21 @@ describe('component Tests', () => {
     })
     // Reminder 
     describe('Reminder', () => {
-        // requires props title, value, dateFrom, dateTo
+        // requires props title, value, date_from, date_to
 
 
         it("renders Reminder props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Reminder title={title} value={value} dateTo={dateTo} dateFrom={dateFrom} /></Provider>
+                <Provider store={store}><Reminder title={title} value={value} date_to={date_to} date_from={date_from} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
-            //dateFrom
-            expect(screen.getByLabelText('dateFrom')).toHaveTextContent(dateFrom.toString());
-            //dateTo
-            expect(screen.getByLabelText('dateTo')).toHaveTextContent(dateTo.toString());
+            //date_from
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            //date_to
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
         })
         cleanup()
     })

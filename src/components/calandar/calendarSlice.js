@@ -20,7 +20,7 @@ export const calendarFetch = createAsyncThunk(
     'calendarGet',
     async (_, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/items/calendar`
+        const endPoint = `${apiUrl}/calendar`
         //                // .addDefaultCase(
                 //     (_, action) => { console.log(action) }
                 // ) (endPoint)
@@ -233,7 +233,7 @@ export const calendarSlice = createSlice({
                         calendarUpdateAttendee.rejected
                         ),
                     (state, action) => {
-                        //console.log(action)
+                        console.log(action)
                         state.isLoading = false;
                         state.hasError = action.error;
                     }

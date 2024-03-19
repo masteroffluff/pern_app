@@ -13,13 +13,16 @@ import dummyStore, { date, time1, time2, time3 } from './dummyData.js'
 //import { Router, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 
-
-jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, dateFrom, dateTo, owner }) =>
-    <div data-testid="mocked-appointment">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/calandar/event/Event', () => ({ title, value, dateFrom, dateTo, owner }) =>
-    <div data-testid="mocked-event">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
-jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, dateFrom, dateTo, owner }) =>
-    <div data-testid="mocked-reminder">{value}, {title}, {dateFrom}, {dateTo}, {owner} </div>);
+// appoinment
+jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, date_from, date_to, owner }) =>
+    <div data-testid="mocked-appointment">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
+// event
+jest.mock('../components/calandar/event/Event', () => ({ title, value, date_from, date_to, owner }) =>
+    <div data-testid="mocked-event">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
+// reminder
+jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, date_from, date_to, owner }) =>
+    <div data-testid="mocked-reminder">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
+// todo
 jest.mock('../components/items/todo/Todo', () => ({ title, value, items, owner }) => (
     <div data-testid="mocked-Todo">
         <h3>{title}</h3>
@@ -33,6 +36,7 @@ jest.mock('../components/items/todo/Todo', () => ({ title, value, items, owner }
         </ul>
     </div>
 ));
+// note
 jest.mock('../components/items/note/Note', () => ({ value, title, owner, date }) => (
     <div data-testid="mocked-note">
         <h3>{title}</h3>
@@ -53,7 +57,7 @@ describe('MainDisplay', () => {
 
             <Provider store={store}>
                 <BrowserRouter>
-                        <MainDisplay />
+                    <MainDisplay />
                 </BrowserRouter>
             </Provider>
         );
@@ -97,12 +101,12 @@ describe('DisplayToday', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-<BrowserRouter>
-    
+            <BrowserRouter>
+
                 <Provider store={store}>
                     <DisplayToday />
                 </Provider>
-</BrowserRouter>
+            </BrowserRouter>
         );
     })
     afterEach(() => {
@@ -174,12 +178,12 @@ describe('DisplayNotes', () => {
     beforeEach(() => {
         const store = setupStore(dummyStore);
         render(
-<BrowserRouter>
-    
+            <BrowserRouter>
+
                 <Provider store={store}>
                     <DisplayNotes />
                 </Provider>
-</BrowserRouter>
+            </BrowserRouter>
         );
     })
     afterEach(() => {
@@ -275,7 +279,7 @@ describe("Display Wall", () => {
                 <BrowserRouter>
                     <DisplayWall />
                 </BrowserRouter>
-                
+
             </Provider>
         );
     })
@@ -294,9 +298,9 @@ describe("Display Wall", () => {
         // displays name title and owner for each item
         const wallComponents = screen.getAllByTestId('wallItem');
         const wallItems = [
-            { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', dateFrom: date, dateTo: date },
-            { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', dateFrom: date, dateTo: date },
-            { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', dateFrom: date, dateTo: date },
+            { id: 1, type: 'appointment', title: 'FOO', owner: 'bob', value: 'foo', date_from: date, date_to: date },
+            { id: 2, type: 'event', title: 'BAR', owner: 'alice', value: 'bar', date_from: date, date_to: date },
+            { id: 3, type: 'reminder', title: 'BAZ', owner: 'alice', value: 'baz', date_from: date, date_to: date },
             { id: 4, type: 'note', title: 'QUX', owner: 'alice', value: 'qux', date: time1 },
             { id: 5, type: 'note', title: 'QUUX', owner: 'bob', value: 'quux', date: time2 },
             { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: time3 },
@@ -310,9 +314,9 @@ describe("Display Wall", () => {
             if (wallItem.type === 'note') { expect(wallComponent).toHaveTextContent(wallItem.date) }
             else {
                 // eslint-disable-next-line jest/no-conditional-expect
-                expect(wallComponent).toHaveTextContent(wallItem.dateFrom)
+                expect(wallComponent).toHaveTextContent(wallItem.date_from)
                 // eslint-disable-next-line jest/no-conditional-expect
-                expect(wallComponent).toHaveTextContent(wallItem.dateTo)
+                expect(wallComponent).toHaveTextContent(wallItem.date_to)
             };
 
 

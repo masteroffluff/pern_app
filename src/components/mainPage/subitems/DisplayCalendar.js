@@ -1,13 +1,20 @@
-import React, {useState, useEffect} from "react";
-import { useSelector } from "react-redux";
-import { selectCalendar } from "../../calandar/calendarSlice";
+import React,{ useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { calendarFetch, selectCalendar } from "../../calandar/calendarSlice";
 import { useNavigate } from "react-router";
+import DisplayItem from "../DisplayItem";
 
 export default function DisplayCalendar() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    var d = new Date();
+    const {dateFrom, setDateFrom} = useState(d)
+    const {dateTo, setDateTo} = useState(d.setMonth(d.getMonth() - 1))
 
-    const {dateFrom, setDateFrom} = useState(null)
-    const {dateTo, setDateTo} = useState(null)
-    
+
+    useEffect(()=>{
+        dispatch(calendarFetch())
+    }, [dispatch]);
 
     const dateFrom_change=(e)=>{
         e.preventDefault()
@@ -19,7 +26,7 @@ export default function DisplayCalendar() {
     }
 
     const calendar = useSelector(selectCalendar)
-    const navigate = useNavigate()
+
     const newEvent_click = (e) =>{
         e.preventDefault()
         navigate('/newevent')
@@ -46,10 +53,10 @@ export default function DisplayCalendar() {
             <input data-testid="dateTo" type='date' id='dateTo' value={dateTo} onChange={dateTo_change}/>
         </form>
         <ul>
-            {calendar.map((e,i)=><li data-testid={'mocked-' + e.type} key={i}><h4>{e.title}</h4><p>{e.value}</p> </li>)}
+            {calendar.map((e,i)=><li key={i}><DisplayItem data={e}/></li>)}
         </ul>
-        <button data-testid='newNote' value='newNote' onClick={newEvent_click} >New Event</button>
-        <button data-testid='newNote' value='newNote' onClick={newReminder_click} >New Reminder</button>
-        <button data-testid='newNote' value='newNote' onClick={newAppointment_click} >New Appointment</button>
+        <button data-testid='newEvent' value='newEvent' onClick={newEvent_click} >New Event</button>
+        <button data-testid='newReminder' value='newReminder' onClick={newReminder_click} >New Reminder</button>
+        <button data-testid='newAppointment' value='newAppointment' onClick={newAppointment_click} >New Appointment</button>
     </div>
 }

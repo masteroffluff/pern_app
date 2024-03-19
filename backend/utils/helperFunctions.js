@@ -130,7 +130,7 @@ function mapArrayontoArray(mainArray, subAray, mappedTo) {
         ...mainItem,
         [mappedTo]: hashMap[mainItem.id] || []
     }));
-    console.log(result)
+    //console.log(result)
     return result
 }
 
@@ -150,7 +150,7 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
         ORDER BY "Todo_Items".id`
     const todoItems_response = await db.queryPromisified(sqlChild, [id])
     const todoItems = todoItems_response.rows
-    console.log(todoItems)
+    //console.log(todoItems)
     return mapArrayontoArray(todos, todoItems, 'items')
 }
 
@@ -183,5 +183,7 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
     const attendees = attemdeesResponse.rows
     //console.log(attendees)
-    return mapArrayontoArray(calendarItems, attendees, 'attendees')
+    const calendarWithMappedAttendees =mapArrayontoArray(calendarItems, attendees, 'attendees')
+    console.log(calendarWithMappedAttendees)
+    return calendarWithMappedAttendees
 }

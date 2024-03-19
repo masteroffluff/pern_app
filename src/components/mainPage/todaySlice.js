@@ -14,8 +14,8 @@ const name = "today"
 
 export const todayFetch = createAsyncThunk(
     'todayFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/today`
         //console.log (endPoint)
         const options = {

@@ -17,8 +17,8 @@ const name = "item"
 
 export const itemsNoteFetch = createAsyncThunk(
     'itemsNoteFetch',
-    async ({ authToken }, { rejectWithValue }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
         const options = {
