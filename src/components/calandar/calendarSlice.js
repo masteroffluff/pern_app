@@ -233,7 +233,7 @@ export const calendarSlice = createSlice({
                         calendarUpdateAttendee.rejected
                         ),
                     (state, action) => {
-                        console.log(action)
+                        //console.log(action)
                         state.isLoading = false;
                         state.hasError = action.error;
                     }

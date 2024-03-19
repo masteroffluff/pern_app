@@ -163,7 +163,7 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     }
     const {id} = req.user
     const sqlCalandar =
-    `SELECT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
+    `SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
     FROM "Items"
     JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
     JOIN "Item_type" ON "Items".type = "Item_type".id

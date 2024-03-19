@@ -1,5 +1,5 @@
 import React from "react";
-import { DisplayToday, DisplayTodo, DisplayWall, DisplayNotes, DisplayCalendar } from './subitems'
+import { DisplayToday, DisplayTodo, DisplayWall,  DisplayCalendar } from './subitems'
 
 export default function MainDisplay(){
     return (
@@ -7,7 +7,6 @@ export default function MainDisplay(){
             <DisplayToday />
             <DisplayTodo /> 
             <DisplayWall /> 
-            <DisplayNotes />
             <DisplayCalendar />
         </div>)
 }

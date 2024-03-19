@@ -317,16 +317,16 @@ describe('component Tests', () => {
 
         it("renders Appointment Props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Appointment title={title} value={value} date_from={date_from} date_to={date_to} place={place} /></Provider>
+                <Provider store={store}><Appointment title={title} value={value} date_from={date_from.toDateString()} date_to={date_to.toDateString()} place={place} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             //date_from
-            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toDateString());
             //date_to
-            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toDateString());
             //place
             expect(screen.getByLabelText('place')).toHaveTextContent(place);
         })

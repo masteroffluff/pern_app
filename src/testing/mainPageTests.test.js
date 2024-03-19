@@ -79,9 +79,9 @@ describe('MainDisplay', () => {
         const displayWall = screen.getByTestId('displayWall');
         expect(displayWall).toBeInTheDocument();
 
-        // - constins DisplayNotes
-        const displayNotes = screen.getByTestId('displayNotes');
-        expect(displayNotes).toBeInTheDocument();
+        // // - constins DisplayNotes // not actually in the design for main page
+        // const displayNotes = screen.getByTestId('displayNotes');
+        // expect(displayNotes).toBeInTheDocument();
 
 
         const displayCalendar = screen.getByTestId('displayCalendar');
