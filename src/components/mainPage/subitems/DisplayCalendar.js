@@ -8,8 +8,8 @@ export default function DisplayCalendar() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     var d = new Date();
-    const {dateFrom, setDateFrom} = useState(d)
-    const {dateTo, setDateTo} = useState(d.setMonth(d.getMonth() - 1))
+    const [dateFrom, setDateFrom] = useState(d)
+    const [dateTo, setDateTo] = useState(d.setMonth(d.getMonth() - 1))
 
 
     useEffect(()=>{

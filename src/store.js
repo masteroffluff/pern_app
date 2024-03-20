@@ -9,7 +9,7 @@ import calendar from './components/calandar/calendarSlice.js'
 import items from './components/items/itemSlice.js'
 import wall from './components/mainPage/wallSlice.js'
 import today from './components/mainPage/todaySlice.js'
-
+// state to manage the modal popups
 import popup from './components/mainPage/popupSlice.js'
 
 const user = combineReducers({
