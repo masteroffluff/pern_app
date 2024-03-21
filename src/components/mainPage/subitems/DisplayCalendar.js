@@ -28,12 +28,12 @@ export default function DisplayCalendar() {
         function findFirstEmptyIndex(array) {
             // Using a loop
             for (let i = 0; i < array.length; i++) {
-              if (array[i] === undefined || array[i] === null || array[i] === '') {
-                return i;
-              }
+                if (array[i] === undefined || array[i] === null || array[i] === '') {
+                    return i;
+                }
             }
             return -1; // Return -1 if no empty element is found
-          }
+        }
         const mapCalendar = (_dateFrom, _dateTo) => {
 
             // why god why??
@@ -46,39 +46,39 @@ export default function DisplayCalendar() {
             }
 
             calendar.forEach((item_parent) => {
-                
+
                 const item = JSON.parse(JSON.stringify(item_parent))
                 console.log(item)
                 const dtFrom = moment(item.date_from).startOf('day')
                 const dtTo = moment(item.date_to).startOf('day')
-                item.days = dtTo.diff(dtFrom,'days')+1
+                item.days = dtTo.diff(dtFrom, 'days') + 1
                 let item_current_date = moment(dtFrom)
 
                 while (item_current_date.isSameOrBefore(moment(item.date_to))) {
                     let show;
                     const itemDT_Formatted = item_current_date.format('YYYY-MM-DD')
                     if (_calendarMap[itemDT_Formatted]) {
-                        
+
                         if (!item.slot) {
-                            const temp = findFirstEmptyIndex(_calendarMap[itemDT_Formatted])+1
-                            if(!temp){
-                            _calendarMap[itemDT_Formatted].push(item)
-                            item.slot = _calendarMap[itemDT_Formatted].length
+                            const temp = findFirstEmptyIndex(_calendarMap[itemDT_Formatted]) + 1
+                            if (!temp) {
+                                _calendarMap[itemDT_Formatted].push(item)
+                                item.slot = _calendarMap[itemDT_Formatted].length
                             } else {
                                 item.slot = temp
                             }
-                            show =true
+                            show = true
                         } else {
-                            
-                            show =false
+
+                            show = false
                             if (_calendarMap[itemDT_Formatted].length <= item.slot) {
-                                for (let i = _calendarMap[itemDT_Formatted].length;i<item.slot;i++){
-                                    _calendarMap[itemDT_Formatted].push({show:false})
+                                for (let i = _calendarMap[itemDT_Formatted].length; i < item.slot; i++) {
+                                    _calendarMap[itemDT_Formatted].push({ show: false })
                                 }
                             }
                         }
 
-                        _calendarMap[itemDT_Formatted][item.slot-1] = {...item, show}
+                        _calendarMap[itemDT_Formatted][item.slot - 1] = { ...item, show }
                     }
                     item_current_date = item_current_date.add(1, 'day');
                 }
@@ -117,7 +117,7 @@ export default function DisplayCalendar() {
         navigate('/newappointment')
     }
 
-    
+
 
     return <div data-testid="displayCalendar">
         <h3>Calendar</h3>
@@ -129,31 +129,23 @@ export default function DisplayCalendar() {
             <label htmlFor="dateTo">Date To</label>
             <input data-testid="dateTo" type='date' id='dateTo' value={dateTo.format('YYYY-MM-DD')} onChange={dateTo_change} />
         </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th><th>Content</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div className='calendar content'>
+            <table >
+                <tbody>
+                    {Object.entries(calendarMap).map(([dt, items], i) => {
+                        return (
+                            <tr key={i}>
+                                <td>
+                                    <h4 key={i}>{dt}</h4>
+                                </td>
+                                {items.map((item, ii) => item.show ? <td class='calendarItem' rowspan={item.days} key={ii}><DisplayItem data={item} /></td> : <></>)}
+                            </tr>)
+                    }
+                    )}
+                </tbody>
 
-                {Object.entries(calendarMap).map(([dt, items], i) => {
-                    return (
-                        <tr key={i}>
-                            <td>
-                                <h4 key={i}>{dt}</h4>
-                            </td>
-
-                            {items.map((item, ii) =>item.show?<td rowspan={item.days}key={ii}><DisplayItem data={item} /></td>:<></> )}
-
-
-                        </tr>)
-                }
-                )}
-
-            </tbody>
-        </table>
-
+            </table>
+        </div>
         <button data-testid='newEvent' value='newEvent' onClick={newEvent_click} >New Event</button>
         <button data-testid='newReminder' value='newReminder' onClick={newReminder_click} >New Reminder</button>
         <button data-testid='newAppointment' value='newAppointment' onClick={newAppointment_click} >New Appointment</button>
