@@ -7,8 +7,9 @@ export default function Event({title, value, date_to, date_from, place}){
     return <div data-testid="event">
         <h4 aria-label="Title">{title}</h4>
         <p aria-label="Description">{value}</p>
-        <p aria-label="date_from">{dateFrom.format('ddd Do MMMM YYYY')}</p>
-        <p aria-label="date_to">{dateTo.format('ddd Do MMMM YYYY')}</p>
+        <p> Takes place at <span aria-label="date_from">{dateFrom.format('ddd Do MMMM YYYY')}</span> 
+            <span aria-label="time_from">{dateFrom.format('HH:mm')}</span> until <span aria-label="date_to">{dateTo.format('ddd Do MMMM YYYY')}</span> <span aria-label="time_to">{dateTo.format('HH:mm')}</span>
+        </p>
         <p aria-label="place">{place}</p>
     </div>
 }

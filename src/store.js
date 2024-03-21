@@ -11,6 +11,7 @@ import wall from './components/mainPage/wallSlice.js'
 import today from './components/mainPage/todaySlice.js'
 // state to manage the modal popups
 import popup from './components/mainPage/popupSlice.js'
+import colour from './components/mainPage/colourSlice.js';
 
 const user = combineReducers({
   friends: friends,
@@ -26,7 +27,8 @@ const user = combineReducers({
     user,
     today,
     wall,
-    popup
+    popup,
+    colour,
   }
 });
 export default store
@@ -37,6 +39,8 @@ export const rootReducer = combineReducers({
   user,
   today,
   wall,
+  popup,
+  colour,
 })
 
 export const setupStore = (preloadedState = {}) => {

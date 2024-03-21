@@ -48,7 +48,7 @@ export default function DisplayCalendar() {
             calendar.forEach((item_parent) => {
 
                 const item = JSON.parse(JSON.stringify(item_parent))
-                console.log(item)
+                //console.log(item)
                 const dtFrom = moment(item.date_from).startOf('day')
                 const dtTo = moment(item.date_to).startOf('day')
                 item.days = dtTo.diff(dtFrom, 'days') + 1
@@ -117,8 +117,6 @@ export default function DisplayCalendar() {
         navigate('/newappointment')
     }
 
-
-
     return <div data-testid="displayCalendar">
         <h3>Calendar</h3>
         {/* <p>...{JSON.stringify(calendarMap)}</p> */}
@@ -136,9 +134,11 @@ export default function DisplayCalendar() {
                         return (
                             <tr key={i}>
                                 <td>
-                                    <h4 key={i}>{dt}</h4>
+                                    <h4>{dt}</h4>
                                 </td>
-                                {items.map((item, ii) => item.show ? <td class='calendarItem' rowspan={item.days} key={ii}><DisplayItem data={item} /></td> : <></>)}
+                                {items.filter(item => item.show).map((item, ii) => (
+                                    <td className='calendarItem' rowSpan={item.days} key={ii}><DisplayItem data={item} /></td>
+                                ))}
                             </tr>)
                     }
                     )}

@@ -1,12 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import colourSwitch from '../../utils/colourswitch';
 
+
 const initialState = {
-  main_text_color: 'antiquewhite',
-  popup_text_color: 'burlywood',
-  main_background_color: 'burlywood',
-  main_background_color_alt: 'wheat',
-  popup_background_color:'antiquewhite',
+  colour:'sandy'
 };
 
 const colourSlice = createSlice({
@@ -14,7 +11,7 @@ const colourSlice = createSlice({
   initialState,
   reducers: {
     setColour: (state,action) => {
-      state = colourSwitch (action.payload);
+      state.colour = (action.payload);
     },
   },
 });
@@ -22,4 +19,5 @@ const colourSlice = createSlice({
 export const { setColour } = colourSlice.actions;
 export default colourSlice.reducer;
 
-export const selectColours = (state) => state.colour
+export const selectColourChoice = (state) => state.colour.colour
+export const selectColourObject = (state) => colourSwitch(state.colour.colour)
