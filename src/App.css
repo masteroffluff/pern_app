@@ -11,12 +11,15 @@
 
 
 body {
-  background-color: var(--main-background-color);
+  /* background-color: var(--main-background-color); */
   font-family: "Poppins", sans-serif;
   color: var(--main-text-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--main-background-color);
+  background-image: url('../public/images/joshua-woroniecki-3mXIZP6_6zY-unsplash.jpg');
+  background-size: cover;
 }
 
 
@@ -33,7 +36,7 @@ h2,
 h3,
 h4 {
   font-family: "Gabarito", sans-serif;
-  margin:0;
+  margin: 0;
 }
 
 .popup {
@@ -76,15 +79,15 @@ h4 {
   padding: 20px;
   text-align: center;
   height: 700px;
-  max-width:400px;
-  
+  max-width: 400px;
+
 
 }
 
 .content {
-  
-  
-  height:600px;
+
+
+  height: 600px;
   overflow-y: auto;
   clear: both;
 }
@@ -93,10 +96,10 @@ h4 {
 /* .content tbody{
 	overflow: auto;
 } */
-.calendar tr{
+.calendar tr {
   border-bottom: 1px solid var(--main-text-color);
 }
 
-.calendarItem{
+.calendarItem {
   border: 1px solid var(--main-background-color-alt)
 }

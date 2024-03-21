@@ -22,9 +22,11 @@ export default function DisplayWall() {
 
     return <div data-testid="displayWall" className="wallContainer">
         <h3>My Wall</h3>
-        <ul className="wall">
-            {wall.map((e, i) => <li data-testid='wallItem' key={i}><DisplayItem data={e} /> </li>)}
-        </ul>
+        <div className="content">
+            <ul className="wall">
+                {wall.map((e, i) => <li data-testid='wallItem' key={i}><DisplayItem data={e} /> </li>)}
+            </ul>
+        </div>
         <button data-testid='newNote' value='newNote' onClick={newNote_click} >New Note</button>
     </div>
 }

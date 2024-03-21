@@ -22,9 +22,11 @@ export default function DisplayTodo() {
     return <div data-testid="displayTodo">
 
         <h3>Todo</h3>
-        <ul>
-            {todos.map((td) => <li key={td.id}><Todo title={td.title} items={td.items}></Todo></li>)}
-        </ul>
+        <div className="content">
+            <ul>
+                {todos.map((td) => <li key={td.id}><Todo title={td.title} items={td.items}></Todo></li>)}
+            </ul>
+        </div>
         <button data-testid='newNote' value='newNote' onClick={newTodo_click} >New Todo</button>
     </div>
 }
