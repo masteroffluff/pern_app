@@ -4,12 +4,15 @@ const date = date1.toISOString().split('T')[0];
 const tomorrow1 = new Date()
 tomorrow1.setDate(date1.getDate() + 1)
 const tomorrow = tomorrow1.toISOString().split('T')[0];
+const looong1 = new Date()
+looong1.setDate(looong1.getDate() + 14)
+const loooong = looong1.toISOString().split('T')[0];
 const time1 = new Date().setHours(1).toString()
 const time2 = new Date().setHours(2).toString()
 const time3 = new Date().setHours(3).toString()
 
 
-export { date, tomorrow, time1, time2, time3 }
+export { date, tomorrow, time1, time2, time3, loooong}
 
 const dummyStore = {
     calendar: {
@@ -20,6 +23,7 @@ const dummyStore = {
             { id: 4, type: 'appointment', title: 'QUX', value: 'qux', date_from: tomorrow, date_to: tomorrow },
             { id: 5, type: 'event', title: 'QUUX', value: 'quux', date_from: tomorrow, date_to: tomorrow },
             { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', date_from: tomorrow, date_to: tomorrow },
+            { id: 7, type: 'reminder', title: 'LOOONG', value: 'looooooong', date_from: tomorrow, date_to: loooong },
         ]
     },
     today: {

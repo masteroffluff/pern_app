@@ -6,7 +6,7 @@ import { Note, NewNote, Todo, NewTodo } from '../components/items'
 import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
 import store from '../store';
 import { BrowserRouter } from 'react-router-dom';
-
+import moment from 'moment';
 
 
 const date = new Date() // todays date so that all items appear as today that have dates
@@ -317,16 +317,16 @@ describe('component Tests', () => {
 
         it("renders Appointment Props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Appointment title={title} value={value} date_from={date_from.toDateString()} date_to={date_to.toDateString()} place={place} /></Provider>
+                <Provider store={store}><Appointment title={title} value={value} date_from={date_from} date_to={date_to} place={place} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             //date_from
-            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toDateString());
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(moment(date_from.toISOString()).format('ddd Do MMMM YYYY'));
             //date_to
-            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toDateString());
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(moment(date_to.toISOString()).format('ddd Do MMMM YYYY'));
             //place
             expect(screen.getByLabelText('place')).toHaveTextContent(place);
         })
@@ -345,9 +345,9 @@ describe('component Tests', () => {
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             //date_from
-            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(moment(date_from.toISOString()).format('ddd Do MMMM YYYY'));
             //date_to
-            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(moment(date_to.toISOString()).format('ddd Do MMMM YYYY'));
             //place
             expect(screen.getByLabelText('place')).toHaveTextContent(place);
         })
@@ -367,9 +367,9 @@ describe('component Tests', () => {
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             //date_from
-            expect(screen.getByLabelText('date_from')).toHaveTextContent(date_from.toString());
+            expect(screen.getByLabelText('date_from')).toHaveTextContent(moment(date_from.toISOString()).format('ddd Do MMMM YYYY'));
             //date_to
-            expect(screen.getByLabelText('date_to')).toHaveTextContent(date_to.toString());
+            expect(screen.getByLabelText('date_to')).toHaveTextContent(moment(date_to.toISOString()).format('ddd Do MMMM YYYY'));
         })
         cleanup()
     })

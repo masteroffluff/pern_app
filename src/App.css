@@ -65,4 +65,10 @@ h2, h3, h4 {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   text-align: center;
+  height:700px;
+  overflow:scroll;
+}
+
+table, th, td {
+  border: 1px solid black;
 }

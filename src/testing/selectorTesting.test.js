@@ -9,7 +9,7 @@ import { selectWall } from '../components/mainPage/wallSlice.js'
 import { selectToday } from '../components/mainPage/todaySlice.js'
 
 // import { cleanup } from '@testing-library/react'
-import state, {date, tomorrow, time1, time2, time3} from './dummyData.js'
+import state, {date, tomorrow, time1, time2, time3, loooong} from './dummyData.js'
 
 // const date1 = new Date()
 // date1.setHours(0, 0, 0, 0);
@@ -106,6 +106,7 @@ describe('Calendar Selector', () => {
         { id: 4, type: 'appointment', title: 'QUX', value: 'qux', date_from: tomorrow, date_to: tomorrow },
         { id: 5, type: 'event', title: 'QUUX', value: 'quux', date_from: tomorrow, date_to: tomorrow },
         { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', date_from: tomorrow, date_to: tomorrow },
+        { id: 7, type: 'reminder', title: 'LOOONG', value: 'looooooong', date_from: tomorrow, date_to: loooong },
       ]
     );
   });
