@@ -29,10 +29,10 @@ export default function colourSwitch(colour){
             },
         "pinky":{
                 main_text_color: 'deeppink' ,
-                popup_text_color: 'pink',
+                popup_text_color: '#a33b64',
                 main_background_color: 'pink',
-                main_background_color_alt:'hotpink' ,
-                popup_background_color:'deeppink',
+                main_background_color_alt:'#f395ad' ,
+                popup_background_color:'#f395ad',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/meiying-ng-OrwkD-iWgqg-unsplash.jpg'
             },
         "contrast": {
