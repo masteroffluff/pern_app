@@ -31,6 +31,10 @@ export default function NewNote() {
     }
     const submitNote=(e)=>{
         e.preventDefault()
+        if(!title||!notes){
+
+            return
+        }
         dispatch(itemsNoteAdd({ title, notes })).unwrap()
         dispatch(wallFetch()).unwrap()
         navigate('/')
@@ -47,12 +51,12 @@ export default function NewNote() {
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title}/><br />
 
             <label htmlFor="value">Notes</label><br />
-            <textarea data-testid="notes" rows="4" cols="50" id='value' onChange={notesUpdate} value={notes}/><br />
+            <textarea rows="4" cols="50" data-testid="notes"  id='value' onChange={notesUpdate} value={notes}/><br />
             <br />
             <button data-testid="shareButton" value="share" id='shareButton'>Share</button>
             <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
-            <button type='submit' data-testid="confirmButton" id='addNote' value='Confirm'>Confirm</button>
-            <p>{{isLoading}?'Generating Note':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
+            <button type='submit' disabled={(!title||!notes)} data-testid="confirmButton" id='addNote' value='Confirm'>Confirm</button>
+            <p>{isLoading?'Generating Note':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
             
         </form>
     </div>

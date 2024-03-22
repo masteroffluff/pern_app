@@ -138,7 +138,8 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
     const sqlParent =
         `SELECT id, shared_to, title, notes
         FROM "Items"
-        WHERE type = 2 AND owner_id = $1`
+        WHERE type = 2 AND owner_id = $1
+        ORDER BY id DESC`
     const todos_response = await db.queryPromisified(sqlParent, [id])
     const todos = todos_response.rows
 

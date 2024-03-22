@@ -75,11 +75,11 @@ export const itemsNoteUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 id,
                 title,
                 notes
-            }
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -141,11 +141,11 @@ export const itemsTodoAdd = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 'title':title,
                 'notes':notes,
                 'items':items,
-            }
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -167,11 +167,11 @@ export const itemsTodoUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 id,
                 title,
                 notes
-            }
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
