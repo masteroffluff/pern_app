@@ -2,54 +2,48 @@
 
 
 export default function colourSwitch(colour){
-    switch(colour){
-        case "sandy":
-            return {
-                main_text_color: 'saddlebrown',
-                popup_text_color: 'saddlebrown',
-                main_background_color: 'burlywood',
-                main_background_color_alt: 'wheat',
-                popup_background_color:'wheat',
+    const colourMap ={
+       "sandy":{
+                main_text_color: '#54341e',
+                popup_text_color: '#54341e',
+                main_background_color: '#d9b88c',
+                main_background_color_alt: '#d5c7ae',
+                popup_background_color:'#d5c7ae',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/gustavo-CEeoDFpVxxw-unsplash.jpg',
-            }
-        case "forest":
-            return {
+            },
+        "forest": {
                 main_text_color: 'palegoldenrod',
-                popup_text_color: 'darkolivegreen',
-                main_background_color: 'darkolivegreen',
-                main_background_color_alt: 'olivedrab',
+                popup_text_color: '#55633c',
+                main_background_color: '#55633c',
+                main_background_color_alt: '#72864a',
                 popup_background_color:'palegoldenrod',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/marc-pell-oWRVjFQIwAY-unsplash.jpg',
-            }
-        case "ocean":
-            return {
-                main_text_color: 'azure' ,
-                popup_text_color: 'darkcyan',
-                main_background_color: 'darkcyan',
-                main_background_color_alt:'aquamarine',
-                popup_background_color:'aquamarine',
+            },
+        "ocean":{
+                main_text_color: '#e0f6fc' ,
+                popup_text_color: '#01615d',
+                main_background_color: '#4da9cb',
+                main_background_color_alt:'#24aaac',
+                popup_background_color:'#e0f6fc',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/jeremy-bishop-TI_3eaoMyjo-unsplash.jpg'
-            }        
-        case "pinky":
-            return {
+            },
+        "pinky":{
                 main_text_color: 'deeppink' ,
                 popup_text_color: 'pink',
                 main_background_color: 'pink',
                 main_background_color_alt:'hotpink' ,
                 popup_background_color:'deeppink',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/meiying-ng-OrwkD-iWgqg-unsplash.jpg'
-            }
-        case "contrast":
-            return {
+            },
+        "contrast": {
                 main_text_color: 'white' ,
                 popup_text_color: 'black',
                 main_background_color: 'black',
                 main_background_color_alt:'yellow',
                 popup_background_color:'white',
                 main_background_image_URL:'',
-            }
-        case "dark":
-            return {
+            },
+        "dark":{
                 main_text_color: 'darkgrey' ,
                 popup_text_color: '#1b012d',
                 main_background_color: '#1b012d',
@@ -57,14 +51,7 @@ export default function colourSwitch(colour){
                 popup_background_color:'darkgray',
                 main_background_image_URL:process.env.PUBLIC_URL + '/images/joshua-woroniecki-3mXIZP6_6zY-unsplash.jpg',
             }
-        default:
-            return {
-                main_text_color: 'antiquewhite',
-                popup_text_color: 'burlywood',
-                main_background_color: 'burlywood',
-                main_background_color_alt: 'wheat',
-                popup_background_color:'antiquewhite',
-                main_background_image_URL:process.env.PUBLIC_URL + '/images/gustavo-CEeoDFpVxxw-unsplash.jpg'
-            }
+
     }
+    return colourMap[colour]
 }
