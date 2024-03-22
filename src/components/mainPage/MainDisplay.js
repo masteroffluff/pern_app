@@ -1,9 +1,15 @@
 import React from "react";
 import { DisplayToday, DisplayTodo, DisplayWall,  DisplayCalendar } from './subitems'
+import { Outlet } from "react-router";
+import { selectPopupState } from "./popupSlice";
+import { useSelector } from "react-redux";
 
 export default function MainDisplay(){
-    return (
-        <div className='grid-container'>
+    
+    const popupState = useSelector(selectPopupState)
+
+    return (<>
+        <div className={popupState ? 'grid-container blur-background' : 'grid-container'}>
             <div className='grid-item'>
                 <DisplayToday />
             </div>
@@ -16,5 +22,8 @@ export default function MainDisplay(){
             <div className='grid-item'>
                 <DisplayCalendar />
             </div>
-        </div>)
+            
+        </div>
+        <Outlet />
+        </>)
 }

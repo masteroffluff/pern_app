@@ -1,8 +1,9 @@
-.blur-background {
+.blur-background>* {
     filter: blur(5px);
+    z-index:0;
 }
 .popup {
-    filter: none;
+    filter: blur(0);
     display:block;
     position: fixed;
     top: 25%;

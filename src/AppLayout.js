@@ -43,11 +43,12 @@ function AppLayout() {
           --main-background-color:${main_background_color};
           --main-background-color-alt:${main_background_color_alt};
           --popup-text-color:${popup_text_color};
-          --popup-background-color':${popup_background_color}
+          --popup-background-color:${popup_background_color};
         }
         body {
           color: var(--main-text-color);
-          background-image:url(${main_background_image_URL})
+          background-image:url(${main_background_image_URL});
+          
         }
       `}</style>
         <div className={popupState ? 'App blur-background' : 'App'}>
@@ -63,7 +64,7 @@ function AppLayout() {
               <option value="dark">Dark</option>
             </select>
           </nav>
-          <MainDisplay />
+          
         </div>
         <Outlet />
       </div>
