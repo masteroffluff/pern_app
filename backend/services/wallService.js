@@ -23,7 +23,9 @@ module.exports.get_wall = async function get_wall(req, res) {
             FROM "Items"
             JOIN "Item_type" ON "Items".type = "Item_type".id   
             
-            WHERE "Items".type IN (1,6) AND owner_id = ANY($1)`
+            WHERE "Items".type IN (1,6) AND owner_id = ANY($1)
+            ORDER BY "Items".date DESC
+            `
         const wallResponse = await db.queryPromisified(wallSQL, [friendsList], 'get_wall')
         res.send(wallResponse.rows)
     } catch (e) {
