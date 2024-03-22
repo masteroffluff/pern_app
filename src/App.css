@@ -104,3 +104,7 @@ h4 {
 .calendarItem {
   border: 1px solid var(--main-background-color-alt)
 }
+
+textarea {
+  resize: none;
+}

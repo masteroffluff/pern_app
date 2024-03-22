@@ -50,10 +50,11 @@ export const itemsNoteAdd = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 title,
-                notes
-            }
+                notes,
+                shared_to:shared_to||1
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }

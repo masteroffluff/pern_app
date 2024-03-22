@@ -12,7 +12,7 @@ const time2 = new Date().setHours(2).toString()
 const time3 = new Date().setHours(3).toString()
 
 
-export { date, tomorrow, time1, time2, time3, loooong}
+export { date, tomorrow, time1, time2, time3, loooong }
 
 const dummyStore = {
     calendar: {
