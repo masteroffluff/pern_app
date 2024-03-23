@@ -456,7 +456,7 @@
 //             expect(getByTestId('notes').textContent).toBe('baz');
 //         });
 //         it('has confirm button"', () => {
-//             const testElement = screen.getByTestId('confirmButton');
+//             const testElement = screen.getByTestId('Done');
 //             expect(testElement).toBeInTheDocument();
 //         });
 //         it('has cancel button ', () => {
@@ -538,7 +538,7 @@
 //     });
 //     // // - if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"
 //     // it('if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"', () => {
-//     //     expect(screen.getByTestId('confirmButton')).toHaveTextContent("Accept");
+//     //     expect(screen.getByTestId('Done')).toHaveTextContent("Accept");
 //     //     expect(screen.getByTestId('cancelButton')).toHaveTextContent("Reject");
 
 //     // }); 

@@ -92,6 +92,12 @@ const dummyStore = {
         },
         pfp: { data: '00 00 00 00' }
     },
+    "popup": {
+        "isPopupOpen": true
+      },
+      "colour": {
+        "colour": "sandy"
+      },
 };
 
 export default dummyStore;

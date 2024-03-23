@@ -43,8 +43,8 @@ export const calendarFetch = createAsyncThunk(
 
 export const calendarPost = createAsyncThunk(
     'calendarPost',
-    async ({ title,type, notes, place, dateFrom, dateTo, attendees}, { rejectWithValue, getState }) => {
-
+    async ({ title,type, notes, place, dateFrom, dateTo, attendees, shared_to}, { rejectWithValue, getState }) => {
+        
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
         const authToken = getState().user.authentication.authToken
@@ -56,15 +56,16 @@ export const calendarPost = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 type,
                 title,
                 notes,
                 place,
                 dateFrom,
                 dateTo,
-                attendees
-            }
+                attendees,
+                shared_to
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -72,7 +73,7 @@ export const calendarPost = createAsyncThunk(
 
 export const calendarUpdate = createAsyncThunk(
     'calendarUpdate',
-    async ({ item_id, title,type, notes, place, dateFrom, dateTo, attendees}, { rejectWithValue, getState }) => {
+    async ({ item_id, title,type, notes, place, dateFrom, dateTo, attendees, shared_to}, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
@@ -85,15 +86,16 @@ export const calendarUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 type,
                 title,
                 notes,
                 place,
                 dateFrom,
                 dateTo,
-                attendees
-            }
+                attendees,
+                shared_to
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -178,10 +180,10 @@ export const calendarUpdateAttendee = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
+            body:JSON.stringify({
                 item_id,
                 attendees
-            }
+            })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }

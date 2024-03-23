@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import colourSwitch from '../../utils/colourswitch';
 
 
@@ -20,4 +20,6 @@ export const { setColour } = colourSlice.actions;
 export default colourSlice.reducer;
 
 export const selectColourChoice = (state) => state.colour.colour
-export const selectColourObject = (state) => colourSwitch(state.colour.colour)
+//export const selectFriends_Live = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'friend'))
+export const selectColourObject = createSelector(selectColourChoice,colourSwitch)
+

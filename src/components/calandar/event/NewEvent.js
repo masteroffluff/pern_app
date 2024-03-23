@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { calendarPost } from "../calendarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
@@ -12,9 +12,14 @@ export default function NewEvent() {
     const [place, setPlace] = useState('')
     const [dateFrom, setDateFrom] = useState('')
     const [dateTo, setDateTo] = useState('')
+    const [sharedTo, setSharedTo] = useState(1)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const hasError = useSelector(hasErrorCalendar)
+    const isLoading = useSelector(isLoadingCalendar)
+
 
     useEffect(()=>{
         dispatch(setPopup(true))
@@ -23,7 +28,8 @@ export default function NewEvent() {
 
     const submitEvent = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'event', notes, place, dateFrom, dateTo, attendees:[] }))
+        dispatch(calendarPost({ title, type: 'event', notes, place, dateFrom, dateTo, attendees:[], sharedTo })).unwrap()
+        navigate('/')
     }
     const cancelEvent=(e)=>{
         e.preventDefault()
@@ -58,7 +64,7 @@ export default function NewEvent() {
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
             <label htmlFor="value">Description</label><br />
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
+            <textarea rows="4" cols="50" data-testid="notes" id='value' onChange={notesUpdate} value={notes} /><br />
 
             <label htmlFor="place">Place</label><br />
             <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
@@ -70,7 +76,8 @@ export default function NewEvent() {
             <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelEvent}>Cancel</button>
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done' >Done</button>
+            <button type='submit' disabled={!title||!notes||!dateFrom||!dateTo} data-testid='Done' aria-label="Done" value='Done' >Done</button>
         </form>
+        <p>{isLoading?'Generating Event':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>
 }

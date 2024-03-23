@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { calendarPost } from "../calendarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
-export default function NewReminder(){
+export default function NewReminder() {
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
     const [place, setPlace] = useState('')
@@ -15,17 +15,22 @@ export default function NewReminder(){
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    const hasError = useSelector(hasErrorCalendar)
+    const isLoading = useSelector(isLoadingCalendar)
+
+
+    useEffect(() => {
         dispatch(setPopup(true))
-    return ()=>dispatch(setPopup(false))
-    },[dispatch])
+        return () => dispatch(setPopup(false))
+    }, [dispatch])
 
     const submitReminder = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'reminder', notes, place, dateFrom, dateTo, attendees:[] }))
+        dispatch(calendarPost({ title, type: 'reminder', notes, place, dateFrom, dateTo, attendees: [] })).unwrap()
+        navigate('/')
     }
 
-    
+
 
     const titleUpdate = (e) => {
         e.preventDefault();
@@ -47,19 +52,19 @@ export default function NewReminder(){
         e.preventDefault();
         setDateTo(e.target.value)
     }
-    const cancelReminder=(e)=>{
+    const cancelReminder = (e) => {
         e.preventDefault()
         navigate('/')
     }
 
     return <div data-testid="newReminder" className='popup'>
         <h3>Add Reminder</h3>
-        <form  onSubmit={submitReminder}>
-        <label htmlFor="title">Title</label><br />
+        <form onSubmit={submitReminder}>
+            <label htmlFor="title">Title</label><br />
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
             <label htmlFor="value">Description</label><br />
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
+            <textarea rows="4" cols="50" data-testid="notes" id='value' onChange={notesUpdate} value={notes} /><br />
 
             <label htmlFor="place">Place</label><br />
             <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
@@ -72,7 +77,8 @@ export default function NewReminder(){
             <br />
             <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button>
             <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder}>Cancel</button>
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
+            <button type='submit' data-testid='Done' aria-label="Done" value='Done'>Done</button>
         </form>
+        <p>{isLoading?'Generating Todo':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>
 }

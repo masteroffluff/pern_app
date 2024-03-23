@@ -36,7 +36,7 @@ export default function NewNote() {
             return
         }
         dispatch(itemsNoteAdd({ title, notes })).unwrap()
-        dispatch(wallFetch()).unwrap()
+        //dispatch(wallFetch()).unwrap()
         navigate('/')
     }
     const cancelNote=(e)=>{
@@ -55,7 +55,7 @@ export default function NewNote() {
             <br />
             <button data-testid="shareButton" value="share" id='shareButton'>Share</button>
             <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
-            <button type='submit' disabled={(!title||!notes)} data-testid="confirmButton" id='addNote' value='Confirm'>Confirm</button>
+            <button type='submit' disabled={(!title||!notes)} data-testid="Done" aria-label="Done" id='addNote' value='Done'>Done</button>
             <p>{isLoading?'Generating Note':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
             
         </form>

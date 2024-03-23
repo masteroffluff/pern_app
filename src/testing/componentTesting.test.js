@@ -64,7 +64,7 @@ function boilerplateTests(Component, componentName, componentTitle) {
             expect(screen.getByTestId('title').value).toBe(title);
         });
         it('has confirm button"', () => {
-            const testElement = screen.getByTestId('confirmButton');
+            const testElement = screen.getByTestId('Done');
             expect(testElement).toBeInTheDocument();
         });
         it('has cancel button', () => {
@@ -173,7 +173,7 @@ describe('component Tests', () => {
         });
         // // - if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"
         // it('if this appointment did not originate from user "confim and "cancel" are titled "Accept" and "Reject"', () => {
-        //     expect(screen.getByTestId('confirmButton')).toHaveTextContent("Accept");
+        //     expect(screen.getByTestId('Done')).toHaveTextContent("Accept");
         //     expect(screen.getByTestId('cancelButton')).toHaveTextContent("Reject");
 
         // }); 
@@ -248,7 +248,8 @@ describe('component Tests', () => {
         });
         describe('After pressing todo', () => {
             it('has element Labelled "To Do Notes,Labelled "Remove Todo Item" and Labelled" addTodo item"', () => {
-
+                const inputElement = screen.getByLabelText('New Item');
+                fireEvent.change(inputElement, { target: { value: 'Text to type' } });
                 fireEvent.click(screen.getByLabelText('Add Todo Item'));
                 expect(screen.getByLabelText('To Do Notes')).toBeInTheDocument()
                 expect(screen.getByLabelText('Remove Todo Item')).toBeInTheDocument()

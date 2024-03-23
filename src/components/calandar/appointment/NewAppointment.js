@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { calendarPost } from "../calendarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
+
 
 export default function NewAppointment() {
 
@@ -16,6 +17,10 @@ export default function NewAppointment() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const hasError = useSelector(hasErrorCalendar)
+    const isLoading = useSelector(isLoadingCalendar)
+
     useEffect(()=>{
         dispatch(setPopup(true))
     return ()=>dispatch(setPopup(false))
@@ -23,7 +28,8 @@ export default function NewAppointment() {
 
     const submitAppointment = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'appointment', notes, place, dateFrom, dateTo, attendees }))
+        dispatch(calendarPost({ title, type: 'appointment', notes, place, dateFrom, dateTo, attendees })).unwrap()
+        navigate('/')
     }
 
     const titleUpdate = (e) => {
@@ -69,7 +75,7 @@ export default function NewAppointment() {
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
             <label htmlFor="value">Description</label><br />
-            <input data-testid="notes" type='text' id='value' onChange={notesUpdate} value={notes} /><br />
+            <textarea rows="4" cols="50" data-testid="notes" id='value' onChange={notesUpdate} value={notes} /><br />
 
             <label htmlFor="place">Place</label><br />
             <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
@@ -86,7 +92,8 @@ export default function NewAppointment() {
 
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
-            <button type='submit' data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
+            <button type='submit' data-testid='Done' aria-label="Done" value='Done'>Done</button>
         </form>
+        <p>{isLoading?'Generating Appointment':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>
 }

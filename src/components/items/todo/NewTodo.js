@@ -83,7 +83,7 @@ export default function NewTodo() {
             <button aria-label="Add Todo Item" disabled={!newItem} value='Add Todo Item' onClick={addTodoItem}>Add Todo Item</button>
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelTodo} >Cancel</button>
-            <button type='submit' disabled={(!title||!notes||todoItems.length===0)} data-testid='confirmButton' aria-label="Done" value='Done'>Done</button>
+            <button type='submit' disabled={(!title||!notes||todoItems.length===0)} data-testid='Done' aria-label="Done" value='Done'>Done</button>
         </form>
         <p>{isLoading?'Generating Todo':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>
