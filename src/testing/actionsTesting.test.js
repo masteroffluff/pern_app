@@ -1,6 +1,7 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 
 import React from 'react';
-import { render, fireEvent, screen, cleanup, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, cleanup, waitFor, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 //import configureStore from 'redux-mock-store';
 import { setupStore } from '../store'
@@ -40,27 +41,31 @@ describe("action tests", () => {
             const textBox_newItem = screen.getByLabelText("New Item");
             const button_addTodoItem = screen.getByLabelText('Add Todo Item')
             expect(button_addTodoItem).toBeInTheDocument()
-            // add the title
-            fireEvent.change(textBox_title, { target: { value: 'New Todo' } });
-            await waitFor(() => expect(textBox_title).toHaveValue('New Todo'))
-            fireEvent.change(textbox_notes, { target: { value: 'Hello' } });
-            await waitFor(() => expect(textbox_notes).toHaveValue('Hello'))
-
-            // add some todo items 
-            fireEvent.change(textBox_newItem, { target: { value: 'foo' } });
-            await waitFor(() => expect(textBox_newItem).toHaveValue('foo'))
-            await waitFor(() => expect(button_addTodoItem).not.toBeDisabled())
-            fireEvent.click(button_addTodoItem);
-
-            fireEvent.change(textBox_newItem, { target: { value: 'bar' } });
-            await waitFor(() => expect(textBox_newItem).toHaveValue('bar'))
-            await waitFor(() => expect(button_addTodoItem).not.toBeDisabled())
-            fireEvent.click(button_addTodoItem);
-            // Simulate a button click
-
-            const doneButton = screen.getByLabelText('Done')
-            await waitFor(() => expect(doneButton).not.toBeDisabled())
-            fireEvent.click(doneButton);
+            await act(async () => {
+                // add the title
+                fireEvent.change(textBox_title, { target: { value: 'New Todo' } });
+                // add notes
+                fireEvent.change(textbox_notes, { target: { value: 'Hello' } });
+            })
+            await act(async () => {
+                // add some todo items 
+                fireEvent.change(textBox_newItem, { target: { value: 'foo' } });
+                await waitFor(() => expect(textBox_newItem).toHaveValue('foo'))
+                await waitFor(() => expect(button_addTodoItem).not.toBeDisabled())
+                fireEvent.click(button_addTodoItem);
+            })
+            await act(async () => {
+                fireEvent.change(textBox_newItem, { target: { value: 'bar' } });
+                await waitFor(() => expect(textBox_newItem).toHaveValue('bar'))
+                await waitFor(() => expect(button_addTodoItem).not.toBeDisabled())
+                fireEvent.click(button_addTodoItem);
+            })
+            await act(async () => {
+                // Simulate a button click
+                const doneButton = screen.getByLabelText('Done')
+                await waitFor(() => expect(doneButton).not.toBeDisabled())
+                fireEvent.click(doneButton);
+            })
             const authToken = store.getState().user.authentication.authToken
             const options = {
                 method: 'POST',
@@ -73,7 +78,7 @@ describe("action tests", () => {
                 body: JSON.stringify({
                     "title": "New Todo",
                     "notes": "Hello",
-                    "items": [{  "item_text": "foo","item_done": false, }, { "item_text": "bar", "item_done": false }],
+                    "items": [{ "item_text": "foo", "item_done": false, }, { "item_text": "bar", "item_done": false }],
                 })
 
             };
@@ -96,15 +101,16 @@ describe("action tests", () => {
                 </BrowserRouter>);
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Notes");
-            // add the title
-            fireEvent.change(textBox_title, { target: { value: 'New Note' } });
-            // add some todo items 
-            fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
+            await act(async () => {
+                // add the title
+                fireEvent.change(textBox_title, { target: { value: 'New Note' } });
+                // add some notes
+                fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
 
-            const doneButton = screen.getByLabelText('Done')
-            await waitFor(() => expect(doneButton).not.toBeDisabled())
-            fireEvent.click(doneButton);
-
+                const doneButton = screen.getByLabelText('Done')
+                await waitFor(() => expect(doneButton).not.toBeDisabled())
+                fireEvent.click(doneButton);
+            })
             // Check if the expected action was dispatched
             const authToken = store.getState().user.authentication.authToken
             const options = {
@@ -143,21 +149,22 @@ describe("action tests", () => {
             //const selection_invites = screen.getByLabelText("invites");// not sure how to add invitees yet
 
             // add the title
-            fireEvent.change(textBox_title, { target: { value: 'New Appointment' } });
-            fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
-            fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
+            await act(async () => {
+                fireEvent.change(textBox_title, { target: { value: 'New Appointment' } });
+                fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
+                fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
 
-            fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+                fireEvent.change(textBox_dateFrom, { target: { value: date } });
+                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
-            expect(textBox_dateFrom).toBeInTheDocument()
-            expect(textBox_dateFrom.value).toEqual(date)
+                expect(textBox_dateFrom).toBeInTheDocument()
+                expect(textBox_dateFrom.value).toEqual(date)
 
-            const Done = screen.getByLabelText('Done')
-            await waitFor(() => expect(Done).not.toBeDisabled())
-            fireEvent.click(Done);
-
+                const Done = screen.getByLabelText('Done')
+                await waitFor(() => expect(Done).not.toBeDisabled())
+                fireEvent.click(Done);
+            })
             const authToken = store.getState().user.authentication.authToken
             const options = {
                 method: 'POST',
@@ -199,17 +206,18 @@ describe("action tests", () => {
             const textBox_dateTo = screen.getByLabelText("Date To");
 
             // add the title
-            fireEvent.change(textBox_title, { target: { value: 'New Reminder' } });
-            fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
-            fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
-            fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+            await act(async () => {
+                fireEvent.change(textBox_title, { target: { value: 'New Reminder' } });
+                fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
+                fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
+                fireEvent.change(textBox_dateFrom, { target: { value: date } });
+                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
-            const doneButton = screen.getByLabelText('Done')
-            await waitFor(() => expect(doneButton).not.toBeDisabled())
-            fireEvent.click(doneButton);
-
+                const doneButton = screen.getByLabelText('Done')
+                await waitFor(() => expect(doneButton).not.toBeDisabled())
+                fireEvent.click(doneButton);
+            })
             // Check if the expected action was dispatched
             const authToken = store.getState().user.authentication.authToken
             const options = {
@@ -251,20 +259,28 @@ describe("action tests", () => {
             const textBox_place = screen.getByLabelText("Place");
             const textBox_dateFrom = screen.getByLabelText("Date From");
             const textBox_dateTo = screen.getByLabelText("Date To");
+            const doneButton = screen.getByLabelText('Done')
 
             // add the title
-            fireEvent.change(textBox_title, { target: { value: 'New Event' } });
-            fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
-            fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
-            await waitFor(() => expect(textBox_place).toHaveValue('Dolores sit'))
-            fireEvent.change(textBox_dateFrom, { target: { value: date } });
-            fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+            await act(async () => {
+                fireEvent.change(textBox_title, { target: { value: 'New Event' } });
+                fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
+                fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
+                fireEvent.change(textBox_dateFrom, { target: { value: date } });
+                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
 
 
-            const doneButton = screen.getByLabelText('Done')
-            await waitFor(() => expect(doneButton).not.toBeDisabled())
-            fireEvent.click(doneButton);
+                await waitFor(() => expect(textBox_title).toHaveValue('New Event'))
+                await waitFor(() => expect(textBox_value).toHaveValue('Lorem Ipsum'))
+                await waitFor(() => expect(textBox_place).toHaveValue('Dolores sit'))
+                await waitFor(() => expect(textBox_dateFrom).toHaveValue(date))
+                await waitFor(() => expect(textBox_dateTo).toHaveValue(tomorrow))
 
+
+
+                await waitFor(() => expect(doneButton).not.toBeDisabled())
+                fireEvent.click(doneButton);
+            })
             // Check if the expected action was dispatched
             const authToken = store.getState().user.authentication.authToken
             const options = {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { itemsNoteAdd, hasErrorItems, isLoadingItems } from "../itemSlice";
-import { wallFetch } from "../../mainPage/wallSlice";
+//import { wallFetch } from "../../mainPage/wallSlice";
 
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
