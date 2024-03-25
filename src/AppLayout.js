@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import MainDisplay from './components/mainPage/MainDisplay';
+import React, {useEffect, useState} from "react";
+//import MainDisplay from './components/mainPage/MainDisplay';
 import { Outlet } from "react-router";
 import './blur.css';
 import { selectPopupState } from "./components/mainPage/popupSlice";
@@ -13,6 +13,9 @@ import { selectColourChoice, selectColourObject, setColour } from "./components/
 function AppLayout() {
   const dispatch = useDispatch();
 
+  useEffect(()=>{
+    dispatch(userAuthCheck())
+  },[dispatch])
   
   //const [colourObject, setColourObject] = useState(colourSwitch('sandy'))
   //const [colourSelectState, setColourSelectState] = useState('sandy')
@@ -28,8 +31,9 @@ function AppLayout() {
     dispatch(setColour(e.target.value))
 
   }
+
   
-  dispatch(userAuthCheck())
+  
   const popupState = useSelector(selectPopupState)
   const isLoggedIn = useSelector(selectIsLoggedIn)
   console.log(main_background_image_URL)

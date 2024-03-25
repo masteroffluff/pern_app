@@ -10,8 +10,8 @@ export default function NewAppointment() {
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
     const [place, setPlace] = useState('')
-    const [dateFrom, setDateFrom] = useState('')
-    const [dateTo, setDateTo] = useState('')
+    const [date_from, setDateFrom] = useState('')
+    const [date_to, setDateTo] = useState('')
     const [attendee, setAttendee] = useState('')
     const [attendees, setAttendees] = useState([])
 
@@ -28,7 +28,7 @@ export default function NewAppointment() {
 
     const submitAppointment = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'appointment', notes, place, dateFrom, dateTo, attendees })).unwrap()
+        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees })).unwrap()
         navigate('/')
     }
 
@@ -44,11 +44,11 @@ export default function NewAppointment() {
         e.preventDefault();
         setPlace(e.target.value)
     }
-    const dateFromUpdate = (e) => {
+    const date_fromUpdate = (e) => {
         e.preventDefault();
         setDateFrom(e.target.value)
     }
-    const dateToUpdate = (e) => {
+    const date_toUpdate = (e) => {
         e.preventDefault();
         setDateTo(e.target.value)
     }
@@ -80,11 +80,11 @@ export default function NewAppointment() {
             <label htmlFor="place">Place</label><br />
             <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
 
-            <label htmlFor="dateFrom">Date From</label>
-            <input data-testid="dateFrom" type='date' id='dateFrom' onChange={dateFromUpdate} value={dateFrom} />
+            <label htmlFor="date_from">Date From</label>
+            <input data-testid="date_from" type='date' id='date_from' onChange={date_fromUpdate} value={date_from} />
 
-            <label htmlFor="dateTo">Date To</label>
-            <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
+            <label htmlFor="date_to">Date To</label>
+            <input data-testid="date_to" type='date' id='date_to' onChange={date_toUpdate} value={date_to} />
 
             <label htmlFor="attendee">Attendees</label>
             <input data-testid="attendee" type='text' id='attendee' onChange={attendeeUpdate} value={attendee} />

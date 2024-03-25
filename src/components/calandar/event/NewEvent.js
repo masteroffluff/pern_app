@@ -10,9 +10,9 @@ export default function NewEvent() {
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
     const [place, setPlace] = useState('')
-    const [dateFrom, setDateFrom] = useState('')
-    const [dateTo, setDateTo] = useState('')
-    const [sharedTo, setSharedTo] = useState(1)
+    const [date_from, setDateFrom] = useState('')
+    const [date_to, setDateTo] = useState('')
+    const [sharedTo, setSharedTo] = useState('1')
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export default function NewEvent() {
 
     const submitEvent = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'event', notes, place, dateFrom, dateTo, attendees:[], sharedTo })).unwrap()
+        dispatch(calendarPost({ title, type: 'event', notes, place, date_from, date_to, attendees:[], shared_to:sharedTo })).unwrap()
         navigate('/')
     }
     const cancelEvent=(e)=>{
@@ -49,14 +49,21 @@ export default function NewEvent() {
         e.preventDefault();
         setPlace(e.target.value)
     }
-    const dateFromUpdate = (e) => {
+    const date_fromUpdate = (e) => {
         e.preventDefault();
         setDateFrom(e.target.value)
     }
-    const dateToUpdate = (e) => {
+    const date_toUpdate = (e) => {
         e.preventDefault();
         setDateTo(e.target.value)
     }
+    const sharedToChange = (e) => {
+        e.preventDefault();
+        alert(e.target.value)
+        setSharedTo(e.target.value)
+    }
+
+
     return <div data-testid="newEvent"  className='popup'>
         <h3>Add Event</h3>
         <form onSubmit={submitEvent}>
@@ -69,14 +76,21 @@ export default function NewEvent() {
             <label htmlFor="place">Place</label><br />
             <input data-testid="place" type='text' id='place' onChange={placeUpdate} value={place} /><br />
 
-            <label htmlFor="dateFrom">Date From</label>
-            <input data-testid="dateFrom" type='date' id='dateFrom' onChange={dateFromUpdate} value={dateFrom} />
+            <label htmlFor="date_from">Date From</label>
+            <input data-testid="date_from" type='date' id='date_from' onChange={date_fromUpdate} value={date_from} />
 
-            <label htmlFor="dateTo">Date To</label>
-            <input data-testid="dateTo" type='date' id='dateTo' onChange={dateToUpdate} value={dateTo} />
+            <label htmlFor="date_to">Date To</label>
+            <input data-testid="date_to" type='date' id='date_to' onChange={date_toUpdate} value={date_to} />
+            <br />
+            <label htmlFor="shareButton">Shared To</label>
+            <select data-testid="shareButton" value={sharedTo} id='shareButton' onChange={sharedToChange}>
+                <option value="1">Myself</option>
+                <option value="2">My Friends</option>
+                <option value="3">Everyone</option>
+            </select>
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelEvent}>Cancel</button>
-            <button type='submit' disabled={!title||!notes||!dateFrom||!dateTo} data-testid='Done' aria-label="Done" value='Done' >Done</button>
+            <button type='submit' disabled={!title||!notes||!date_from||!date_to} data-testid='Done' aria-label="Done" value='Done' >Done</button>
         </form>
         <p>{isLoading?'Generating Event':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>

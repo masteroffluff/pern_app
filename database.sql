@@ -36,8 +36,8 @@ CREATE TABLE "Item_type" (
 
 CREATE TABLE "Calendar_Details" (
   "item_id" int PRIMARY KEY,
-  "date_from" timestamp,
-  "date_to" timestamp,
+  "date_from" timestamp NOT NULL,
+  "date_to" timestamp NOT NULL,
   "place" varchar,
 );
 
@@ -90,6 +90,8 @@ ALTER TABLE "Todo_Items" ADD FOREIGN KEY ("item_id") REFERENCES "Items" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("friend_id") REFERENCES "Users" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("status") REFERENCES "Friends_status" ("id");
+
+
 
 -- populate state tables
 

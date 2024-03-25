@@ -39,7 +39,7 @@ export default function DisplayCalendar() {
             // why god why??
             //console.log(_dateFrom, _dateTo)
             const _calendarMap = {}
-            let currentDate = moment(_dateFrom)
+            let currentDate = moment(_dateFrom).startOf('day')
             while (currentDate.isSameOrBefore(_dateTo)) {
                 _calendarMap[currentDate.format('YYYY-MM-DD')] = []
                 currentDate = currentDate.add(1, 'day');

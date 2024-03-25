@@ -43,7 +43,7 @@ export const calendarFetch = createAsyncThunk(
 
 export const calendarPost = createAsyncThunk(
     'calendarPost',
-    async ({ title,type, notes, place, dateFrom, dateTo, attendees, shared_to}, { rejectWithValue, getState }) => {
+    async ({ title,type, notes, place, date_from, date_to, attendees, shared_to}, { rejectWithValue, getState }) => {
         
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
@@ -61,19 +61,20 @@ export const calendarPost = createAsyncThunk(
                 title,
                 notes,
                 place,
-                dateFrom,
-                dateTo,
+                date_from,
+                date_to,
                 attendees,
                 shared_to
             })
         };
+        console.log(title,type, notes, place, date_from, date_to, attendees, shared_to)
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
 
 export const calendarUpdate = createAsyncThunk(
     'calendarUpdate',
-    async ({ item_id, title,type, notes, place, dateFrom, dateTo, attendees, shared_to}, { rejectWithValue, getState }) => {
+    async ({ item_id, title,type, notes, place, date_from, date_to, attendees, shared_to}, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
@@ -91,10 +92,11 @@ export const calendarUpdate = createAsyncThunk(
                 title,
                 notes,
                 place,
-                dateFrom,
-                dateTo,
+                date_from,
+                date_to,
                 attendees,
-                shared_to
+                shared_to,
+                item_id
             })
         };
         return await apiFetch(endPoint, options, rejectWithValue)

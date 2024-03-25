@@ -144,8 +144,8 @@ describe("action tests", () => {
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");
             const textBox_place = screen.getByLabelText("Place");
-            const textBox_dateFrom = screen.getByLabelText("Date From");
-            const textBox_dateTo = screen.getByLabelText("Date To");
+            const textBox_date_from = screen.getByLabelText("Date From");
+            const textBox_date_to = screen.getByLabelText("Date To");
             //const selection_invites = screen.getByLabelText("invites");// not sure how to add invitees yet
 
             // add the title
@@ -154,12 +154,12 @@ describe("action tests", () => {
                 fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
                 fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
 
-                fireEvent.change(textBox_dateFrom, { target: { value: date } });
-                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+                fireEvent.change(textBox_date_from, { target: { value: date } });
+                fireEvent.change(textBox_date_to, { target: { value: tomorrow } });
 
 
-                expect(textBox_dateFrom).toBeInTheDocument()
-                expect(textBox_dateFrom.value).toEqual(date)
+                expect(textBox_date_from).toBeInTheDocument()
+                expect(textBox_date_from.value).toEqual(date)
 
                 const Done = screen.getByLabelText('Done')
                 await waitFor(() => expect(Done).not.toBeDisabled())
@@ -179,8 +179,8 @@ describe("action tests", () => {
                     title: 'New Appointment',
                     notes: 'Lorem Ipsum',
                     place: 'Dolores sit',
-                    dateFrom: date,
-                    dateTo: tomorrow,
+                    date_from: date,
+                    date_to: tomorrow,
                     attendees: []
                 })
             };
@@ -202,16 +202,16 @@ describe("action tests", () => {
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");
             const textBox_place = screen.getByLabelText("Place");
-            const textBox_dateFrom = screen.getByLabelText("Date From");
-            const textBox_dateTo = screen.getByLabelText("Date To");
+            const textBox_date_from = screen.getByLabelText("Date From");
+            const textBox_date_to = screen.getByLabelText("Date To");
 
             // add the title
             await act(async () => {
                 fireEvent.change(textBox_title, { target: { value: 'New Reminder' } });
                 fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
                 fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
-                fireEvent.change(textBox_dateFrom, { target: { value: date } });
-                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+                fireEvent.change(textBox_date_from, { target: { value: date } });
+                fireEvent.change(textBox_date_to, { target: { value: tomorrow } });
 
 
                 const doneButton = screen.getByLabelText('Done')
@@ -233,8 +233,8 @@ describe("action tests", () => {
                     title: 'New Reminder',
                     notes: 'Lorem Ipsum',
                     place: 'Dolores sit',
-                    dateFrom: date,
-                    dateTo: tomorrow,
+                    date_from: date,
+                    date_to: tomorrow,
                     attendees: []
                 })
             };
@@ -257,8 +257,8 @@ describe("action tests", () => {
             const textBox_title = screen.getByLabelText("Title");
             const textBox_value = screen.getByLabelText("Description");
             const textBox_place = screen.getByLabelText("Place");
-            const textBox_dateFrom = screen.getByLabelText("Date From");
-            const textBox_dateTo = screen.getByLabelText("Date To");
+            const textBox_date_from = screen.getByLabelText("Date From");
+            const textBox_date_to = screen.getByLabelText("Date To");
             const doneButton = screen.getByLabelText('Done')
 
             // add the title
@@ -266,15 +266,15 @@ describe("action tests", () => {
                 fireEvent.change(textBox_title, { target: { value: 'New Event' } });
                 fireEvent.change(textBox_value, { target: { value: 'Lorem Ipsum' } });
                 fireEvent.change(textBox_place, { target: { value: 'Dolores sit' } });
-                fireEvent.change(textBox_dateFrom, { target: { value: date } });
-                fireEvent.change(textBox_dateTo, { target: { value: tomorrow } });
+                fireEvent.change(textBox_date_from, { target: { value: date } });
+                fireEvent.change(textBox_date_to, { target: { value: tomorrow } });
 
 
                 await waitFor(() => expect(textBox_title).toHaveValue('New Event'))
                 await waitFor(() => expect(textBox_value).toHaveValue('Lorem Ipsum'))
                 await waitFor(() => expect(textBox_place).toHaveValue('Dolores sit'))
-                await waitFor(() => expect(textBox_dateFrom).toHaveValue(date))
-                await waitFor(() => expect(textBox_dateTo).toHaveValue(tomorrow))
+                await waitFor(() => expect(textBox_date_from).toHaveValue(date))
+                await waitFor(() => expect(textBox_date_to).toHaveValue(tomorrow))
 
 
 
@@ -296,9 +296,10 @@ describe("action tests", () => {
                     'title': 'New Event',
                     'notes': 'Lorem Ipsum',
                     'place': 'Dolores sit',
-                    'dateFrom': date,
-                    'dateTo': tomorrow,
-                    'attendees': []
+                    'date_from': date,
+                    'date_to': tomorrow,
+                    'attendees': [],
+                    'shared_to':'1',
                 })
             };
             // Check if the expected action was dispatched
