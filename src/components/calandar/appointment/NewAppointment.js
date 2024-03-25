@@ -28,7 +28,7 @@ export default function NewAppointment() {
 
     const submitAppointment = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees })).unwrap()
+        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees, shared_to:1 })).unwrap()
         navigate('/')
     }
 

@@ -67,7 +67,7 @@ export const calendarPost = createAsyncThunk(
                 shared_to
             })
         };
-        console.log(title,type, notes, place, date_from, date_to, attendees, shared_to)
+        //console.log(title,type, notes, place, date_from, date_to, attendees, shared_to)
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
@@ -239,12 +239,9 @@ export const calendarSlice = createSlice({
                     (state, action) => {
                         //console.log(action)
                         state.isLoading = false;
-                        state.hasError = action.error;
+                        state.hasError = action.error.message;
                     }
                 )
-                // .addDefaultCase(
-                //     (_, action) => { console.log(action) }
-                // )
         }
 })
 

@@ -1292,7 +1292,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.calendarItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).toStrictEqual("Rejected");
       });
 
     })
@@ -1356,7 +1356,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.calendarItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).toStrictEqual("Rejected");
       });
 
 
@@ -1421,7 +1421,7 @@ describe('dispatch tests', () => {
           // Check state after dispatching the rejected action
           expect(newState.isLoading).toBe(false);
           expect(newState.calendarItems.length).toBe(0);
-          expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+          expect(newState.hasError).toStrictEqual("Rejected");
         });
 
 
@@ -1492,7 +1492,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.calendarItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).toStrictEqual("Rejected" );
       });
 
 
@@ -1557,7 +1557,7 @@ describe('dispatch tests', () => {
           // Check state after dispatching the rejected action
           expect(newState.isLoading).toBe(false);
           expect(newState.calendarItems.length).toBe(0);
-          expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+          expect(newState.hasError).toStrictEqual("Rejected");
         });
 
 
@@ -1625,7 +1625,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.calendarItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).toStrictEqual("Rejected");
       });
 
 

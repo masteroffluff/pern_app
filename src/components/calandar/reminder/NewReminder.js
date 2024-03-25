@@ -26,11 +26,9 @@ export default function NewReminder() {
 
     const submitReminder = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'reminder', notes, place, date_from, date_to, attendees: [] })).unwrap()
+        dispatch(calendarPost({ title, type: 'reminder', notes, place, date_from, date_to, attendees: [], shared_to:1 })).unwrap()
         navigate('/')
     }
-
-
 
     const titleUpdate = (e) => {
         e.preventDefault();
@@ -75,7 +73,7 @@ export default function NewReminder() {
             <label htmlFor="date_to">Date To</label>
             <input data-testid="date_to" type='date' id='date_to' onChange={date_toUpdate} value={date_to} />
             <br />
-            <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button>
+            {/* <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button> */}
             <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder}>Cancel</button>
             <button type='submit' data-testid='Done' aria-label="Done" value='Done'>Done</button>
         </form>

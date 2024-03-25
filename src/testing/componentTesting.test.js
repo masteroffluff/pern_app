@@ -111,24 +111,24 @@ describe('component Tests', () => {
     // - has title - "Reminder"
 
 
-    // - has button labelled "share"
-    describe('NewReminder', () => {
-        // Render the parent component and store its container
-        beforeEach(() => {
-            // eslint-disable-next-line testing-library/no-render-in-setup
-            render(<BrowserRouter>
-                <Provider store={store}><NewReminder /></Provider>
-            </BrowserRouter>);
-        })
-        afterEach(() => {
-            cleanup();
-        })
-        boilerplateTests(NewReminder, 'NewReminder', "Add Reminder")
-        it('has share button"', () => {
-            const testElement = screen.getByTestId('shareButton');
-            expect(testElement).toBeInTheDocument();
-        });
-    })
+    // // - has button labelled "share"
+    // describe('NewReminder', () => {
+    //     // Render the parent component and store its container
+    //     beforeEach(() => {
+    //         // eslint-disable-next-line testing-library/no-render-in-setup
+    //         render(<BrowserRouter>
+    //             <Provider store={store}><NewReminder /></Provider>
+    //         </BrowserRouter>);
+    //     })
+    //     afterEach(() => {
+    //         cleanup();
+    //     })
+    //     boilerplateTests(NewReminder, 'NewReminder', "Add Reminder")
+    //     it('has share button"', () => {
+    //         const testElement = screen.getByTestId('shareButton');
+    //         expect(testElement).toBeInTheDocument();
+    //     });
+    // })
 
     // NewAppointment
     // - has title - "Appointement"

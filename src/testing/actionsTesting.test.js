@@ -181,7 +181,8 @@ describe("action tests", () => {
                     place: 'Dolores sit',
                     date_from: date,
                     date_to: tomorrow,
-                    attendees: []
+                    attendees: [],
+                    shared_to: 1 
                 })
             };
             // Check if the expected action was dispatched
@@ -235,7 +236,8 @@ describe("action tests", () => {
                     place: 'Dolores sit',
                     date_from: date,
                     date_to: tomorrow,
-                    attendees: []
+                    attendees: [],
+                    shared_to: 1
                 })
             };
             // Check if the expected action was dispatched
