@@ -16,7 +16,7 @@ module.exports.get_wall = async function get_wall(req, res) {
             SELECT user_id FROM "Friends"
             WHERE friend_id = $1 AND status = 4);`
         const friendsResponse = await db.queryPromisified(friendsSQL, [id])
-        const friendsList = friendsResponse.rows
+        const friendsList = friendsResponse.rows.map((e)=>e.friend_id)
         friendsList.push(id) // always remenber to be friends with yourself
         const wallSQL =
             `SELECT "Items".id, "Item_type".type, "Items".owner_id, "Items".shared_to, "Items".title, "Items".notes as value, "Items".date	
