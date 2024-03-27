@@ -294,7 +294,8 @@ describe('component Tests', () => {
 
         it("renders Todo Props properly", () => {
             render(<BrowserRouter>
-                <Provider store={store}><Todo title={title} value={value} items={items} /></Provider>
+            
+                <Provider store={store}><Todo title={title} notes={value} items={items} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
@@ -305,9 +306,9 @@ describe('component Tests', () => {
                 // eslint-disable-next-line testing-library/prefer-screen-queries
                 expect(element).toHaveTextContent(items[index].item_text)
                 // eslint-disable-next-line testing-library/no-node-access
-                const checkbox = element.querySelector("input[type='checkbox']")
+                //const checkbox = element.querySelector("input[type='checkbox']")
 
-                expect(checkbox.checked).toBe(items[index].item_done);
+                //expect(checkbox.checked).toBe(items[index].item_done);
             })
         })
         cleanup()

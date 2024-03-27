@@ -24,29 +24,40 @@ module.exports.post_todo_items = async function post_todo_items(req, res) {
         res.send(await helperFunctions.getListOfTodosAndTheirItems(id));
     } catch (e) {
         console.log('post_todo_items error', e)
-        return res.status(400).send({message:e.message})
+        return res.status(400).send({ message: e.message })
     }
 }
 
 module.exports.update_todo_items = async function update_todo_items(req, res) {
+    
+    const at = db.atomicTrasaction()
     try {
-        const { todoitem_id, item_text, item_done } = req.body
+        await at.begin()
+        const { items } = req.body
+        console.log(items)
         const sql = `
         UPDATE "Todo_Items" 
         SET item_text =  $2, item_done = $3
         WHERE id = $1
         RETURNING *`
-        const response = await db.queryPromisified(sql, [todoitem_id, item_text, item_done])
-        if (response.rows.length === 0) {
-            const err = new Error('post_todo_items Failed')
-            throw err
+        for (const i in items) {
+            
+            const { id, item_text, item_done } = items[i];
+            const response = await at.query(sql, [id, item_text, item_done])
+            if (response.rows.length === 0) {
+                const err = new Error('post_todo_items Failed')
+                throw err
+            }
         }
-        ////////////////////
-        const { id } = req.user
-        res.send(await helperFunctions.getListOfTodosAndTheirItems(id));
+        await at.commit()
+        const { id: user_id } = req.user
+        res.send(await helperFunctions.getListOfTodosAndTheirItems(user_id));
     } catch (e) {
+        at.rollback()
         console.log('update_todo_items error', e)
-        return res.status(400).send({message:e.message})
+        res.status(400).send({ message: e.message })
+    } finally{
+        at.releaseClient()
     }
 
 }
@@ -61,7 +72,7 @@ module.exports.delete_todo_items = async function delete_todo_items(req, res) {
         const response = await db.queryPromisified(sql, [todo_id, todoitem_id])
         console.log(response.rows)
         if (response.rows.length === 0) {
-            const err = new Error( 'post_todo_items Failed')
+            const err = new Error('post_todo_items Failed')
             throw err
         }
         ///////////////////////
@@ -69,7 +80,7 @@ module.exports.delete_todo_items = async function delete_todo_items(req, res) {
         res.send(await helperFunctions.getListOfTodosAndTheirItems(user_id));
     } catch (e) {
         console.log('delete_todo_items error', e)
-        return res.status(400).send({message:e.message})
+        return res.status(400).send({ message: e.message })
     }
 
 }

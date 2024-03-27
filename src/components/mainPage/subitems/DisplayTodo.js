@@ -1,6 +1,6 @@
 import React,{ useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTodos, itemsTodoFetch } from "../../items/itemSlice";
+import { selectTodos, itemsTodoFetch, itemsTodoItemsUpdate } from "../../items/itemSlice";
 import { Todo } from '../../items/index'
 import { useNavigate } from "react-router";
 
@@ -15,6 +15,10 @@ export default function DisplayTodo() {
         dispatch(itemsTodoFetch())
     }, [dispatch]);
 
+    const update=()=>{
+       dispatch(itemsTodoItemsUpdate()) 
+    }
+
     const newTodo_click = (e) =>{
             e.preventDefault()
         navigate('/newtodo')
@@ -22,10 +26,11 @@ export default function DisplayTodo() {
     return <div data-testid="displayTodo">
 
         <h3>Todo</h3>
+        <button onClick={update}>sync</button>
         <div className="content">
-            <ul>
-                {todos.map((td) => <li key={td.id}><Todo title={td.title} items={td.items}></Todo></li>)}
-            </ul>
+            
+                {todos.map((td,index) => <div key={index}><Todo todoIndex={index} title={td.title} notes={td.notes} items={td.items}></Todo></div>)}
+            
         </div>
         <button data-testid='newNote' value='newNote' onClick={newTodo_click} >New Todo</button>
     </div>

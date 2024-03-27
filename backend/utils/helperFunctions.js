@@ -136,7 +136,7 @@ function mapArrayontoArray(mainArray, subAray, mappedTo) {
 
 module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndTheirItems(id) {
     const sqlParent =
-        `SELECT id, shared_to, title, notes
+        `SELECT id, shared_to, title, notes, false as dirty
         FROM "Items"
         WHERE type = 2 AND owner_id = $1
         ORDER BY id DESC`

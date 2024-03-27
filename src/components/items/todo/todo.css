@@ -1,0 +1,23 @@
+
+.todo_container{
+    display:flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
+.todo{
+    text-align: left;
+    flex: 1 0 80px;
+}
+
+.todo_item{
+    text-align: left;
+}
+.todo_item:hover{
+    font-weight:bold;
+    background-color: var(--main-background-color-alt);
+}
+
+.todo_done{
+    text-decoration: line-through;
+    opacity:50%;
+}

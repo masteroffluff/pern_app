@@ -3,12 +3,12 @@ import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState ={
+const initialState = {
     todos: [],
     notes: [],
-    isLoading:false,
-    hasError:false
-    }
+    isLoading: false,
+    hasError: false
+}
 
 
 
@@ -37,7 +37,7 @@ export const itemsNoteFetch = createAsyncThunk(
 
 export const itemsNoteAdd = createAsyncThunk(
     'itemsNoteAdd',
-    async ({shared_to, title, notes} , { rejectWithValue, getState }) => {
+    async ({ shared_to, title, notes }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
@@ -50,10 +50,10 @@ export const itemsNoteAdd = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 title,
                 notes,
-                shared_to:shared_to||1
+                shared_to: shared_to || 1
             })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -63,7 +63,7 @@ export const itemsNoteAdd = createAsyncThunk(
 
 export const itemsNoteUpdate = createAsyncThunk(
     'itemsNoteUpdate',
-    async ({id, title, notes}, { rejectWithValue, getState }) => {
+    async ({ id, title, notes }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
@@ -75,7 +75,7 @@ export const itemsNoteUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 id,
                 title,
                 notes
@@ -128,7 +128,7 @@ export const itemsTodoFetch = createAsyncThunk(
 
 export const itemsTodoAdd = createAsyncThunk(
     'itemsTodoAdd',
-    async ({ title,notes,items}, { rejectWithValue, getState }) => {
+    async ({ title, notes, items }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
@@ -141,10 +141,10 @@ export const itemsTodoAdd = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
-                'title':title,
-                'notes':notes,
-                'items':items,
+            body: JSON.stringify({
+                'title': title,
+                'notes': notes,
+                'items': items,
             })
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -167,7 +167,7 @@ export const itemsTodoUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 id,
                 title,
                 notes
@@ -199,7 +199,7 @@ export const itemsTodoDelete = createAsyncThunk(
 
 export const itemsTodoItemsAdd = createAsyncThunk(
     'itemsTodoItemsAdd',
-    async ({ todo_id,text}, { rejectWithValue, getState }) => {
+    async ({ todo_id, text }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
@@ -212,9 +212,9 @@ export const itemsTodoItemsAdd = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
-                "todo_id":todo_id,
-                "text":text,
+            body: {
+                "todo_id": todo_id,
+                "text": text,
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -225,24 +225,31 @@ export const itemsTodoItemsAdd = createAsyncThunk(
 
 export const itemsTodoItemsUpdate = createAsyncThunk(
     'itemsTodoItemsUpdate',
-    async ({ id, title, notes }, { rejectWithValue, getState }) => {
-        const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/items/note`
+    async (_, { rejectWithValue, getState }) => {
+        
+        const state = getState()
+
+        const authToken = state.user.authentication.authToken
+        const todos = state.items.todos.filter((todo)=>todo.dirty)
+        const  items =[]
+        
+        todos.forEach((todo)=>{todo.items.forEach((item)=>{
+            items.push(item)
+        })})
+
+        const endPoint = `${apiUrl}/items/todo/items`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:{
-                "id":id,
-                "title":title,
-                "notes":notes
-            }
+            body: JSON.stringify({items})
         };
+        alert(JSON.stringify({items}))
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
@@ -272,13 +279,23 @@ export const itemsTodoItemsDelete = createAsyncThunk(
 export const itemSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        todoItemsUpdateDone (state, action) {
+            
+            const {todoIndex,index,done} = action.payload
+            //console.log('state',state)
+            //console.log('action', action)
+            state.todos[todoIndex].items[index].item_done=done
+            state.todos[todoIndex].dirty= true
+
+        }
+    },
     extraReducers:
         (builder) => {
             builder
                 .addMatcher(isAnyOf(
                     itemsNoteFetch.fulfilled,
-                    itemsNoteAdd.fulfilled   ,
+                    itemsNoteAdd.fulfilled,
                     itemsNoteUpdate.fulfilled,
                     itemsNoteDelete.fulfilled),
                     (state, action) => {
@@ -288,27 +305,29 @@ export const itemSlice = createSlice({
                         state.hasError = null;
                     })
                 .addMatcher(isAnyOf(
-                    itemsTodoFetch.fulfilled ,
-                    itemsTodoAdd.fulfilled   ,
+                    itemsTodoFetch.fulfilled,
+                    itemsTodoAdd.fulfilled,
                     itemsTodoUpdate.fulfilled,
                     itemsTodoDelete.fulfilled),
                     (state, action) => {
                         //console.log(action.payload)
+                        
                         state.todos = action.payload
+                        state.todos.forEach((todo)=>delete todo.dirty)
                         state.isLoading = false;
                         state.hasError = null;
-                    })    
+                    })
                 .addMatcher(
                     isAnyOf(
                         itemsNoteFetch.pending,
-                        itemsNoteAdd.pending   ,
+                        itemsNoteAdd.pending,
                         itemsNoteUpdate.pending,
                         itemsNoteDelete.pending,
-                        itemsTodoFetch.pending ,
-                        itemsTodoAdd.pending   ,
+                        itemsTodoFetch.pending,
+                        itemsTodoAdd.pending,
                         itemsTodoUpdate.pending,
                         itemsTodoDelete.pending
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
                         state.hasError = null;
@@ -317,11 +336,11 @@ export const itemSlice = createSlice({
                 .addMatcher(
                     isAnyOf(
                         itemsNoteFetch.rejected,
-                        itemsNoteAdd.rejected   ,
+                        itemsNoteAdd.rejected,
                         itemsNoteUpdate.rejected,
                         itemsNoteDelete.rejected,
-                        itemsTodoFetch.rejected ,
-                        itemsTodoAdd.rejected   ,
+                        itemsTodoFetch.rejected,
+                        itemsTodoAdd.rejected,
                         itemsTodoUpdate.rejected,
                         itemsTodoDelete.rejected),
                     (state, action) => {
@@ -330,9 +349,9 @@ export const itemSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                // .addDefaultCase(
-                //     (_, action) => { console.log(action) }
-                // )
+            // .addDefaultCase(
+            //     (_, action) => { console.log(action) }
+            // )
         }
 })
 
@@ -342,6 +361,8 @@ export const isLoadingItems = (state) => state.items.isLoading;
 export const hasErrorItems = (state) => state.items.hasError;
 export const selectTodos = (state) => state.items.todos;
 export const selectNotes = (state) => state.items.notes;
+
+export const {todoItemsUpdateDone} = itemSlice.actions 
 
 
 export default itemSlice.reducer

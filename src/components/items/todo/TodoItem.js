@@ -1,11 +1,16 @@
-import React, {useState} from "react";
+import React/* , {useState} */ from "react";
 
 export default function TodoItem({ index, item_text, item_done, callBack }) {
+
+   // const [doneCheck,setDoneCheck] = useState(item_done)
     const checkboxClick = (e) => {
         e.preventDefault()
-        callBack(index, e.target.value)
+        //setDoneCheck(!doneCheck)
+        
+        callBack(index, !item_done)
     }
-    return <div data-testid="todo-item" className='todoItem'>
-        <label htmlFor="donecheckbox" data-testid="todo-item-value">{item_text}</label><input data-testid="todo-item-done" value={item_text} type='checkbox' checked={item_done} onChange={checkboxClick} />
+    
+    return <div data-testid="todo-item" className='todo_item' onClick={checkboxClick}>
+        <span className={item_done?'todo_done':''} htmlFor="donecheckbox" data-testid="todo-item-value" >{item_text}</span>
     </div>
 }
