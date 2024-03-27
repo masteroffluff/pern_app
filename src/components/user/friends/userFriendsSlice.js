@@ -4,11 +4,11 @@ import { createSelector } from '@reduxjs/toolkit'
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState ={
-    list:[],
-    isLoading:false,
+const initialState = {
+    list: [],
+    isLoading: false,
     hasError: null,
-    potentials:[]
+    potentials: []
 }
 
 const name = "friends"
@@ -58,7 +58,7 @@ export const friendsPotential = createAsyncThunk(
 
 export const friendsAdd = createAsyncThunk(
     'friendsAdd',
-    async ({friend_id}, { rejectWithValue, getState }) => {
+    async ({ friend_id }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends`
@@ -152,36 +152,36 @@ export const friendsSlice = createSlice({
     extraReducers:
         (builder) => {
             builder
-                .addCase(friendsPotential.fulfilled,(state, action)=>{
+                .addCase(friendsPotential.fulfilled, (state, action) => {
                     state.isLoading = false;
                     state.hasError = null;
-                    state.potentials = action.payload;                   
+                    state.potentials = action.payload;
                 })
                 .addMatcher(isAnyOf(
-                    friendsFetch.fulfilled,    
-                    friendsAdd.fulfilled,     
-                    friendConfirm.fulfilled,  
+                    friendsFetch.fulfilled,
+                    friendsAdd.fulfilled,
+                    friendConfirm.fulfilled,
                     friendsUnfollow.fulfilled,
                     friendsBlock.fulfilled,
 
 
-                    ),
+                ),
                     (state, action) => {
                         // console.log(action.payload)
                         state.isLoading = false;
                         state.hasError = null;
                         state.list = action.payload;
                     })
-  
+
                 .addMatcher(
                     isAnyOf(
-                        friendsFetch.pending,    
-                        friendsAdd.pending,     
-                        friendConfirm.pending,  
+                        friendsFetch.pending,
+                        friendsAdd.pending,
+                        friendConfirm.pending,
                         friendsUnfollow.pending,
                         friendsBlock.pending,
                         friendsPotential.pending
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
                         state.hasError = null;
@@ -189,9 +189,9 @@ export const friendsSlice = createSlice({
                 )
                 .addMatcher(
                     isAnyOf(
-                        friendsFetch.rejected,    
-                        friendsAdd.rejected,     
-                        friendConfirm.rejected,  
+                        friendsFetch.rejected,
+                        friendsAdd.rejected,
+                        friendConfirm.rejected,
                         friendsUnfollow.rejected,
                         friendsBlock.rejected,
                         friendsPotential.rejected
@@ -216,10 +216,22 @@ const selectfriends = (state) => state.user.friends.list
 // export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
 // export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
 // memoizing friends selectors to improve efficiency
-export const selectFriends_Live = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'friend'))
-export const selectFriends_Blocked = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'blocked'))
-export const selectFriends_Unfollowed = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'unfollowed'))
-export const selectFriends_Pending = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'pending'))
-export const selectFriends_Sent = createSelector(selectfriends,(friends)=>friends.filter((e)=>e.status === 'sent'))
+export const selectFriends_Live = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'friend'))
+export const selectFriends_Blocked = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'blocked'))
+export const selectFriends_Unfollowed = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'unfollowed'))
+export const selectFriends_Pending = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'pending'))
+export const selectFriends_Sent = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'sent'))
+export const selectFriends_LiveMap = createSelector(selectfriends, (friends) => {
+    const friendsMap = new Map();
+    friends.forEach((e) => {
+        console.log(e)
+        if (e.status === 'friend'){
+            
+            friendsMap.set( e.id,e.display_name)
+        }
+
+    })
+    return friendsMap
+})
 
 export default friendsSlice.reducer

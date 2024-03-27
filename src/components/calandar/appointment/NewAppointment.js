@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
+import { selectFriends_LiveMap, friendsFetch } from "../../user/friends/userFriendsSlice";
 
 
 export default function NewAppointment() {
@@ -12,8 +13,10 @@ export default function NewAppointment() {
     const [place, setPlace] = useState('')
     const [date_from, setDateFrom] = useState('')
     const [date_to, setDateTo] = useState('')
-    const [attendee, setAttendee] = useState('')
-    const [attendees, setAttendees] = useState([])
+    const [attendee, setAttendee] = useState(false)
+    const [attendees, setAttendees] = useState(new Map())
+
+    const friendsMap = useSelector(selectFriends_LiveMap)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -21,14 +24,15 @@ export default function NewAppointment() {
     const hasError = useSelector(hasErrorCalendar)
     const isLoading = useSelector(isLoadingCalendar)
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setPopup(true))
-    return ()=>dispatch(setPopup(false))
-    },[dispatch])
+        dispatch(friendsFetch)
+        return () => dispatch(setPopup(false))
+    }, [dispatch])
 
     const submitAppointment = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees, shared_to:1 })).unwrap()
+        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees:Object.values(attendees), shared_to: 1 })).unwrap()
         navigate('/')
     }
 
@@ -52,21 +56,26 @@ export default function NewAppointment() {
         e.preventDefault();
         setDateTo(e.target.value)
     }
-    const attendeesUpdate = (e) => {
+    const attendeesClick = (e) => {
         e.preventDefault()
-        const newAttendeess = [...attendees, e.target.value]
-        setAttendees(newAttendeess)
-        setAttendee('')
+        console.log(attendee,friendsMap, friendsMap.get(attendee))
+
+        if (attendee) {
+            const newAttendees = new Map(attendees)
+            newAttendees.set(attendee, friendsMap.get(Number(attendee)))
+            setAttendees(newAttendees)
+            setAttendee(false)
+        }
     }
     const attendeeUpdate = (e) => {
         e.preventDefault();
         setAttendee(e.target.value)
     }
-    const cancelAppointment=(e)=>{
+    const cancelAppointment = (e) => {
         e.preventDefault()
         navigate('/')
     }
-
+    
 
     return <div data-testid="newAppointment" className='popup'>
         <h3>Add Appointement</h3>
@@ -85,15 +94,23 @@ export default function NewAppointment() {
 
             <label htmlFor="date_to">Date To</label>
             <input data-testid="date_to" type='date' id='date_to' onChange={date_toUpdate} value={date_to} />
-
+            <br />
             <label htmlFor="attendee">Attendees</label>
-            <input data-testid="attendee" type='text' id='attendee' onChange={attendeeUpdate} value={attendee} />
-            <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesUpdate}>Invite Attendee</button>
-
+            <select data-testid="attendee" type='text' id='attendee' onChange={attendeeUpdate} value={attendee}>
+                <option value='false'>...........</option>
+                {Array.from(friendsMap.keys()).map((e, i) => {
+                    return <option key={i} value={e}>{friendsMap.get(e)}</option>
+                })}
+            </select>
+            
+            <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesClick}>Invite Attendee</button>
+            <br />
+            <label>Invited:</label>
+            <p>{Array.from(attendees.values()).join(', ')}</p>
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
-            <button type='submit' data-testid='Done' aria-label="Done" value='Done'>Done</button>
+            <button type='submit' data-testid='Done' disabled={!title || !notes || !date_from || !date_to} aria-label="Done" value='Done'>Done</button>
         </form>
-        <p>{isLoading?'Generating Appointment':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
+        <p>{isLoading ? 'Generating Appointment' : hasError ? <span className='errorMessage'>{hasError}</span> : <></>}</p>
     </div>
 }

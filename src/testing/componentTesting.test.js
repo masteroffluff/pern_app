@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 // import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo } from '../components/items'
-import { Appointment, NewAppointment, Event, NewEvent, Reminder, NewReminder } from '../components/calandar';
+import { Appointment, NewAppointment, Event, NewEvent, Reminder } from '../components/calandar';
 import store from '../store';
 import { BrowserRouter } from 'react-router-dom';
 import moment from 'moment';
