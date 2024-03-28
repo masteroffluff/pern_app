@@ -260,7 +260,7 @@ describe('component Tests', () => {
     })
 
     const title = "foo", value = "bar", date_from = date, date_to = date, place = 'baz'
-
+    const dateMoment= moment(date)
 
     // Note
     describe('Note', () => {
@@ -276,7 +276,7 @@ describe('component Tests', () => {
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             //date
-            expect(screen.getByLabelText('date')).toHaveTextContent(date.toString());
+            expect(screen.getByLabelText('date')).toHaveTextContent(dateMoment.format('Do MMMM YYYY, h:mm:ss a'));
         })
         cleanup()
     })
@@ -298,7 +298,7 @@ describe('component Tests', () => {
                 <Provider store={store}><Todo title={title} notes={value} items={items} /></Provider>
             </BrowserRouter>)
             //title
-            expect(screen.getByLabelText('Title')).toHaveTextContent(title);
+            expect(screen.getByLabelText('Title')).toHaveValue(title);
             //value 
             expect(screen.getByLabelText('Description')).toHaveTextContent(value);
             screen.getAllByTestId("todo-item").forEach((element, index) => {

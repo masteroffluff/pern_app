@@ -1,7 +1,8 @@
 import React,{ useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToday, todayFetch } from "../todaySlice";
-
+import DisplayItem from "../DisplayItem";
+import './today.css'
 
 export default function DisplayToday(){
 
@@ -18,7 +19,7 @@ export default function DisplayToday(){
         
         <div className='content'>
             <ul>
-                {today.map((e,i)=><li data-testid={'mocked-' + e.type} key={i}><h4>{e.title}</h4><p>{e.value}</p> </li>)}
+                {today.map((e,i)=><li data-testid={ e.type} key={i}>{<DisplayItem data={e} />}<p>{e.notes}</p> </li>)}
             </ul>
         </div>
     </div>

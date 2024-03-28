@@ -24,7 +24,7 @@ export default function Todo({todoIndex,item_id, title, notes, items}){
 
 
     return <div data-testid="todo">
-        <h4 aria-label="Title"><input style={{all:'inherit'}} type='text' defaultValue={title} onBlur={updateTitle} /></h4>
+        <h4 ><input aria-label="Title" style={{all:'inherit'}} type='text' defaultValue={title} onBlur={updateTitle} /></h4>
         <div className="todo_container">
             <div className="todo">
                 <ul>
@@ -33,7 +33,7 @@ export default function Todo({todoIndex,item_id, title, notes, items}){
             </div>            
             <div className="todo">
                 
-                <textarea aria-label="Description" rows="10" cols="20"  onBlur={updateNotes}>{notes}</textarea>
+                <textarea aria-label="Description" rows="10" cols="20"  onBlur={updateNotes} defaultValue={notes}/>
                 
             </div>
 

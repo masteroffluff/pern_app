@@ -5,7 +5,8 @@ CREATE TABLE "Users" (
   "password_hash" varchar,
   "third_party_data" varchar,
   "third_party_provider" varchar,
-  "phone_no" varchar
+  "phone_no" varchar,
+  "colour" varchar
 );
 
 CREATE TABLE "User_PFP" (

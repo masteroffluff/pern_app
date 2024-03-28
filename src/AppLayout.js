@@ -56,7 +56,7 @@ function AppLayout() {
         }
       `}</style>
         <div className={popupState ? 'App blur-background' : 'App'}>
-          <header><h1>I havent thought of a title yet</h1></header>
+          <header><h1>Fluffbook</h1></header>
           <nav>
             <NavLink to='/userdetails'>User Details</NavLink>
             <select id='colors' onChange={colourSelectorChangeHandler} value={colourSelectState}>

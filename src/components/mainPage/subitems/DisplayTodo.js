@@ -1,6 +1,6 @@
 import React,{ useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTodos, itemsTodoFetch, itemsTodoItemsUpdate } from "../../items/itemSlice";
+import { selectTodos, itemsTodoFetch } from "../../items/itemSlice";
 import { Todo } from '../../items/index'
 import { useNavigate } from "react-router";
 

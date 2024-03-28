@@ -63,7 +63,12 @@ h4 {
 
 .wall {
   text-align: justify;
+  list-style-type: none;
 }
+.wall h4 {
+  font-size:1.1em;
+}
+
 
 .grid-container {
   display: grid;

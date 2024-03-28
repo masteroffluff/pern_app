@@ -1,9 +1,14 @@
+import moment from "moment";
 import React from "react";
+import './note.css'
 
 export default function Note({title, value, date}){
+    const dateMoment = moment(date)
     return <div data-testid="note">
-        <h4 aria-label="Title">{title}</h4>
-        <p aria-label="Description">{value}</p>
-        <p aria-label="date">{date.toString()}</p>
+        <span><h4 style={{display:'inline'}}><span aria-label="Title">{title}</span></h4>-<span aria-label="date">{dateMoment.format('Do MMMM YYYY, h:mm:ss a')}</span></span>
+        <span className='note_wrapper'>
+            <p aria-label="Description" className="noteValue">{value}</p>
+        </span>
+        
     </div>
 }

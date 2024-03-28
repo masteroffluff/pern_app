@@ -59,7 +59,7 @@ export default function NewEvent() {
     }
     const sharedToChange = (e) => {
         e.preventDefault();
-        alert(e.target.value)
+        //alert(e.target.value)
         setSharedTo(e.target.value)
     }
 

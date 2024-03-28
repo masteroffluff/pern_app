@@ -249,7 +249,7 @@ export const itemsTodoItemsUpdate = createAsyncThunk(
             },
             body: JSON.stringify({items})
         };
-        alert(JSON.stringify({items}))
+        //alert(JSON.stringify({items}))
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
@@ -313,7 +313,8 @@ export const itemSlice = createSlice({
                         //console.log(action.payload)
                         
                         state.todos = action.payload
-                        state.todos.forEach((todo)=>delete todo.dirty)
+                        // got to add the if statement to make the test happy
+                        if (state.todos) {state.todos.forEach((todo)=>delete todo.dirty)}
                         state.isLoading = false;
                         state.hasError = null;
                     })

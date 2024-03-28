@@ -17,17 +17,18 @@ export default function MainDisplay() {
     const dispatch = useDispatch()
     useEffect(() => {
         function updates(){
-            alert('updating')
-            if(hasDirtyTodoItems) (dispatch(itemsTodoItemsUpdate()))
+            
+            if(hasDirtyTodoItems) {dispatch(itemsTodoItemsUpdate())}
             dispatch(wallFetch())
             dispatch(calendarFetch)
             
         }
-        alert('starting updates')
+       
 
         const intervalId = setInterval(updates, 60000); 
         
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     return (<>
