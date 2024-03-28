@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf, createSelector } from '@reduxjs/toolkit';
 import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
@@ -160,7 +160,7 @@ export const itemsTodoUpdate = createAsyncThunk(
         const endPoint = `${apiUrl}/items/todo`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -361,6 +361,8 @@ export const isLoadingItems = (state) => state.items.isLoading;
 export const hasErrorItems = (state) => state.items.hasError;
 export const selectTodos = (state) => state.items.todos;
 export const selectNotes = (state) => state.items.notes;
+
+export const selectHasDirtyTodoItems = createSelector(selectTodos,(todos)=>todos.filter((todo)=>todo.dirty).length>0)
 
 export const {todoItemsUpdateDone} = itemSlice.actions 
 

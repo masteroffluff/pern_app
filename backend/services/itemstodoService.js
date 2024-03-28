@@ -71,14 +71,14 @@ module.exports.update_todo = async function update_todo(req, res) {
             RETURNING *`
         const response = await db.queryPromisified(sql, [item_id, title, notes])
         if (response.rows.length === 0) {
-            const err = new Error({ message: 'Update Todo list Failed' })
+            const err = new Error('Update Todo list Failed')
             throw err
         }
         const { id } = req.user
         res.send(await helperFunctions.getListOfTodosAndTheirItems(id));
     } catch (e) {
         console.log(e)
-        res.status(400).send({ message: e.message })
+        res.status(400).send(e.message)
     }
 
 

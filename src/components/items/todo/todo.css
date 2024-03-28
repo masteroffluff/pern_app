@@ -21,3 +21,27 @@
     text-decoration: line-through;
     opacity:50%;
 }
+
+textarea{
+    font-size:0.90em;
+    background-color: transparent;
+    color:var(--main-text-color);
+    font-family: "Poppins", sans-serif;
+    box-shadow: none;
+    outline:0;
+    border: 1px solid var(--main-text-color);
+    mask-image: linear-gradient(
+        180deg,
+        white,
+        white,
+        white,
+        rgba(0, 0, 0, 0.1)
+    );
+    -webkit-mask-image: linear-gradient(
+        180deg,
+        white,
+        white,
+        white,
+        rgba(0, 0, 0, 0.1)
+    );
+}

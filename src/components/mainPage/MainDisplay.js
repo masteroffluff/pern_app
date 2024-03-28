@@ -1,12 +1,34 @@
-import React from "react";
-import { DisplayToday, DisplayTodo, DisplayWall,  DisplayCalendar } from './subitems'
+import React, { useEffect } from "react";
+import { DisplayToday, DisplayTodo, DisplayWall, DisplayCalendar } from './subitems'
 import { Outlet } from "react-router";
 import { selectPopupState } from "./popupSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { itemsTodoItemsUpdate, selectHasDirtyTodoItems } from "../items/itemSlice";
+import { wallFetch } from "./wallSlice";
+import { calendarFetch } from "../calandar/calendarSlice";
 
-export default function MainDisplay(){
-    
+export default function MainDisplay() {
+
     const popupState = useSelector(selectPopupState)
+    const hasDirtyTodoItems = useSelector(selectHasDirtyTodoItems)
+    
+
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        function updates(){
+            alert('updating')
+            if(hasDirtyTodoItems) (dispatch(itemsTodoItemsUpdate()))
+            dispatch(wallFetch())
+            dispatch(calendarFetch)
+            
+        }
+        alert('starting updates')
+
+        const intervalId = setInterval(updates, 60000); 
+        
+        return () => clearInterval(intervalId);
+    }, [dispatch]);
 
     return (<>
         <div className={popupState ? 'grid-container blur-background' : 'grid-container'}>
@@ -14,16 +36,16 @@ export default function MainDisplay(){
                 <DisplayToday />
             </div>
             <div className='grid-item'>
-                <DisplayTodo /> 
+                <DisplayTodo />
             </div>
             <div className='grid-item'>
-                <DisplayWall /> 
+                <DisplayWall />
             </div>
             <div className='grid-item'>
                 <DisplayCalendar />
             </div>
-            
+
         </div>
         <Outlet />
-        </>)
+    </>)
 }

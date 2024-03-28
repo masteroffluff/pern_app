@@ -15,9 +15,6 @@ export default function DisplayTodo() {
         dispatch(itemsTodoFetch())
     }, [dispatch]);
 
-    const update=()=>{
-       dispatch(itemsTodoItemsUpdate()) 
-    }
 
     const newTodo_click = (e) =>{
             e.preventDefault()
@@ -26,12 +23,11 @@ export default function DisplayTodo() {
     return <div data-testid="displayTodo">
 
         <h3>Todo</h3>
-        <button onClick={update}>sync</button>
         <div className="content">
             
-                {todos.map((td,index) => <div key={index}><Todo todoIndex={index} title={td.title} notes={td.notes} items={td.items}></Todo></div>)}
+                {todos.map((td,index) => <div key={index}><Todo todoIndex={index} item_id={td.id} title={td.title} notes={td.notes} items={td.items}></Todo></div>)}
             
         </div>
-        <button data-testid='newNote' value='newNote' onClick={newTodo_click} >New Todo</button>
+        <button data-testid='newTodo' value='newTodo' onClick={newTodo_click} >New Todo</button>
     </div>
 }
