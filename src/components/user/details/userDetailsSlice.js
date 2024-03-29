@@ -4,7 +4,7 @@ import apiFetch from '../../../utils/apiFetch';
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
 const initialState ={
-    displayName: '',
+    display_name: '',
     telephoneNumber: '',
     email: '',
 }
@@ -35,19 +35,21 @@ export const userDetailsFetch = createAsyncThunk(
 
 export const userDetailsUpdate = createAsyncThunk(
     'userDetailsUpdate',
-    async (_, { rejectWithValue, getState }) => {
+    async (body, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/user`
         console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
-            }
+            },
+            body:JSON.stringify(body)
         };
+
         return await apiFetch(endPoint, options, rejectWithValue)
     }
 )
@@ -66,10 +68,12 @@ export const userDetailsSlice = createSlice({
 
                     ),
                     (state, action) => {
-                        const {displayName,email, telephoneNumber} = action.payload
-                        state.displayName = displayName
-                        state.email = email
-                        state.telephoneNumber = telephoneNumber
+                        const {display_name,email, phone_no, birthday, colour} = action.payload
+                        state.displayName = display_name;
+                        state.email = email;
+                        state.telephoneNumber = phone_no;
+                        state.birthday = birthday;
+                        state.colour = colour;
                         state.isLoading = false;
                         state.hasError =  null;
                         
@@ -92,9 +96,9 @@ export const userDetailsSlice = createSlice({
                         userDetailsUpdate.rejected,
                     ),
                     (state, action) => {
-                        //console.log(action)
+                        console.log(action)
                         state.isLoading = false;
-                        state.hasError = action.error;
+                        state.hasError = action.payload.message.message;
                         //console.log(action)
                     }
                 )

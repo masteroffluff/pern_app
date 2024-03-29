@@ -16,9 +16,14 @@ export default async function apiFetch(endPoint, options, rejectionCallback){
         }else{
             //console.log({response})
             console.log(endPoint+ ' failed')
+            try{
             const message = await response.json()
-            
             return rejectionCallback({status:response.status, message})
+            }
+            catch(e){
+                rejectionCallback(e)
+            }
+            
         }
 
         }catch(e){

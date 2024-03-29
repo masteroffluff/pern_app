@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed, friendsFetch} from './userFriendsSlice'
 import { useNavigate } from "react-router";
+import { selectPopupState } from "../../mainPage/popupSlice";
+
 
 export default function UserFriends(){
+    const popupState = useSelector(selectPopupState)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
     const friends = useSelector(selectFriends_Live)
     const blocked = useSelector(selectFriends_Blocked)
     const unfollowed = useSelector(selectFriends_Unfollowed)
@@ -14,13 +17,8 @@ export default function UserFriends(){
         dispatch(friendsFetch())
     },[dispatch])
 
-    const backButton= (e)=>{
-        console.log('back')
-        e.preventDefault()
-        navigate('/')
-    }
     return (
-        <div data-testid="userFriends">
+        <div data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
             <h3>Friends</h3>
             <h4>Your Friends</h4>
                 {friends.length>0?<ul >{friends.map((e,i)=><li key={i} aria-label="friends">{e.display_name}</li>)}</ul>:<p>You have no freinds.</p>}
@@ -36,6 +34,6 @@ export default function UserFriends(){
             <ul >
                 {blocked.length>0?<ul >{blocked.map((e,i)=><li key={i} aria-label="blocked">{e.display_name}</li>)}</ul>:<p>You have no freinds blocked.</p>}
             </ul>
-            <button onClick={backButton}>Back</button>
+            
         </div>)
 }

@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { selectIsLoggedIn, userAuthCheck } from "./components/user/auth/userAuthSlice";
 import UserLogin from "./components/user/auth/UserLogin";
 //import colourSwitch from "./utils/colourswitch.js";
-import { selectColourChoice, selectColourObject, setColour } from "./components/mainPage/colourSlice";
+import { selectColourObject } from "./components/mainPage/colourSlice";
 
 function AppLayout() {
   const dispatch = useDispatch();
@@ -20,20 +20,10 @@ function AppLayout() {
   //const [colourObject, setColourObject] = useState(colourSwitch('sandy'))
   //const [colourSelectState, setColourSelectState] = useState('sandy')
   const colourObject = useSelector(selectColourObject)
-  const colourSelectState= useSelector(selectColourChoice)
+
 
   const {main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL} = colourObject
-
-  const colourSelectorChangeHandler = (e) =>{
-    e.preventDefault()
-    // setColourSelectState(e.target.value)
-    // setColourObject(colourSwitch(e.target.value))
-    dispatch(setColour(e.target.value))
-
-  }
-
-  
-  
+ 
   const popupState = useSelector(selectPopupState)
   const isLoggedIn = useSelector(selectIsLoggedIn)
   console.log(main_background_image_URL)
@@ -59,14 +49,7 @@ function AppLayout() {
           <header><h1>Fluffbook</h1></header>
           <nav>
             <NavLink to='/userdetails'>User Details</NavLink>
-            <select id='colors' onChange={colourSelectorChangeHandler} value={colourSelectState}>
-              <option value="sandy">Sandy</option>
-              <option value="forest">Forest</option>
-              <option value="ocean">Ocean</option>
-              <option value="pinky">Pinky</option>
-              <option value="contrast">High Contrast</option>
-              <option value="dark">Dark</option>
-            </select>
+            <NavLink to='/'>Main Page</NavLink>
           </nav>
           
         </div>

@@ -49,12 +49,12 @@ module.exports.findByUsername = async function findByUsername(display_name) {
     }
 }
 
-module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday){
+module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour){
     try{
-    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday )
-                VALUES( $1, $2, $3, $4, $5, $6, $7 )
+    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour )
+                VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )
                 RETURNING id`
-    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday])
+    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour])
     const user = response.rows[0]
     return user
     }catch(e){
@@ -63,12 +63,13 @@ module.exports.add_new_user = async function add_new_user(display_name, email, p
     }
 }
 
-module.exports.updateUserDetails = async function updateUserDetails(id, display_name, email, phone_no, birthday) {
+module.exports.updateUserDetails = async function updateUserDetails(id, display_name, email, phone_no, birthday, colour) {
+    console.log(id, display_name, email, phone_no, birthday, colour)
     const sql = `UPDATE "Users"
-    SET display_name = $2, email = $3, phone_no = $4, birthday=$5
+    SET display_name = $2, email = $3, phone_no = $4, birthday=$5, colour=$6
     WHERE id=$1
-    RETURNING display_name, email, phone_no;`
-    const response = await db.queryPromisified(sql, [id, display_name, email, phone_no, birthday], 'findByUsername')
+    RETURNING display_name, email, phone_no, birthday, colour;`
+    const response = await db.queryPromisified(sql, [id, display_name, email, phone_no, birthday, colour], 'findByUsername')
     //console.log('updateUserDetails',response)
     const user = response.rows[0]
     return user

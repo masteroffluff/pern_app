@@ -38,7 +38,9 @@ h4 {
   font-family: "Gabarito", sans-serif;
   margin: 0;
 }
-
+nav a{
+  padding:10px;
+}
 .popup {
   color: var(--popup-text-color);
   background-color: var(--popup-background-color);
@@ -53,6 +55,7 @@ h4 {
   width: 100%;
   background-color: var(--main-background-color);
 }
+
 
 .App {
   color: var(--main-text-color);
@@ -79,6 +82,7 @@ h4 {
 }
 
 .grid-item {
+  flex: 1 0 80px;
   margin: 10px;
   background-color: var(--main-background-color);
   border: 1px solid rgba(0, 0, 0, 0.8);

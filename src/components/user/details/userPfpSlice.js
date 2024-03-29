@@ -41,7 +41,7 @@ export const userPfpUpdate = createAsyncThunk(
         const endPoint = `${apiUrl}/userpfp`
         //console.log (endPoint)
         const options = {
-            method: 'UPDATE',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
