@@ -1,18 +1,26 @@
-const date1 = new Date()
-date1.setHours(0, 0, 0, 0);
-const date = date1.toISOString().split('T')[0];
-const tomorrow1 = new Date()
-tomorrow1.setDate(date1.getDate() + 1)
-const tomorrow = tomorrow1.toISOString().split('T')[0];
-const looong1 = new Date()
-looong1.setDate(looong1.getDate() + 14)
-const loooong = looong1.toISOString().split('T')[0];
+import moment from "moment";
+
+//const date1 = new Date()
+//date1.setHours(0, 0, 0, 0);
+// const date = date1.toISOString()//.split('T')[0];
+// console.log(date1.toISOString())
+// const tomorrow1 = new Date()
+// tomorrow1.setDate(date1.getDate() + 1)
+// // const tomorrow = tomorrow1.toISOString().split('T')[0];
+// const looong1 = new Date()
+// looong1.setDate(looong1.getDate() + 14)
+// const loooong = looong1.toISOString().split('T')[0];
 const time1 = new Date().setHours(1).toString()
 const time2 = new Date().setHours(2).toString()
 const time3 = new Date().setHours(3).toString()
 
 
+const date = moment().format('YYYY-MM-DD')
+const tomorrow = moment().add(1,'day').format('YYYY-MM-DD')
+const loooong = moment().add(14,'day').format('YYYY-MM-DD')
+
 export { date, tomorrow, time1, time2, time3, loooong }
+
 
 const dummyStore = {
     calendar: {
@@ -66,7 +74,7 @@ const dummyStore = {
     },
     user: {
         details: {
-            displayName: 'alice',
+            display_name: 'alice',
             telephoneNumber: '07123 456789',
             email: 'foo@bar.baz',
         },

@@ -84,7 +84,7 @@
 //         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
 //     ],
 //     user: {
-//         displayName: 'alice',
+//         display_name: 'alice',
 //         telephoneNumber: '07123 456789',
 //         email: 'foo@bar.baz',
 //         friends: [
@@ -104,7 +104,7 @@
 //     wall: [],
 //     user: {
 //         details:{
-    //         displayName: '',
+    //         display_name: '',
     //         telephoneNumber: '',
     //         email: '',
 //              },
@@ -120,12 +120,12 @@
 //             return res(ctx.json({ data: 'Mocked Data' }));
 //         }),
 //         rest.get('/user', (req, res, ctx) => {
-//             const { displayName, mail, telephoneNumber } = mockServerData.user
-//             return res(ctx.json({ displayName, mail, telephoneNumber }));
+//             const { display_name, mail, telephoneNumber } = mockServerData.user
+//             return res(ctx.json({ display_name, mail, telephoneNumber }));
 //         }),
 //         rest.update('/user ', (req, res, ctx) => {
-//             const { displayName, mail, telephoneNumber } = mockServerData.user
-//             return res(ctx.json({ displayName, mail, telephoneNumber }));
+//             const { display_name, mail, telephoneNumber } = mockServerData.user
+//             return res(ctx.json({ display_name, mail, telephoneNumber }));
 //         }),
 //         rest.post('/userPfp', (req, res, ctx) => {
 //             return res(ctx.json(mockServerData.userpfp));

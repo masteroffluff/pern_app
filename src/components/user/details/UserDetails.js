@@ -10,7 +10,7 @@ import { selectColourChoice, selectColourObject, setColour } from "../../mainPag
 // ✕ displays user email (4 ms)
 
 export default function UserDetails() {
-  const { displayName, email, telephoneNumber, birthday } = useSelector(selectedUserDetails)
+  const { display_name, email, telephoneNumber, birthday } = useSelector(selectedUserDetails)
   const colourObject = useSelector(selectColourObject)
   //const colourSelectState= useSelector(selectColourChoice)
   const { main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
@@ -24,12 +24,12 @@ export default function UserDetails() {
     dispatch(setColour(e.target.value))
 
   }
-  const [displayNameTemp, setDisplayNameTemp] = useState(displayName)
+  const [display_nameTemp, setDisplayNameTemp] = useState(display_name)
   const [emailTemp, setEmailTemp] = useState(email)
   const [telephoneNumberTemp, setTelephoneNumberTemp] = useState(telephoneNumber)
   const [birthdayTemp, setBirthdayTemp] = useState(birthday)
 
-  const displayNameChange = (e) => {
+  const display_nameChange = (e) => {
     e.preventDefault()
     setDisplayNameTemp(e.target.value)
   }
@@ -55,7 +55,7 @@ export default function UserDetails() {
   }
   const submitForm = async (e) => {
     e.preventDefault()
-      dispatch(userDetailsUpdate({ display_name: displayNameTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
+      dispatch(userDetailsUpdate({ display_name: display_nameTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
       dispatch(setPopup(false))
     
   }
@@ -84,7 +84,7 @@ export default function UserDetails() {
       <h3>User Details</h3><br />
 
       <h4>Display Name</h4>
-      <input className='details' aria-label="displayName" value={displayNameTemp} onChange={displayNameChange} />
+      <input className='details' aria-label="display_name" value={display_nameTemp} onChange={display_nameChange} />
       <h4>Email</h4>
       <input className='details' aria-label="email" value={emailTemp} onChange={emailChange} />
       <h4>Telephone Number</h4>

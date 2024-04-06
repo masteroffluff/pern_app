@@ -122,7 +122,7 @@ describe('Calendar Selector', () => {
 describe('User Details Selector', () => {
   test('returns todo items', () => {
     const expected = {
-      displayName: 'alice',
+      display_name: 'alice',
       telephoneNumber: '07123 456789',
       email: 'foo@bar.baz',
     }

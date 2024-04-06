@@ -35,7 +35,7 @@ const mockServerData = {
         { id: 6, type: 'note', title: 'CORGE', owner: 'chaz', value: 'corge', date: date.setHours(3, 0) }
     ]},
     user: {
-        displayName: 'alice',
+        display_name: 'alice',
         telephoneNumber: '07123 456789',
         email: 'foo@bar.baz',
         friends: {
@@ -59,7 +59,7 @@ const initialState = {
     wall: [],
     user: {
         details: {
-            displayName: '',
+            display_name: '',
             telephoneNumber: '',
             email: '',
         },
@@ -87,12 +87,12 @@ class Rest {
 
 const rest = new Rest();
 rest.get('/user', (req) => {
-    const { displayName, mail, telephoneNumber } = mockServerData.user
-    return (({ displayName, mail, telephoneNumber }));
+    const { display_name, mail, telephoneNumber } = mockServerData.user
+    return (({ display_name, mail, telephoneNumber }));
 })
 rest.update('/user ', (req) => {
-    const { displayName, mail, telephoneNumber } = mockServerData.user
-    return (({ displayName, mail, telephoneNumber }));
+    const { display_name, mail, telephoneNumber } = mockServerData.user
+    return (({ display_name, mail, telephoneNumber }));
 })
 rest.post('/userPfp', (req) => {
     return ((mockServerData.userpfp));

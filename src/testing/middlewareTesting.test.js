@@ -51,7 +51,7 @@ describe('dispatch tests', () => {
     describe('userDetailsFetch', () => {
       it('should handle fetchUser.pending', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: false,
@@ -69,7 +69,7 @@ describe('dispatch tests', () => {
       ///////////////////////////////////////////////////////////////////////
       it('should handle fetchUser.fulfilled', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: true,
@@ -77,7 +77,7 @@ describe('dispatch tests', () => {
         };
 
         const userDetailsData = {
-          displayName: 'alice',
+          display_name: 'alice',
           telephoneNumber: '07123 456789',
           email: 'foo@bar.baz',
         };
@@ -89,13 +89,13 @@ describe('dispatch tests', () => {
         // Check state after dispatching the fulfilled action
         // console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toEqual(userDetailsData.displayName);
+        expect(newState.display_name).toEqual(userDetailsData.display_name);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////////////////
       it('should handle fetchUser.rejected', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: true,
@@ -110,7 +110,7 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
+        expect(newState.display_name).toBe('');
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
       });
 
@@ -121,7 +121,7 @@ describe('dispatch tests', () => {
     describe('userDetailsUpdate', () => {
       it('should handle userDetailsUpdate.pending', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: false,
@@ -138,7 +138,7 @@ describe('dispatch tests', () => {
       ///////////////////////////////////////////////////////////////////////
       it('should handle userDetailsUpdate.fulfilled', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: true,
@@ -146,7 +146,7 @@ describe('dispatch tests', () => {
         };
 
         const userDetailsData = {
-          displayName: 'alice',
+          display_name: 'alice',
           telephoneNumber: '07123 456789',
           email: 'foo@bar.baz',
         };
@@ -158,13 +158,13 @@ describe('dispatch tests', () => {
         // Check state after dispatching the fulfilled action
         // console.log(newState)
         expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toEqual(userDetailsData.displayName);
+        expect(newState.display_name).toEqual(userDetailsData.display_name);
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////////////////
       it('should handle userDetailsUpdate.rejected', () => {
         const initialState = {
-          displayName: '',
+          display_name: '',
           telephoneNumber: '',
           email: '',
           isLoading: true,
@@ -179,7 +179,7 @@ describe('dispatch tests', () => {
 
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
-        expect(newState.displayName).toBe('');
+        expect(newState.display_name).toBe('');
         expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
       });
     });

@@ -12,11 +12,11 @@ export default function UserLogin(){
 
     const authError = useSelector(selectHasErrorAuth)
 
-    const [displayName, setDisplayName] = useState('')    
+    const [display_name, setDisplayName] = useState('')    
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
 
-    const displayNameChange=(e)=>{
+    const display_nameChange=(e)=>{
         e.preventDefault()
         setDisplayName(e.target.value)
 
@@ -27,18 +27,18 @@ export default function UserLogin(){
     }
     const loginSubmit=(e)=>{
         e.preventDefault()
-        if(!displayName||!password){
+        if(!display_name||!password){
             setErrorMessage('Please enter your display name and password')
             return
         }
-        dispatch(userAuthLogin({password,username:displayName}))
+        dispatch(userAuthLogin({password,username:display_name}))
     }
 
     return <div className="App" data-testid="userDetails">
         <h3>Please Login</h3>
         <form onSubmit={loginSubmit}>
-            <label htmlFor="displayName"><h4>Display Name</h4></label>
-            <input type="text" id='displayName' value = {displayName} onChange={displayNameChange} />
+            <label htmlFor="display_name"><h4>Display Name</h4></label>
+            <input type="text" id='display_name' value = {display_name} onChange={display_nameChange} />
             <label htmlFor="password"><h4>Pasword</h4></label>
             <input type="password" id='password' value = {password} onChange={passwordChange} />
             <button type="submit" id='submit' >Log In</button>

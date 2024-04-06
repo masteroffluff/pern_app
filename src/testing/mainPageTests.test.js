@@ -246,8 +246,9 @@ describe('DisplayCalendar', () => {
 
         const dateTo = screen.getByTestId('dateTo');
         expect(dateTo).toBeInTheDocument();
-
+        
         // - contains mocked Appointment
+        
         expect(screen.getAllByTestId('mocked-appointment')[0]).toHaveTextContent('foo');
 
         // - contains mocked Event
@@ -379,13 +380,13 @@ describe('UserDetails', () => {
         cleanup()
     })
     it('displays user display name', () => {
-        expect(screen.getByLabelText("displayName")).toHaveTextContent('alice');
+        expect(screen.getByLabelText("display_name")).toHaveValue('alice');
     });
     it('displays user phone number', () => {
-        expect(screen.getByLabelText("telephoneNumber")).toHaveTextContent('07123 456789');
+        expect(screen.getByLabelText("telephoneNumber")).toHaveValue('07123 456789');
     });
     it('displays user email', () => {
-        expect(screen.getByLabelText("email")).toHaveTextContent('foo@bar.baz');
+        expect(screen.getByLabelText("email")).toHaveValue('foo@bar.baz');
     });
     cleanup()
 })

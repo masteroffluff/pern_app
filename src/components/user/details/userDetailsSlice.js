@@ -3,7 +3,7 @@ import apiFetch from '../../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState ={
+const initialState = {
     display_name: '',
     telephoneNumber: '',
     email: '',
@@ -38,7 +38,7 @@ export const userDetailsUpdate = createAsyncThunk(
     async (body, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/user`
-        console.log (endPoint)
+        console.log(endPoint)
         const options = {
             method: 'PUT',
             credentials: 'include',
@@ -47,7 +47,7 @@ export const userDetailsUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify(body)
+            body: JSON.stringify(body)
         };
 
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -66,28 +66,28 @@ export const userDetailsSlice = createSlice({
                     userDetailsFetch.fulfilled,
                     userDetailsUpdate.fulfilled
 
-                    ),
+                ),
                     (state, action) => {
-                        const {display_name,email, phone_no, birthday, colour} = action.payload
-                        state.displayName = display_name;
+                        const { display_name, email, phone_no, birthday, colour } = action.payload
+                        state.display_name = display_name;
                         state.email = email;
                         state.telephoneNumber = phone_no;
                         state.birthday = birthday;
                         state.colour = colour;
                         state.isLoading = false;
-                        state.hasError =  null;
-                        
+                        state.hasError = null;
+
 
                     })
-  
+
                 .addMatcher(
                     isAnyOf(
                         userDetailsFetch.pending,
                         userDetailsUpdate.pending,
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
-                        state.hasError =  null;
+                        state.hasError = null;
                     }
                 )
                 .addMatcher(
@@ -98,13 +98,18 @@ export const userDetailsSlice = createSlice({
                     (state, action) => {
                         console.log(action)
                         state.isLoading = false;
-                        state.hasError = action.payload.message.message;
+                        if (typeof (action.payload?.message) == 'object') {
+                            state.hasError = action.payload.message.message;
+                        } else {
+                            // no message then just return the error
+                            state.hasError = action.error
+                        }
                         //console.log(action)
                     }
                 )
-                // .addDefaultCase(
-                //     (_, action) => { console.log(action) }
-                // )
+            // .addDefaultCase(
+            //     (_, action) => { console.log(action) }
+            // )
         }
 })
 

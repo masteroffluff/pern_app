@@ -47,11 +47,11 @@ export default function DisplayCalendar() {
 
             calendar.forEach((item_parent) => {
 
-                const item = JSON.parse(JSON.stringify(item_parent))
+                const item = JSON.parse(JSON.stringify(item_parent))// create a deep copy of the item
                 //console.log(item)
                 const dtFrom = moment(item.date_from).startOf('day')
                 const dtTo = moment(item.date_to).startOf('day')
-                item.days = dtTo.diff(dtFrom, 'days') + 1
+                item.days = dtTo.diff(dtFrom, 'days') + 1 // get the number of days to insert into the calendar formatting map
                 let item_current_date = moment(dtFrom)
 
                 while (item_current_date.isSameOrBefore(moment(item.date_to))) {

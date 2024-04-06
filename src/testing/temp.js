@@ -365,7 +365,7 @@
 //     );
 
 //     it('displays user display name', () => {
-//         expect(screen.getByLabelText("displayName")).toHaveTextContent(dummyStore.user.displayName);
+//         expect(screen.getByLabelText("display_name")).toHaveTextContent(dummyStore.user.display_name);
 //     });
 //     it('displays user phone number', () => {
 //         expect(screen.getByLabelText("phone")).toHaveTextContent(dummyStore.user.telephoneNumber);
