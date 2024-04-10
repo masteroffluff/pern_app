@@ -84,6 +84,30 @@ paths:
           description: Default error sample response
       tags:
         - user
+  /user/PFP:
+    summary: the path for the currently logged in user Profile picture
+    get:
+      summary: get the pfp for the user
+      description: fetch the users pfp
+      operationId: get_user_pfp
+      security:
+        - bearerAuth: []
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - user
+    put:
+      summary: update the user
+      description: update the user's pfp
+      operationId: update_user_pfp
+      security:
+        - bearerAuth: []
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - user
   /heartbeat:
     summary: hearbeat to check system is running
     get:
