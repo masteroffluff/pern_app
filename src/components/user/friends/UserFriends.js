@@ -8,14 +8,20 @@ import { selectPopupState } from "../../mainPage/popupSlice";
 export default function UserFriends(){
     const popupState = useSelector(selectPopupState)
     const dispatch = useDispatch()
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     const friends = useSelector(selectFriends_Live)
     const blocked = useSelector(selectFriends_Blocked)
     const unfollowed = useSelector(selectFriends_Unfollowed)
     const pending = useSelector(selectFriends_Pending)
+
     useEffect(()=>{
         dispatch(friendsFetch())
     },[dispatch])
+
+    const addFriend = (e) => {
+        e.preventDefault()
+        navigate('/userdetails/addfriend')
+    }
 
     return (
         <div data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
@@ -28,6 +34,6 @@ export default function UserFriends(){
             {unfollowed.length>0?<ul >{unfollowed.map((e,i)=><li key={i} aria-label="unfollowed">{e.display_name}</li>)}</ul>:<p>You have no unfollowed freinds.</p>}
             <h4>Blocked</h4>
             {blocked.length>0?<ul >{blocked.map((e,i)=><li key={i} aria-label="blocked">{e.display_name}</li>)}</ul>:<p>You have no freinds blocked.</p>}
-            
+            <button onClick={addFriend} >Add Friend</button>
         </div>)
 }
