@@ -19,16 +19,24 @@ export default function UserDetails() {
   const errorUserDetails  = useSelector(hasErrorUserDetails) 
   const popupState = useSelector(selectPopupState)
 
-  const colourSelectorChangeHandler = (e) => {
-    e.preventDefault()
-    dispatch(setColour(e.target.value))
 
-  }
   const [display_nameTemp, setDisplayNameTemp] = useState(display_name)
   const [emailTemp, setEmailTemp] = useState(email)
   const [telephoneNumberTemp, setTelephoneNumberTemp] = useState(telephoneNumber)
   const [birthdayTemp, setBirthdayTemp] = useState(birthday)
 
+  useEffect(()=>{ 
+    // the above default states were not working for some reason :/
+    setDisplayNameTemp(display_name)
+    setEmailTemp(email)
+    setTelephoneNumberTemp(telephoneNumber)
+    setBirthdayTemp(birthday)
+  },[display_name, email, telephoneNumber, birthday])
+  
+  const colourSelectorChangeHandler = (e) => {
+    e.preventDefault()
+    dispatch(setColour(e.target.value))
+  }
   const display_nameChange = (e) => {
     e.preventDefault()
     setDisplayNameTemp(e.target.value)
@@ -82,15 +90,14 @@ export default function UserDetails() {
       `}</style>
     <form onSubmit={submitForm}><div data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
       <h3>User Details</h3><br />
-
       <h4>Display Name</h4>
-      <input className='details' aria-label="display_name" value={display_nameTemp} onChange={display_nameChange} />
+      <input className='details' aria-label="display_name" defaultValue={display_name} value={display_nameTemp} onChange={display_nameChange} />
       <h4>Email</h4>
-      <input className='details' aria-label="email" value={emailTemp} onChange={emailChange} />
+      <input className='details' type='email' aria-label="email" default={email} value={emailTemp} onChange={emailChange} />
       <h4>Telephone Number</h4>
-      <input className='details' aria-label="telephoneNumber" value={telephoneNumberTemp} onChange={telephoneNumberChange} />
+      <input className='details' type='tel' aria-label="telephoneNumber" defaultValue={telephoneNumber} value={telephoneNumberTemp} onChange={telephoneNumberChange} />
       <h4>Birthday</h4>
-      <input className='details' type='date' aria-label="birthday" value={birthdayTemp} onChange={birthdayChange} />
+      <input className='details' type='date' aria-label="birthday" default={birthday} value={birthdayTemp} onChange={birthdayChange} />
       <h4>Colour Scheme</h4>
       <select className='details' id='colors' aria-label="colour" onChange={colourSelectorChangeHandler} value={colourSelectState}>
         <option value="sandy">Sandy</option>
