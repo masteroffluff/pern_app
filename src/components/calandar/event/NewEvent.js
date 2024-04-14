@@ -29,11 +29,11 @@ export default function NewEvent() {
     const submitEvent = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'event', notes, place, date_from, date_to, attendees:[], shared_to:sharedTo })).unwrap()
-        navigate('/')
+        navigate('/main')
     }
     const cancelEvent=(e)=>{
         e.preventDefault()
-        navigate('/')
+        navigate('/main')
     }
     
 

@@ -54,11 +54,11 @@ export default function NewTodo() {
     const submitTodo=(e)=>{
         e.preventDefault()
         dispatch(itemsTodoAdd({ title, notes, items:todoItems })).unwrap()
-        navigate('/')
+        navigate('/main')
     }
     const cancelTodo=(e)=>{
         e.preventDefault()
-        navigate('/')
+        navigate('/main')
     }
 
     return <div data-testid="newTodo" className='popup'>

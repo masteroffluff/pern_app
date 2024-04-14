@@ -18,7 +18,7 @@ export default function DisplayTodo() {
 
     const newTodo_click = (e) =>{
             e.preventDefault()
-        navigate('/newtodo')
+        navigate('/main/newtodo')
     }
     return <div data-testid="displayTodo">
 

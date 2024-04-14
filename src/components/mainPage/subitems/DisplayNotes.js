@@ -16,7 +16,7 @@ export default function DisplayNotes() {
 
     const newNote_click = (e) => {
         e.preventDefault()
-        navigate('/newnote')
+        navigate('/main/newnote')
     }
     return <div data-testid="displayNotes">
         <h3>Notes</h3>

@@ -42,11 +42,11 @@ export default function NewNote() {
         }
         dispatch(itemsNoteAdd({ title, notes, sharedTo })).unwrap()
         //dispatch(wallFetch()).unwrap()
-        navigate('/')
+        navigate('/main')
     }
     const cancelNote = (e) => {
         e.preventDefault()
-        navigate('/')
+        navigate('/main')
     }
 
     return <div data-testid="newNote" className='popup'>

@@ -16,7 +16,7 @@ export default function DisplayWall() {
 
     const newNote_click = (e) =>{
         e.preventDefault()
-        navigate('/newnote')
+        navigate('/main/newnote')
     }
 
 

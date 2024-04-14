@@ -17,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}> {/* container for app */}
-          <Route path="/" element={<MainDisplay />}>
+          <Route path="/main" element={<MainDisplay />}>
             {/* popups */}
             <Route path="newnote" element={<NewNote />}/>
             <Route path="newtodo" element={<NewTodo />}/>
@@ -25,7 +25,7 @@ function App() {
             <Route path="newEvent" element={<NewEvent />}/>
             <Route path="newReminder" element={<NewReminder />}/>
           </Route>
-          <Route path="userdetails" element={<UserDisplay />}>
+          <Route path="/userdetails" element={<UserDisplay />}>
             <Route path="addfriend" element={<AddFriend />}/>
           </Route>
         </Route>

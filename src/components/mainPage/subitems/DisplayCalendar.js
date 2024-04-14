@@ -105,16 +105,16 @@ export default function DisplayCalendar() {
 
     const newEvent_click = (e) => {
         e.preventDefault()
-        navigate('/newevent')
+        navigate('/main/newevent')
     }
     const newReminder_click = (e) => {
         e.preventDefault()
-        navigate('/newreminder')
+        navigate('/main/newreminder')
     }
 
     const newAppointment_click = (e) => {
         e.preventDefault()
-        navigate('/newappointment')
+        navigate('/main/newappointment')
     }
 
     return <div data-testid="displayCalendar">

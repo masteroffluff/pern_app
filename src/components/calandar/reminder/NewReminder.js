@@ -27,7 +27,7 @@ export default function NewReminder() {
     const submitReminder = (e) => {
         e.preventDefault();
         dispatch(calendarPost({ title, type: 'reminder', notes, place, date_from, date_to, attendees: [], shared_to:1 })).unwrap()
-        navigate('/')
+        navigate('/main')
     }
 
     const titleUpdate = (e) => {

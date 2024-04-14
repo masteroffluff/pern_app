@@ -6,8 +6,10 @@ import { useNavigate } from "react-router";
 export default function AddFriend(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
+    alert("Add Friend")
     useEffect(() => {
+        
         dispatch(setPopup(true))
         //dispatch(friendsFetch)
         return () => dispatch(setPopup(false))
@@ -23,7 +25,7 @@ export default function AddFriend(){
     return (
     <div data-testid="addFriend" className='popup'>
 
-
+        <p>Add a new friend</p>
         <button onClick={cancelAddFriend}>Cancel</button>
     </div>)
 }

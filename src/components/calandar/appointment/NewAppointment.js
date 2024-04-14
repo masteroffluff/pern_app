@@ -73,7 +73,7 @@ export default function NewAppointment() {
     }
     const cancelAppointment = (e) => {
         e.preventDefault()
-        navigate('/')
+        navigate('/main')
     }
     
 

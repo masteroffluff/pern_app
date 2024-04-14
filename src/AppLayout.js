@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 //import MainDisplay from './components/mainPage/MainDisplay';
 import { Outlet } from "react-router";
 import './blur.css';
@@ -49,7 +49,7 @@ function AppLayout() {
           <header><h1>Fluffbook</h1></header>
           <nav>
             <NavLink to='/userdetails'>User Details</NavLink>
-            <NavLink to='/'>Main Page</NavLink>
+            <NavLink to='/main'>Main Page</NavLink>
           </nav>
           
         </div>
