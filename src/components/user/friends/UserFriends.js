@@ -21,19 +21,13 @@ export default function UserFriends(){
         <div data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
             <h3>Friends</h3>
             <h4>Your Friends</h4>
-                {friends.length>0?<ul >{friends.map((e,i)=><li key={i} aria-label="friends">{e.display_name}</li>)}</ul>:<p>You have no freinds.</p>}
+            {friends.length>0?<ul >{friends.map((e,i)=><li key={i} aria-label="friends">{e.display_name}</li>)}</ul>:<p>You have no freinds.</p>}
             <h4>Pending Requests to be friends</h4>
-            <ul >
-                {pending.length>0?<ul >{pending.map((e,i)=><li key={i} aria-label="pending">{e.display_name}</li>)}</ul>:<p>There are no pending friend requests</p>}
-            </ul>
+            {pending.length>0?<ul >{pending.map((e,i)=><li key={i} aria-label="pending">{e.display_name}</li>)}</ul>:<p>There are no pending friend requests</p>}
             <h4>Unfollowed</h4>
-            <ul >
-                {unfollowed.length>0?<ul >{unfollowed.map((e,i)=><li key={i} aria-label="unfollowed">{e.display_name}</li>)}</ul>:<p>You have no unfollowed freinds.</p>}
-            </ul>
+            {unfollowed.length>0?<ul >{unfollowed.map((e,i)=><li key={i} aria-label="unfollowed">{e.display_name}</li>)}</ul>:<p>You have no unfollowed freinds.</p>}
             <h4>Blocked</h4>
-            <ul >
-                {blocked.length>0?<ul >{blocked.map((e,i)=><li key={i} aria-label="blocked">{e.display_name}</li>)}</ul>:<p>You have no freinds blocked.</p>}
-            </ul>
+            {blocked.length>0?<ul >{blocked.map((e,i)=><li key={i} aria-label="blocked">{e.display_name}</li>)}</ul>:<p>You have no freinds blocked.</p>}
             
         </div>)
 }

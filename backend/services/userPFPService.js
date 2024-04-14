@@ -12,10 +12,12 @@ module.exports.funcuserpfp = function funcuserpfp(req, res) {
 
 module.exports.get_user_pfp = async function get_user_pfp(req, res) {
   try {
+    const reqID = req.body.id
+    console.log(reqID)
     const sql = `SELECT data FROM "User_PFP" WHERE id=$1;`
 
-    const response = (await db.query(sql, [req.user.id]));
-    if (response.rows.length > 0){
+    const response = (await db.query(sql, [reqID]));
+    if (response.rows.length > 0&&response.rows[0].data!==null){
       return res.send(response.rows[0])
     }else{
       const imageBuffer = fs.readFileSync(defaultImage);

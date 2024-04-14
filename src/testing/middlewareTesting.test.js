@@ -36,7 +36,7 @@
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
 import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
 import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
-import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/details/userPfpSlice.js'
+import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/pfp/userPfpSlice.js'
 
 import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendee, calendarDeleteAttendee, calendarUpdateAttendee } from '../components/calandar/calendarSlice.js'
 import items, { itemsNoteFetch, itemsNoteAdd, itemsNoteDelete, itemsNoteUpdate, itemsTodoAdd, itemsTodoFetch, itemsTodoDelete, itemsTodoUpdate } from '../components/items/itemSlice.js'

@@ -14,7 +14,7 @@ const name = "pfp"
 
 export const userPfpFetch = createAsyncThunk(
     'userPfpFetch',
-    async (_, { rejectWithValue, getState }) => {
+    async ({userId}, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/userpfp`
         //console.log (endPoint)
@@ -25,6 +25,9 @@ export const userPfpFetch = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
+            },
+            body:{
+                'id':userId
             }
         };
         return await apiFetch(endPoint, options, rejectWithValue)

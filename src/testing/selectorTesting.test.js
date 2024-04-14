@@ -1,6 +1,6 @@
 
 import { selectedUserDetails } from '../components/user/details/userDetailsSlice.js'
-import { selectUserPfp } from '../components/user/details/userPfpSlice.js'
+import { selectUserPfp } from '../components/user/pfp/userPfpSlice.js'
 import { selectAuthToken, selectUserAlreadyExists, selectIsLoggedIn } from '../components/user/auth/userAuthSlice.js'
 import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed,selectFriends_Sent } from '../components/user/friends/userFriendsSlice.js'
 import { selectCalendar } from '../components/calandar/calendarSlice.js'
