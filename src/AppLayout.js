@@ -6,7 +6,7 @@ import { selectPopupState } from "./components/mainPage/popupSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { selectIsLoggedIn, userAuthCheck } from "./components/user/auth/userAuthSlice";
-import UserLogin from "./components/user/auth/UserLogin";
+import {UserLogin, UserDetailsMini} from "./components/user";
 //import colourSwitch from "./utils/colourswitch.js";
 import { selectColourObject } from "./components/mainPage/colourSlice";
 
@@ -49,7 +49,13 @@ function AppLayout() {
         }
       `}</style>
         <div className={popupState ? 'App blur-background' : 'App'}>
-          <header><h1>Fluffbook</h1></header>
+          <header><div>
+            <h1>Fluffbook</h1>
+          </div>
+          <div>
+          <UserDetailsMini />
+          </div>
+          </header>
           <nav>
             <NavLink to='/userdetails'>User Details</NavLink>
             <NavLink to='/main'>Main Page</NavLink>

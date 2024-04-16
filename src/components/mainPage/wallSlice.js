@@ -7,7 +7,7 @@ const initialState = {
     wallItems: [],
     isLoading: true,
     hasError: null,
-  };
+};
 
 const name = "wall"
 // // get     /wall                       wallSlice       wall      list of user details (display name, email, phone number)
@@ -37,24 +37,28 @@ export const wallFetch = createAsyncThunk(
 export const wallSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset: () => {
+            return initialState;
+        }
+    },
     extraReducers:
         (builder) => {
             builder
                 .addMatcher(isAnyOf(
                     wallFetch.fulfilled,
-                    ),
+                ),
                     (state, action) => {
                         //console.log(action.payload)
                         state.wallItems = action.payload
                         state.isLoading = false;
                         state.hasError = null;
                     })
-  
+
                 .addMatcher(
                     isAnyOf(
                         wallFetch.pending,
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
                         state.hasError = null;
@@ -79,5 +83,5 @@ export const isLoadingWall = (state) => state.wall.isLoading;
 export const hasErrorWall = (state) => state.wall.hasError;
 export const selectWall = (state) => state.wall.wallItems;
 
-
+export const {reset} = wallSlice.actions
 export default wallSlice.reducer

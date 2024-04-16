@@ -61,7 +61,11 @@ export const userPfpUpdate = createAsyncThunk(
 export const userPfpSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset:()=>{
+            return initialState;
+        }
+    },
     extraReducers:
         (builder) => {
             builder
@@ -111,5 +115,5 @@ export const isLoadingUserPfp = (state) => state.user.pfp.isLoading;
 export const hasErrorUserPfp = (state) => state.user.pfp.hasError;
 export const selectUserPfp = (state) => state.user.pfp.data;
 
-
+export const {reset} = userPfpSlice.actions
 export default userPfpSlice.reducer

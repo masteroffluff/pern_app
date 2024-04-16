@@ -18,6 +18,7 @@ module.exports.get_user_pfp = async function get_user_pfp(req, res) {
 
     
     res.setHeader('Content-Type', 'image/png');
+    
      
     if(!reqID){reqID=req.user.id}
     const filename=req.user.id + ".png"
@@ -26,12 +27,12 @@ module.exports.get_user_pfp = async function get_user_pfp(req, res) {
 
     const response = (await db.query(sql, [reqID]));
     console.log(response.rowCount)
-
+    const defaultNo = Math.floor(Math.random()*3)
     if (response.rowCount === 0||response.rows[0].data===null){
-      const defaultImage = `./media/defaultImage${Math.floor(Math.random()*3)}.png` /* note: this should be relative to the servers working folder not the one this script resides in*/ 
+      const defaultImage = `./media/defaultImage${defaultNo}.png` /* note: this should be relative to the servers working folder not the one this script resides in*/ 
       const imageBuffer = fs.readFileSync(defaultImage);
       
-      res.setHeader('Content-Disposition', `inline; filename=default.png`);
+      res.setHeader('Content-Disposition', `inline; filename=defaultImage${defaultNo}.png`);
 
 
       console.log(imageBuffer)

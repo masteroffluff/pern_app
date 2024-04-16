@@ -194,7 +194,12 @@ export const calendarUpdateAttendee = createAsyncThunk(
 export const calendarSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset:()=>{
+            return initialState;
+        }
+
+    },
     extraReducers:
         (builder) => {
             builder
@@ -249,5 +254,5 @@ export const isLoadingCalendar = (state) => state.calendar.isLoading;
 export const hasErrorCalendar = (state) => state.calendar.hasError;
 export const selectCalendar = (state) => state.calendar.calendarItems;
 
-
+export const {reset} = calendarSlice.actions
 export default calendarSlice.reducer

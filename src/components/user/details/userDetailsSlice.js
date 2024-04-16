@@ -58,7 +58,11 @@ export const userDetailsUpdate = createAsyncThunk(
 export const userDetailsSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset:()=>{
+            return initialState;
+        }
+    },
     extraReducers:
         (builder) => {
             builder
@@ -113,7 +117,7 @@ export const userDetailsSlice = createSlice({
         }
 })
 
-
+export const {reset} = userDetailsSlice.actions
 /* export const selectedUserDetailsId = (state) => state.userdetails.userdetails_id; */
 export const isLoadingUserDetails = (state) => state.user.details.isLoading;
 export const hasErrorUserDetails = (state) => state.user.details.hasError;

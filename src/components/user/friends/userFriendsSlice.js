@@ -148,7 +148,11 @@ export const friendsBlock = createAsyncThunk(
 export const friendsSlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset:()=>{
+            return initialState;
+        }
+    },
     extraReducers:
         (builder) => {
             builder
@@ -207,6 +211,7 @@ export const friendsSlice = createSlice({
         }
 })
 
+export const {reset} = friendsSlice.actions
 
 export const isLoadingfriends = (state) => state.user.friends.isLoading;
 export const hasErrorfriends = (state) => state.user.friends.hasError;

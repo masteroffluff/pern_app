@@ -288,6 +288,9 @@ export const itemSlice = createSlice({
             state.todos[todoIndex].items[index].item_done=done
             state.todos[todoIndex].dirty= true
 
+        },
+        reset:()=>{
+            return initialState;
         }
     },
     extraReducers:
@@ -365,7 +368,6 @@ export const selectNotes = (state) => state.items.notes;
 
 export const selectHasDirtyTodoItems = createSelector(selectTodos,(todos)=>todos.filter((todo)=>todo.dirty).length>0)
 
-export const {todoItemsUpdateDone} = itemSlice.actions 
-
+export const {todoItemsUpdateDone, reset} = itemSlice.actions 
 
 export default itemSlice.reducer

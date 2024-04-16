@@ -200,3 +200,7 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     console.log(calendarWithMappedAttendees)
     return calendarWithMappedAttendees
 }
+
+module.exports.decodeImage = function decodeImage(filename){
+    
+}

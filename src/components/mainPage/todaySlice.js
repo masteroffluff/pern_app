@@ -37,7 +37,10 @@ export const todayFetch = createAsyncThunk(
 export const todaySlice = createSlice({
     name,
     initialState,
-    reducers: {},
+    reducers: {
+        reset:()=>{
+            return initialState;
+        }},
     extraReducers:
         (builder) => {
             builder
@@ -80,5 +83,5 @@ export const isLoadingToday = (state) => state.today.isLoading;
 export const hasErrorToday = (state) => state.today.hasError;
 export const selectToday = (state) => state.today.calendarItems
 
-
+export const {reset} = todaySlice.actions
 export default todaySlice.reducer

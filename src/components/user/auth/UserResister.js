@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hasErrorUserDetails, selectedUserDetails, userDetailsFetch, userDetailsUpdate } from "./userDetailsSlice";
+import { userAuthRegister, selectIsWaitingAuth } from "./userAuthSlice";
 import { setPopup, selectPopupState } from "../../mainPage/popupSlice";
+
 
 import '../../../App.css'
 import { selectColourChoice, selectColourObject, setColour } from "../../mainPage/colourSlice";
@@ -9,8 +10,8 @@ import { selectColourChoice, selectColourObject, setColour } from "../../mainPag
 // ✕ displays user phone number (3 ms)
 // ✕ displays user email (4 ms)
 
-export default function UserDetails() {
-  const { display_name, email, telephoneNumber, birthday } = useSelector(selectedUserDetails)
+export default function UserRegister() {
+  //const { display_name, email, telephoneNumber, birthday } = useSelector(selectedUserDetails)
   const colourObject = useSelector(selectColourObject)
   //const colourSelectState= useSelector(selectColourChoice)
   const { main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
@@ -19,19 +20,14 @@ export default function UserDetails() {
   const errorUserDetails  = useSelector(hasErrorUserDetails) 
   const popupState = useSelector(selectPopupState)
 
+  const dispatch = useDispatch()
 
-  const [display_nameTemp, setDisplayNameTemp] = useState(display_name)
-  const [emailTemp, setEmailTemp] = useState(email)
-  const [telephoneNumberTemp, setTelephoneNumberTemp] = useState(telephoneNumber)
-  const [birthdayTemp, setBirthdayTemp] = useState(birthday)
+  const [display_nameTemp, setDisplayNameTemp] = useState('')
+  const [passwordTemp, setPasswordTemp] = useState('')
+  const [emailTemp, setEmailTemp] = useState('')
+  const [telephoneNumberTemp, setTelephoneNumberTemp] = useState('')
+  const [birthdayTemp, setBirthdayTemp] = useState('')
 
-  useEffect(()=>{ 
-    // the above default states were not working for some reason :/
-    setDisplayNameTemp(display_name)
-    setEmailTemp(email)
-    setTelephoneNumberTemp(telephoneNumber)
-    setBirthdayTemp(birthday)
-  },[display_name, email, telephoneNumber, birthday])
   
   const colourSelectorChangeHandler = (e) => {
     e.preventDefault()
@@ -40,6 +36,10 @@ export default function UserDetails() {
   const display_nameChange = (e) => {
     e.preventDefault()
     setDisplayNameTemp(e.target.value)
+  }
+  const passwordChange = (e) => {
+    e.preventDefault()
+    setPasswordTemp(e.target.value)
   }
   const emailChange = (e) => {
     e.preventDefault()
@@ -61,21 +61,19 @@ export default function UserDetails() {
     e.preventDefault()
     dispatch(setPopup(false))
   }
+
   const submitForm = async (e) => {
     e.preventDefault()
-      dispatch(userDetailsUpdate({ display_name: display_nameTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
+      dispatch(userDetailsUpdate({ display_name: display_nameTemp, password:passwordTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
       dispatch(setPopup(false))
     
   }
 
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if(!display_name){
-    dispatch(userDetailsFetch())
-  }
-  }, [dispatch, display_name])
+  
+
   return <>
-    <style>{`
+    <style>
+        {`
         :root {
           --main-text-color: ${main_text_color};
           --main_background_color: ${main_background_color};
@@ -95,6 +93,10 @@ export default function UserDetails() {
         <h4>Display Name</h4>
       </label>
       <input className='details' id="display_name" value={display_nameTemp} onChange={display_nameChange} />
+      <label htmlFor="display_name">
+        <h4>Password</h4>
+      </label>
+      <input className='details' id="password" value={passwordTemp} onChange={passwordChange} />      
       <label htmlFor="email">
         <h4>Email</h4>
       </label>
