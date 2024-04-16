@@ -1,5 +1,6 @@
 const db = require('./db')
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 module.exports.generate_jwt_token= function generate_jwt_token (id){
     if(typeof id !='number'){
@@ -201,6 +202,13 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     return calendarWithMappedAttendees
 }
 
-module.exports.decodeImage = function decodeImage(filename){
+module.exports.insertDefaultImage = async function insertDefaultImage(id){
     
+    const imagePath = `../media/defaultImage${id%3}.png`
+    const imageBuffer = fs.readFileSync(imagePath);
+    const query = 'INSERT INTO User_PFP (id, data) VALUES ($1, $2)';
+    const values = [id, imageBuffer];
+  
+    await db.queryPromisified(query, values);
+    console.log(`${imagePath}: Image inserted successfully. into as ${id}`);
 }

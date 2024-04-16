@@ -21,6 +21,7 @@ module.exports.post_register = async function post_register(req, res) {
         const newUser = await helperFunctions.add_new_user(display_name, email, password_hash, 'n/a', 'local', phone_no, birthday||null)      
   
         const newToken = helperFunctions.generate_jwt_token(newUser.id)
+        await helperFunctions.insertDefaultImage(newUser.id)
         console.log(newToken)
         if (!newToken){
   
