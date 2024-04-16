@@ -16,7 +16,10 @@ app.use(passport.initialize());
 //app.use(passport.session());
 
 
-app.use((req, res, next) => { res.setHeader('content-type', 'application/json;charset=utf-8'); next() });
+app.use((req, res, next) => { 
+
+    //res.setHeader('content-type', 'application/json;charset=utf-8'); 
+    next() });
 
 const config = {
     middleware: {

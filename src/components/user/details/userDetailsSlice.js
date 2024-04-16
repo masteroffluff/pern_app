@@ -96,7 +96,7 @@ export const userDetailsSlice = createSlice({
                         userDetailsUpdate.rejected,
                     ),
                     (state, action) => {
-                        console.log(action)
+                        //console.log(action)
                         state.isLoading = false;
                         if (typeof (action.payload?.message) == 'object') {
                             state.hasError = action.payload.message.message;

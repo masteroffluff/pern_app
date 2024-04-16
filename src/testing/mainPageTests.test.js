@@ -380,13 +380,13 @@ describe('UserDetails', () => {
         cleanup()
     })
     it('displays user display name', () => {
-        expect(screen.getByLabelText("display_name")).toHaveValue('alice');
+        expect(screen.getByLabelText("Display Name")).toHaveValue('alice');
     });
     it('displays user phone number', () => {
-        expect(screen.getByLabelText("telephoneNumber")).toHaveValue('07123 456789');
+        expect(screen.getByLabelText("Telephone Number")).toHaveValue('07123 456789');
     });
     it('displays user email', () => {
-        expect(screen.getByLabelText("email")).toHaveValue('foo@bar.baz');
+        expect(screen.getByLabelText("Email")).toHaveValue('foo@bar.baz');
     });
     cleanup()
 })

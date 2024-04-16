@@ -4,6 +4,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo } from '../components/items'
 import { Appointment, NewAppointment, Event, NewEvent, Reminder } from '../components/calandar';
+import { AddFriend,UserDetails } from '../components/user';
 import store from '../store';
 import { BrowserRouter } from 'react-router-dom';
 import moment from 'moment';
@@ -375,5 +376,52 @@ describe('component Tests', () => {
         })
         cleanup()
     })
+    describe('AddFriend', () => {
+        beforeEach(() => {
+            // eslint-disable-next-line testing-library/no-render-in-setup
+            render(<BrowserRouter>
+                <Provider store={store}><AddFriend /></Provider>
+            </BrowserRouter>);
+        })
+        afterEach(() => {
+            cleanup();
+        })
+        // Render the parent component and store its container
+        
+        it('has enter friend text box"', () => {
 
+            //render(<NewNote notes={notes} title={title} date={date} />);
+            const testElement = screen.getByLabelText('Select Friend',  {exact:false});
+            expect(testElement).toBeInTheDocument();
+        });
+        cleanup();
+    })
+    describe('User Details', () => {
+        beforeEach(() => {
+            // eslint-disable-next-line testing-library/no-render-in-setup
+            render(<BrowserRouter>
+                <Provider store={store}><UserDetails /></Provider>
+            </BrowserRouter>);
+        })
+        afterEach(() => {
+            cleanup();
+        })
+        // Render the parent component and store its container
+        
+        it('has element for display name, email, phone numbers, birthday and colour"', () => {
+
+            //render(<NewNote notes={notes} title={title} date={date} />);
+            const displayNameElement = screen.getByLabelText('Display Name',  {exact:false});
+            expect(displayNameElement).toBeInTheDocument();
+            const emailElement = screen.getByLabelText('Email',  {exact:false});
+            expect(emailElement).toBeInTheDocument();
+            const phoneNumberElement = screen.getByLabelText('Telephone Number',  {exact:false});
+            expect(phoneNumberElement).toBeInTheDocument();
+            const birthdayElement = screen.getByLabelText('Birthday',  {exact:false});
+            expect(birthdayElement).toBeInTheDocument();
+            const colourElement = screen.getByLabelText('Colour Scheme',  {exact:false});
+            expect(colourElement).toBeInTheDocument();
+        });
+        cleanup();
+    })
 })

@@ -1,7 +1,7 @@
 //const isAuthenticated = require('../utils/isAuthenticated')
 const db = require('../utils/db')
 const fs = require('fs');
-const defaultImage = './media/defaultImage.png' // note: this should be relative to the servers working folder not the one this script resides in
+
 
 
 module.exports.funcuserpfp = function funcuserpfp(req, res) {
@@ -12,16 +12,33 @@ module.exports.funcuserpfp = function funcuserpfp(req, res) {
 
 module.exports.get_user_pfp = async function get_user_pfp(req, res) {
   try {
-    const reqID = req.body.id
+    let reqID = req.query.id
+    res.removeHeader('Content-Type'); 
+    res.removeHeader('Content-Type-Options');
+
+    
+    res.setHeader('Content-Type', 'image/png');
+     
+    if(!reqID){reqID=req.user.id}
+    const filename=req.user.id + ".png"
     console.log(reqID)
     const sql = `SELECT data FROM "User_PFP" WHERE id=$1;`
 
     const response = (await db.query(sql, [reqID]));
-    if (response.rows.length > 0&&response.rows[0].data!==null){
-      return res.send(response.rows[0])
-    }else{
+    console.log(response.rowCount)
+
+    if (response.rowCount === 0||response.rows[0].data===null){
+      const defaultImage = `./media/defaultImage${Math.floor(Math.random()*3)}.png` /* note: this should be relative to the servers working folder not the one this script resides in*/ 
       const imageBuffer = fs.readFileSync(defaultImage);
+      
+      res.setHeader('Content-Disposition', `inline; filename=default.png`);
+
+
+      console.log(imageBuffer)
       return res.send({data:imageBuffer})
+    }else{
+      res.setHeader('Content-Disposition', `inline; filename=${filename}`);
+      return res.status(200).send(response.rows[0])
     }
 
   } catch (e) {

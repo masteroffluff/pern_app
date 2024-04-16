@@ -90,11 +90,26 @@ paths:
       summary: get the pfp for the user
       description: fetch the users pfp
       operationId: get_user_pfp
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the user the image belongs to.
+          required: false # blank id returns user id
+          schema:
+            type: integer
+            example: 1      
       security:
         - bearerAuth: []
       responses:
-        default:
-          description: Default error sample response
+        '200':
+          description: Successful response
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid request
       tags:
         - user
     put:

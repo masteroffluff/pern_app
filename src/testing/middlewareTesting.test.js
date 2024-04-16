@@ -346,9 +346,9 @@ describe('dispatch tests', () => {
         }
 
         const friendsData = [
-          { name: 'frank', id:7 },
-          { name: 'gertie', id:8 },
-          { name: 'helen', id:9 },
+          { display_name: 'frank', id:7 },
+          { display_name: 'gertie', id:8 },
+          { display_name: 'helen', id:9 },
         ]
 
 

@@ -14,7 +14,9 @@ import dummyStore, { date, tomorrow } from './dummyData.js'
 
 import apiFetch from '../utils/apiFetch'; // Import the apifetch function
 
-jest.mock('../utils/apiFetch', () => jest.fn());
+jest.mock('../utils/apiFetch', () => {return jest.fn((a,b)=>{
+    console.log(a,b)
+})});
 
 const apiUrl = process.env.REACT_APP_API_URL
 

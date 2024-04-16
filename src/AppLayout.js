@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 //import MainDisplay from './components/mainPage/MainDisplay';
-import { Outlet } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import './blur.css';
 import { selectPopupState } from "./components/mainPage/popupSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,9 @@ import { selectColourObject } from "./components/mainPage/colourSlice";
 
 function AppLayout() {
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  
   useEffect(()=>{
     dispatch(userAuthCheck())
   },[dispatch])
@@ -26,8 +28,9 @@ function AppLayout() {
  
   const popupState = useSelector(selectPopupState)
   const isLoggedIn = useSelector(selectIsLoggedIn)
-  console.log(main_background_image_URL)
+  
   if (isLoggedIn) {
+    if(location.pathname==='/'){navigate('/main')}
     return (<>
       <div className='Appcontainer' >
         <style>{`

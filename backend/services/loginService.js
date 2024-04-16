@@ -23,7 +23,7 @@ module.exports.post_login = async function post_login(req, res) {
   
   
   console.log('Token Generated:', token)
-  res.send({ token });
+  res.send({ token, id:user.id });
     
 }
 

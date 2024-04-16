@@ -90,16 +90,26 @@ export default function UserDetails() {
       `}</style>
     <form onSubmit={submitForm}><div data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
       <h3>User Details</h3><br />
-      <h4>Display Name</h4>
-      <input className='details' aria-label="display_name" defaultValue={display_name} value={display_nameTemp} onChange={display_nameChange} />
-      <h4>Email</h4>
-      <input className='details' type='email' aria-label="email" default={email} value={emailTemp} onChange={emailChange} />
-      <h4>Telephone Number</h4>
-      <input className='details' type='tel' aria-label="telephoneNumber" defaultValue={telephoneNumber} value={telephoneNumberTemp} onChange={telephoneNumberChange} />
-      <h4>Birthday</h4>
-      <input className='details' type='date' aria-label="birthday" default={birthday} value={birthdayTemp} onChange={birthdayChange} />
-      <h4>Colour Scheme</h4>
-      <select className='details' id='colors' aria-label="colour" onChange={colourSelectorChangeHandler} value={colourSelectState}>
+      <label htmlFor="display_name">
+        <h4>Display Name</h4>
+      </label>
+      <input className='details' id="display_name" value={display_nameTemp} onChange={display_nameChange} />
+      <label htmlFor="email">
+        <h4>Email</h4>
+      </label>
+      <input className='details' type='email' id="email" value={emailTemp} onChange={emailChange} />
+      <label htmlFor="telephoneNumber">
+        <h4>Telephone Number</h4>
+      </label>
+      <input className='details' type='tel' id="telephoneNumber"  value={telephoneNumberTemp} onChange={telephoneNumberChange} />
+      <label htmlFor="birthday">
+        <h4>Birthday</h4>
+      </label>
+      <input className='details' type='date' id="birthday" value={birthdayTemp} onChange={birthdayChange} />
+      <label htmlFor="colors">
+        <h4>Colour Scheme</h4>
+      </label>
+      <select className='details' id='colors' onChange={colourSelectorChangeHandler} value={colourSelectState}>
         <option value="sandy">Sandy</option>
         <option value="forest">Forest</option>
         <option value="ocean">Ocean</option>

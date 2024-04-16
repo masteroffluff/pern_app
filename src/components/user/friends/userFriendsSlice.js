@@ -40,13 +40,13 @@ export const friendsPotential = createAsyncThunk(
         const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/potential`
-        //console.log (endPoint)
+        console.log (endPoint)
         const options = {
             method: 'GET',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                'Authorization': 'Bearer ' + authToken,
+                'Authorization': 'Bearer ' + authToken
 
             }
         };
@@ -155,6 +155,7 @@ export const friendsSlice = createSlice({
                 .addCase(friendsPotential.fulfilled, (state, action) => {
                     state.isLoading = false;
                     state.hasError = null;
+                    console.log(action.payload)
                     state.potentials = action.payload;
                 })
                 .addMatcher(isAnyOf(
@@ -207,14 +208,10 @@ export const friendsSlice = createSlice({
 })
 
 
-/* export const selectedfriendsId = (state) => state.friends.friends_id; */
 export const isLoadingfriends = (state) => state.user.friends.isLoading;
 export const hasErrorfriends = (state) => state.user.friends.hasError;
+export const selectPotentials = (state) => state.user.friends.potentials
 const selectfriends = (state) => state.user.friends.list
-// export const selectFriends_Live = (state) => state.user.friends.list.filter((e)=>e.status === 'friend');
-// export const selectFriends_Blocked = (state) => state.user.friends.list.filter((e)=>e.status === 'blocked');;
-// export const selectFriends_Unfollowed = (state) => state.user.friends.list.filter((e)=>e.status === 'unfollowed');;
-// export const selectFriends_Pending = (state) => state.user.friends.list.filter((e)=>e.status === 'pending');;
 // memoizing friends selectors to improve efficiency
 export const selectFriends_Live = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'friend'))
 export const selectFriends_Blocked = createSelector(selectfriends, (friends) => friends.filter((e) => e.status === 'blocked'))

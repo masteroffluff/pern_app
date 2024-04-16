@@ -3,29 +3,75 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
-export default function AddFriend(){
+
+import { friendsPotential, selectPotentials, isLoadingfriends, hasErrorfriends } from "./userFriendsSlice";
+import AnyPFP from "../pfp/AnyPFP";
+
+function PotentialFriend({person}){
+    const {display_name,id} = person
+    return (
+    <div>
+        <AnyPFP height='96' width='96' id={id} />
+        <span>{display_name}</span>
+    </div>
+
+    )
+}
+
+
+
+export default function AddFriend() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
-    alert("Add Friend")
+    const potentialFriends=useSelector(selectPotentials)
+    const isLoading=useSelector(isLoadingfriends)
+    const hasError=useSelector(hasErrorfriends)
+
+    const blank = {id:-1, display_name:'_'}
+    //const [potentialFriends, setPotentialFriends] = useState([])
+    const [listToDisplay, setListToDisplay] = useState([blank, blank, blank, blank, blank])
+    const [enterFriendValue, setEnterFriendValue] = useState('')
+
+    
+
     useEffect(() => {
-        
         dispatch(setPopup(true))
+        dispatch(friendsPotential())        
         //dispatch(friendsFetch)
         return () => dispatch(setPopup(false))
     }, [dispatch])
-
-
 
     const cancelAddFriend = (e) => {
         e.preventDefault()
         navigate('/userdetails')
     }
+    const enterFriendUpdate = (e) => {
+        e.preventDefault()
+        const targetValue = e.target.value
+        setEnterFriendValue(targetValue)
+        let tempArray
+        if (!targetValue) {
+            tempArray = []
+        } else {
+            tempArray = potentialFriends.filter(({display_name}) => String(display_name).toLocaleLowerCase().includes(targetValue));
+        }
 
+        setListToDisplay([tempArray[0] || blank, tempArray[1] || blank, tempArray[2] || blank, tempArray[3] || blank, tempArray[4] || blank])
+    }
     return (
-    <div data-testid="addFriend" className='popup'>
+        <div data-testid="addFriend" className='popup'>
+            <h4>Add Friend</h4>
+            <form>
+                <label htmlFor="enterFriend">Select Friend</label>
+                {isLoading}
+                {isLoading?<p aria-label="Select Friend">Please wait loading</p>:<input data-testid="enterFriend" type='text' id="enterFriend" value={enterFriendValue} onChange={enterFriendUpdate} />}
 
-        <p>Add a new friend</p>
-        <button onClick={cancelAddFriend}>Cancel</button>
-    </div>)
+                {listToDisplay.map((e, i) => <PotentialFriend key={i} person={e} />)}
+                <button onClick={cancelAddFriend}>Cancel</button>
+
+            </form>
+
+
+        </div>)
 }
