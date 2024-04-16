@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hasErrorUserDetails, selectedUserDetails, userDetailsFetch, userDetailsUpdate } from "./userDetailsSlice";
+import { hasErrorUserDetails, selectedUserDetails, userDetailsFetch, userDetailsUpdate,selectColourChoice, selectColourObject, setColour } from "./userDetailsSlice";
 import { setPopup, selectPopupState } from "../../mainPage/popupSlice";
 
 import '../../../App.css'
-import { selectColourChoice, selectColourObject, setColour } from "../../mainPage/colourSlice";
+
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)
 // ✕ displays user email (4 ms)

@@ -35,7 +35,7 @@ export default function UserLogin(){
     }
 
     return <div className="App" data-testid="userDetails">
-        <h3>Please Login</h3>
+        <h3>Please Login</h3><br />
         <form onSubmit={loginSubmit}>
             <label htmlFor="display_name"><h4>Display Name</h4></label>
             <input type="text" id='display_name' value = {display_name} onChange={display_nameChange} />

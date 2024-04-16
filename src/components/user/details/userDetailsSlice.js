@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf, createSelector } from '@reduxjs/toolkit';
 import apiFetch from '../../../utils/apiFetch';
+import colourSwitch from '../../../utils/colourswitch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
@@ -7,6 +8,7 @@ const initialState = {
     display_name: '',
     telephoneNumber: '',
     email: '',
+    colour: 'dark',
 }
 
 const name = "details"
@@ -59,9 +61,14 @@ export const userDetailsSlice = createSlice({
     name,
     initialState,
     reducers: {
-        reset:()=>{
+        reset: () => {
             return initialState;
-        }
+        },
+
+        setColour: (state, action) => {
+            state.colour = (action.payload);
+        },
+
     },
     extraReducers:
         (builder) => {
@@ -77,7 +84,7 @@ export const userDetailsSlice = createSlice({
                         state.email = email;
                         state.telephoneNumber = phone_no;
                         state.birthday = birthday;
-                        state.colour = colour;
+                        state.colour = colour||'dark';
                         state.isLoading = false;
                         state.hasError = null;
 
@@ -117,7 +124,7 @@ export const userDetailsSlice = createSlice({
         }
 })
 
-export const {reset} = userDetailsSlice.actions
+export const { reset, setColour } = userDetailsSlice.actions
 /* export const selectedUserDetailsId = (state) => state.userdetails.userdetails_id; */
 export const isLoadingUserDetails = (state) => state.user.details.isLoading;
 export const hasErrorUserDetails = (state) => state.user.details.hasError;
@@ -125,5 +132,7 @@ export const selectedUserDetails = (state) => state.user.details;
 export const selectedNotes = (state) => state.user.details.todos;
 export const selectedTodos = (state) => state.user.details.notes;
 
+export const selectColourChoice = (state) => state.user.details.colour;
+export const selectColourObject = createSelector(selectColourChoice,colourSwitch)
 
 export default userDetailsSlice.reducer

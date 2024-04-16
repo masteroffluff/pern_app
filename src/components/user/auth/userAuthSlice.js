@@ -77,7 +77,7 @@ export const userAuthCheckExists = createAsyncThunk(
 
 export const userAuthRegister = createAsyncThunk(
     'userAuthRegister',
-    async ({ userdata }, { rejectWithValue }) => {
+    async (userdata, { rejectWithValue }) => {
         console.log(userdata)
         const endPoint = `${apiUrl}/register`;
         const options = {
@@ -97,6 +97,7 @@ export const userAuthRegister_github = createAsyncThunk(
     async ({ userdata }, { rejectWithValue }) => {
         console.log("userAuthRegister_github")
         const endPoint = `${apiUrl}/auth/github/register`;
+        console.log(userdata)
         const options = {
             method: 'POST',
             headers: {
@@ -223,7 +224,7 @@ export const userAuthSlice = createSlice({
                         //console.log(action)
                         state.isLoading = false;
                         //state.hasError = JSON.stringify({error:action.error,actionType:action.type});
-                        state.hasError = action.error
+                        state.hasError = action.error.message
                     }
                 )
         }

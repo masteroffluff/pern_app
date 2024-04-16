@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userAuthRegister, selectIsWaitingAuth } from "./userAuthSlice";
+import { userAuthRegister, selectIsWaitingAuth, selectHasErrorAuth } from "./userAuthSlice";
 import { setPopup, selectPopupState } from "../../mainPage/popupSlice";
 
 
 import '../../../App.css'
-import { selectColourChoice, selectColourObject, setColour } from "../../mainPage/colourSlice";
+import { selectColourChoice, selectColourObject, setColour } from "../../user/details/userDetailsSlice";
+
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)
 // ✕ displays user email (4 ms)
@@ -17,13 +18,14 @@ export default function UserRegister() {
   const { main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
 
   const colourSelectState = useSelector(selectColourChoice)
-  const errorUserDetails  = useSelector(hasErrorUserDetails) 
+  const errorAuth  = useSelector(selectHasErrorAuth) 
   const popupState = useSelector(selectPopupState)
 
   const dispatch = useDispatch()
 
   const [display_nameTemp, setDisplayNameTemp] = useState('')
   const [passwordTemp, setPasswordTemp] = useState('')
+  const [passwordTemp1, setPasswordTemp1] = useState('')
   const [emailTemp, setEmailTemp] = useState('')
   const [telephoneNumberTemp, setTelephoneNumberTemp] = useState('')
   const [birthdayTemp, setBirthdayTemp] = useState('')
@@ -40,6 +42,10 @@ export default function UserRegister() {
   const passwordChange = (e) => {
     e.preventDefault()
     setPasswordTemp(e.target.value)
+  }
+  const password1Change = (e) => {
+    e.preventDefault()
+    setPasswordTemp1(e.target.value)
   }
   const emailChange = (e) => {
     e.preventDefault()
@@ -64,7 +70,7 @@ export default function UserRegister() {
 
   const submitForm = async (e) => {
     e.preventDefault()
-      dispatch(userDetailsUpdate({ display_name: display_nameTemp, password:passwordTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
+      dispatch(userAuthRegister({ display_name: display_nameTemp, password:passwordTemp, email: emailTemp, phone_no: telephoneNumberTemp, birthday: birthdayTemp, colour: colourSelectState }))
       dispatch(setPopup(false))
     
   }
@@ -87,17 +93,23 @@ export default function UserRegister() {
           background-image:url(${main_background_image_URL});
         }
       `}</style>
-    <form onSubmit={submitForm}><div data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
-      <h3>User Details</h3><br />
+    <h3>Register</h3><br />  
+    <form onSubmit={submitForm}><div data-testid="userDetails" className={popupState ? 'blur-background' : ''} >
+      
       <label htmlFor="display_name">
         <h4>Display Name</h4>
       </label>
-      <input className='details' id="display_name" value={display_nameTemp} onChange={display_nameChange} />
-      <label htmlFor="display_name">
+      <input className='details' type="text" id="display_name" value={display_nameTemp} onChange={display_nameChange} />
+      <label htmlFor="password">
         <h4>Password</h4>
       </label>
-      <input className='details' id="password" value={passwordTemp} onChange={passwordChange} />      
+      <input className='details' type="password" id="password" value={passwordTemp} onChange={passwordChange} />      
       <label htmlFor="email">
+      <label htmlFor="password1">
+        <h4>Please Re-Enter Password</h4>
+      </label>
+      <input className='details' type="password" id="password1" value={passwordTemp1} onChange={password1Change} />      
+      <label htmlFor="email"></label>
         <h4>Email</h4>
       </label>
       <input className='details' type='email' id="email" value={emailTemp} onChange={emailChange} />
@@ -121,7 +133,7 @@ export default function UserRegister() {
         <option value="dark">Dark</option>
       </select><br />
       <button onClick={saveButton}>Save</button>
-      <p className={errorUserDetails?'error':'hidden'}>{errorUserDetails}</p>
+      <p className={errorAuth?'error':'hidden'}>{errorAuth}</p>
     </div>
       <div className={popupState ? 'popup' : 'hidden'}>
         <h4>Save Details?</h4>
