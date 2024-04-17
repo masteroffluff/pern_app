@@ -77,6 +77,7 @@ const dummyStore = {
             display_name: 'alice',
             telephoneNumber: '07123 456789',
             email: 'foo@bar.baz',
+            colour:'sandy'
         },
         friends: {
             list: [
@@ -103,9 +104,6 @@ const dummyStore = {
     },
     "popup": {
         "isPopupOpen": true
-      },
-      "colour": {
-        "colour": "sandy"
       },
 };
 

@@ -125,6 +125,7 @@ describe('User Details Selector', () => {
       display_name: 'alice',
       telephoneNumber: '07123 456789',
       email: 'foo@bar.baz',
+      colour: "sandy",
     }
     const selectedItems = selectedUserDetails(state);
 

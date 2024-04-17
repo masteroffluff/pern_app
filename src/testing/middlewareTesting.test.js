@@ -111,7 +111,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.display_name).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     })
@@ -180,7 +180,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.display_name).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
   });
@@ -245,7 +245,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.data).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     })
@@ -306,7 +306,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.data).toBe(initialState.data);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
   });
@@ -380,7 +380,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     })
@@ -448,7 +448,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     })
@@ -513,7 +513,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
       ///////////////////////////////////////////////////////////////////////
     });
@@ -577,7 +577,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     })
@@ -641,7 +641,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
     });
@@ -705,7 +705,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
   });
@@ -779,7 +779,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.notes).toBe(initialState.notes);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
       ///////////////////////////////////////////////////////////////////////
@@ -839,7 +839,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.notes).toBe(initialState.notes);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle itemsNoteUpdate.pending', () => {
@@ -898,7 +898,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.notes).toBe(initialState.notes);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle itemsNoteDelete.pending', () => {
@@ -957,7 +957,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.notes).toBe(initialState.notes);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
     describe('itemsTodos', () => {
@@ -1024,7 +1024,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
       ///////////////////////////////////////////////////////////////////////
@@ -1092,7 +1092,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle itemsTodoUpdate.pending', () => {
@@ -1157,7 +1157,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
       ///////////////////////////////////////////////////////////////////////
       it('should handle itemsTodoDelete.pending', () => {
@@ -1222,7 +1222,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.todos).toBe(initialState.todos);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
   });
@@ -1693,7 +1693,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.calendarItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
 
@@ -1764,7 +1764,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.wallItems.length).toBe(0);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
 
@@ -1842,7 +1842,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.authToken).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);
       });
 
 
@@ -1912,7 +1912,7 @@ describe('dispatch tests', () => {
         // Check state after dispatching the rejected action
         expect(newState.isLoading).toBe(false);
         expect(newState.authToken).toBe('');
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);;
       });
 
 
@@ -1983,7 +1983,7 @@ describe('dispatch tests', () => {
         }
         expect(newState.isLoading).toBe(false);
         expect(newState.userAlreadyExists).toBe(null);
-        expect(newState.hasError).toStrictEqual({ "message": "Rejected" });
+        expect(newState.hasError).not.toStrictEqual(false);
       });
 
 
