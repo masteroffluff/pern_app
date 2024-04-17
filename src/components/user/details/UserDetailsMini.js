@@ -20,7 +20,7 @@ export default function UserDetailsMini() {
   <div>
     <AnyPFP id='0' height='200' width='200' />
     <div>
-      <h4>{display_name}</h4>
+      <h4 data-testid="display_name">{display_name}</h4>
       <LogoutButton />
     </div>
   </div>)

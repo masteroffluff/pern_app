@@ -36,7 +36,7 @@
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
 import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
 import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
-import userPfp, { userPfpFetch, userPfpUpdate } from '../components/user/pfp/userPfpSlice.js'
+
 
 import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendee, calendarDeleteAttendee, calendarUpdateAttendee } from '../components/calandar/calendarSlice.js'
 import items, { itemsNoteFetch, itemsNoteAdd, itemsNoteDelete, itemsNoteUpdate, itemsTodoAdd, itemsTodoFetch, itemsTodoDelete, itemsTodoUpdate } from '../components/items/itemSlice.js'
@@ -186,130 +186,130 @@ describe('dispatch tests', () => {
   });
 
 
+// removed pfp as blo does not go in the store 
+  // // put     /userPfp                    userPfp       userPfp      user PFP
+  // // get     /userPfp                    userPfp       userPfp      user PFP
+  // describe('userPfp', () => {
+  //   describe('userPfpFetch', () => {
+  //     it('should handle userPfpFetch.pending', () => {
+  //       const initialState = {
+  //         data: '',
+  //         isLoading: false,
+  //         hasError: null,
+  //       }
+  //       const action = userPfpFetch.pending();
 
-  // put     /userPfp                    userPfp       userPfp      user PFP
-  // get     /userPfp                    userPfp       userPfp      user PFP
-  describe('userPfp', () => {
-    describe('userPfpFetch', () => {
-      it('should handle userPfpFetch.pending', () => {
-        const initialState = {
-          data: '',
-          isLoading: false,
-          hasError: null,
-        }
-        const action = userPfpFetch.pending();
-
-        const newState = userPfp(initialState, action);
-
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.data).toBe('');
-        expect(newState.hasError).toBe(null);
-      });
-
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle userPfpFetch.fulfilled', () => {
-        const initialState = {
-          data: '',
-          isLoading: true,
-          hasError: null,
-        }
-
-        const userPfpData = 'ae 34e 89 a0 b5 89';
-
-        const action = userPfpFetch.fulfilled(userPfpData);
-
-        const newState = userPfp(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-
-        expect(newState.isLoading).toBe(false);
-        expect(newState.data).toEqual(userPfpData);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////
-      it('should handle userPfpFetch.rejected', () => {
-        const initialState = {
-          data: '',
-          isLoading: true,
-          hasError: null,
-        }
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = userPfpFetch.rejected(null, null, errorMessage);
-
-        const newState = userPfp(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.data).toBe('');
-        expect(newState.hasError).not.toStrictEqual(false);;
-      });
-
-    })
+  //       const newState = userPfp(initialState, action);
 
 
-    ///////////////////////////////////////////////////////////////////////
-    describe('userPfpUpdate', () => {
-      it('should handle userPfpUpdate.pending', () => {
-        const initialState = {
-          data: '00 00 00 00 00 00 00 00',
-          isLoading: false,
-          hasError: null,
-        }
+  //       // Check state after dispatching the pending action
+  //       expect(newState.isLoading).toBe(true);
+  //       expect(newState.data).toBe('');
+  //       expect(newState.hasError).toBe(null);
+  //     });
 
-        const newState = userPfp(initialState, userPfpUpdate.pending());
+  //     ///////////////////////////////////////////////////////////////////////
+  //     it('should handle userPfpFetch.fulfilled', () => {
+  //       const initialState = {
+  //         data: '',
+  //         isLoading: true,
+  //         hasError: null,
+  //       }
 
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.data).toBe(initialState.data);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle userPfpUpdate.fulfilled', () => {
-        const initialState = {
-          data: '00 00 00 00 00 00 00 00',
-          isLoading: true,
-          hasError: null,
-        }
+  //       const userPfpData = 'ae 34e 89 a0 b5 89';
 
-        const userPfpData = {
-          data: 'ae 34e 89 a0 b5 89',
-        };
+  //       const action = userPfpFetch.fulfilled(userPfpData);
 
-        const action = userPfpUpdate.fulfilled(userPfpData);
+  //       const newState = userPfp(initialState, action);
 
-        const newState = userPfp(initialState, action);
+  //       // Check state after dispatching the fulfilled action
 
-        // Check state after dispatching the fulfilled action
-        //console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.data).toEqual(userPfpData);
-        expect(newState.hasError).toBe(null);
-      });
-      /////////////////////////////////////////////////////////////////////////
-      it('should handle userPfpUpdate.rejected', () => {
-        const initialState = {
-          data: '00 00 00 00 00 00 00 00',
-          isLoading: true,
-          hasError: null,
-        }
+  //       expect(newState.isLoading).toBe(false);
+  //       expect(newState.data).toEqual(userPfpData);
+  //       expect(newState.hasError).toBe(null);
+  //     });
+  //     ///////////////////////////////////////////////////////////////////
+  //     it('should handle userPfpFetch.rejected', () => {
+  //       const initialState = {
+  //         data: '',
+  //         isLoading: true,
+  //         hasError: null,
+  //       }
 
-        const errorMessage = 'Failed to fetch user details';
+  //       const errorMessage = 'Failed to fetch user details';
 
-        const action = userPfpUpdate.rejected(null, null, errorMessage);
+  //       const action = userPfpFetch.rejected(null, null, errorMessage);
 
-        const newState = userPfp(initialState, action);
+  //       const newState = userPfp(initialState, action);
 
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.data).toBe(initialState.data);
-        expect(newState.hasError).not.toStrictEqual(false);;
-      });
-    });
-  });
+  //       // Check state after dispatching the rejected action
+  //       expect(newState.isLoading).toBe(false);
+  //       expect(newState.data).toBe('');
+  //       expect(newState.hasError).not.toStrictEqual(false);;
+  //     });
+
+  //   })
+
+
+  //   ///////////////////////////////////////////////////////////////////////
+  //   describe('userPfpUpdate', () => {
+  //     it('should handle userPfpUpdate.pending', () => {
+  //       const initialState = {
+  //         data: '00 00 00 00 00 00 00 00',
+  //         isLoading: false,
+  //         hasError: null,
+  //       }
+
+  //       const newState = userPfp(initialState, userPfpUpdate.pending());
+
+  //       // Check state after dispatching the pending action
+  //       expect(newState.isLoading).toBe(true);
+  //       expect(newState.data).toBe(initialState.data);
+  //       expect(newState.hasError).toBe(null);
+  //     });
+  //     ///////////////////////////////////////////////////////////////////////
+  //     it('should handle userPfpUpdate.fulfilled', () => {
+  //       const initialState = {
+  //         data: '00 00 00 00 00 00 00 00',
+  //         isLoading: true,
+  //         hasError: null,
+  //       }
+
+  //       const userPfpData = {
+  //         data: 'ae 34e 89 a0 b5 89',
+  //       };
+
+  //       const action = userPfpUpdate.fulfilled(userPfpData);
+
+  //       const newState = userPfp(initialState, action);
+
+  //       // Check state after dispatching the fulfilled action
+  //       //console.log(newState)
+  //       expect(newState.isLoading).toBe(false);
+  //       expect(newState.data).toEqual(userPfpData);
+  //       expect(newState.hasError).toBe(null);
+  //     });
+  //     /////////////////////////////////////////////////////////////////////////
+  //     it('should handle userPfpUpdate.rejected', () => {
+  //       const initialState = {
+  //         data: '00 00 00 00 00 00 00 00',
+  //         isLoading: true,
+  //         hasError: null,
+  //       }
+
+  //       const errorMessage = 'Failed to fetch user details';
+
+  //       const action = userPfpUpdate.rejected(null, null, errorMessage);
+
+  //       const newState = userPfp(initialState, action);
+
+  //       // Check state after dispatching the rejected action
+  //       expect(newState.isLoading).toBe(false);
+  //       expect(newState.data).toBe(initialState.data);
+  //       expect(newState.hasError).not.toStrictEqual(false);;
+  //     });
+  //   });
+  // });
   // get     /friends                    friendsSlice    friendsFetch     list of users friends and their state (friend, unfollowed, blocked)
   // post    /friends                    friendsSlice    friendsAdd       list of users friends and their state (friend, unfollowed, blocked)
   // put     /friends/confirm            friendsSlice    friendConfirm    list of users friends and their state (friend, unfollowed, blocked)

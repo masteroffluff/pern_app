@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userDetails from './components/user/details/userDetailsSlice.js'
 import userAuth from './components/user/auth/userAuthSlice.js'
 import friends from './components/user/friends/userFriendsSlice.js'
-import userPfpSlice from './components/user/pfp/userPfpSlice.js'
+
 
 import calendar from './components/calandar/calendarSlice.js'
 import items from './components/items/itemSlice.js'
@@ -15,8 +15,7 @@ import popup from './components/mainPage/popupSlice.js'
 const user = combineReducers({
   friends: friends,
   details: userDetails,
-  authentication: userAuth,
-  pfp: userPfpSlice
+  authentication: userAuth
 });
 
  const store = configureStore({

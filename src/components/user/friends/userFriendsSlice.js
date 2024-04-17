@@ -40,7 +40,7 @@ export const friendsPotential = createAsyncThunk(
         const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends/potential`
-        console.log (endPoint)
+        //console.log (endPoint)
         const options = {
             method: 'GET',
             credentials: 'include',
@@ -159,7 +159,7 @@ export const friendsSlice = createSlice({
                 .addCase(friendsPotential.fulfilled, (state, action) => {
                     state.isLoading = false;
                     state.hasError = null;
-                    console.log(action.payload)
+                    //console.log(action.payload)
                     state.potentials = action.payload;
                 })
                 .addMatcher(isAnyOf(

@@ -1,6 +1,5 @@
 
 import { selectedUserDetails } from '../components/user/details/userDetailsSlice.js'
-import { selectUserPfp } from '../components/user/pfp/userPfpSlice.js'
 import { selectAuthToken, selectUserAlreadyExists, selectIsLoggedIn } from '../components/user/auth/userAuthSlice.js'
 import { selectFriends_Blocked, selectFriends_Live, selectFriends_Pending, selectFriends_Unfollowed,selectFriends_Sent } from '../components/user/friends/userFriendsSlice.js'
 import { selectCalendar } from '../components/calandar/calendarSlice.js'
@@ -133,16 +132,16 @@ describe('User Details Selector', () => {
   });
 
 })
-// selectUserPFP 
-//     - returns user pfp
-describe('user pfp Selector', () => {
-  test('returns user pfp items', () => {
+// selectUserPFP  // rblobs on't go in a store
+//     - returns user pfp 
+// describe('user pfp Selector', () => {
+//   test('returns user pfp items', () => {
 
-    const selectedItems = selectUserPfp(state);
+//     const selectedItems = selectUserPfp(state);
 
-    expect(selectedItems).toEqual(state.user.pfp.data);
-  });
-})
+//     expect(selectedItems).toEqual(state.user.pfp.data);
+//   });
+// })
 describe('seleced friends', () => {
   // selectFriends_Live
   //     - returns list of users friends that are live

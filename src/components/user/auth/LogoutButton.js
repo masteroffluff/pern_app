@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { userLogOut } from "./userAuthSlice";
 import { reset as friendsReset} from "../friends/userFriendsSlice";
-import { reset as pfpReset} from "../pfp/userPfpSlice";
+
 import { reset as detailsReset} from "../details/userDetailsSlice";
 import { reset as calendarReset} from "../../calandar/calendarSlice";
 import { reset as itemsReset} from "../../items/itemSlice";
@@ -21,7 +21,6 @@ export default function LogoutButton(){
         //e.preventDefault()
         dispatch(userLogOut())
         dispatch(friendsReset())
-        dispatch(pfpReset())
         dispatch(detailsReset())
         dispatch(calendarReset())
         dispatch(itemsReset())

@@ -54,12 +54,12 @@ export default function AnyPFP({ id, height, width }) {
     }, [authToken, dispatch, id]);
 
     return (
-        <>
+        <div data-testid="PFP">
             {isLoading ? (
                 <img aria-label='profile image' src={default_image} height={height} width={width} alt='profile picture' />
             ) : (
                 <img style={hasError?{color:'red'}:{}}  aria-label='profile image' src={imageSrc} height={height} width={width} alt='profile picture' />
             )}
-        </>
+        </div>
     );
 }

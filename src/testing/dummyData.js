@@ -99,8 +99,7 @@ const dummyStore = {
             isLoggedIn: true,
             customer_id: 1,
             userAlreadyExists: false,
-        },
-        pfp: { data: '00 00 00 00' }
+        }
     },
     "popup": {
         "isPopupOpen": true
