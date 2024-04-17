@@ -12,10 +12,22 @@ const decodeJwtToken = (token) => {
   return { header: decodedHeader, payload: decodedPayload };
 };
 
+export const idFromToken = (token) =>{
+  try {
+    const decodedToken = decodeJwtToken(token); 
+    return decodedToken.sub
+  } catch (err) {
+        ////console.log('token decoding error')
+    //console.log(err)
+    //console.log(`token=${token}`)
+  }
+
+}
+
 export const isTokenExpired = (token) => {
   try{
   const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
-  const decodedToken = decodeJwtToken(token); // Assume you have a function to decode the JWT token
+  const decodedToken = decodeJwtToken(token); 
 
   if (decodedToken && decodedToken.payload.exp) {
     return decodedToken.payload.exp < currentTimestamp;

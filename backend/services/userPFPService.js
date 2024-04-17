@@ -74,14 +74,14 @@ async function getImageById(id, callback) {
 
 module.exports.update_user_pfp = async function update_user_pfp(req, res) {
   try {
-    const sql_update = `UPDATE "User_PFP" set data = $2 FROM  WHERE id=$1 RETURNING data"`
+    const sql_update = `UPDATE "User_PFP" set data = $2, ext = $3 FROM  WHERE id=$1 RETURNING data"`
     const sql_insert = `INSERT INTO "User_PFP" (id, data) VALUES($1, $2) RETURNING data`
     const rowCount = await db.queryPromisified(`SELECT COUNT(*) as r FROM "User_PFP" WHERE id=$1"`, [req.user.id])
     let response;
     if (rowCount.rows[0].r > 0) {
-      response = (await db.queryPromisified(sql_update, [req.user.id, req.body.data]));
+      response = (await db.queryPromisified(sql_update, [req.user.id, req.body.data, req.body.ext]));
     } else {
-      response = (await db.queryPromisified(sql_insert, [req.user.id, req.body.data]));
+      response = (await db.queryPromisified(sql_insert, [req.user.id, req.body.data, req.body.ext]));
     }
     res.send(response.rows[0])
 

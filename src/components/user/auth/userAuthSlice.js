@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import apiFetch from '../../../utils/apiFetch';
-import { isTokenExpired } from '../../../utils/decodeJwtToken'
+import { isTokenExpired, idFromToken } from '../../../utils/decodeJwtToken'
 //import {fetchCartbyId} from  '../cart/cartSlice'
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
@@ -11,7 +11,6 @@ const initialState = {
     id: "",
     authToken: "",
     isLoggedIn: false,
-    customer_id: null,
     userAlreadyExists: null,
 }
 
@@ -125,6 +124,7 @@ export const userAuthSlice = createSlice({
                 // 3. Check if token is expired
                 if (!isTokenExpired(token)) {
                     //console.log('auth check logged in!')
+                    state.id = idFromToken(token)
                     state.authToken = token
                     state.isLoggedIn = true
 
@@ -181,9 +181,9 @@ export const userAuthSlice = createSlice({
                 )
                 .addCase(userAuthRegister.fulfilled,
                     (state, action) => {
-                        const { token } = action.payload
+                        const { token, id } = action.payload
                         localStorage.setItem(storageKey, token);
-
+                        state.id = id
                         state.authToken = token;
                         state.isLoggedIn = true
                         state.isLoading = false;
@@ -233,6 +233,7 @@ export const { userAuthCheck, userLogOut } = userAuthSlice.actions
 
 export const selectIsLoggedIn = (state) => state.user.authentication.isLoggedIn;
 export const selectAuthToken = (state) => state.user.authentication.authToken;
+export const selectUserID = (state) => state.user.authentication.id;
 export const selectUserAlreadyExists = (state) => state.user.authentication.userAlreadyExists;
 export const selectIsWaitingAuth = (state) => state.user.authentication.isLoading;
 export const selectHasErrorAuth = (state) => state.user.authentication.hasError;

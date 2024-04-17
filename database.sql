@@ -11,6 +11,7 @@ CREATE TABLE "Users" (
 
 CREATE TABLE "User_PFP" (
   "id" int PRIMARY KEY,
+  "ext" char(3) NOT NULL,
   "data" bytea
 );
 
