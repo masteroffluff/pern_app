@@ -4,6 +4,7 @@ const fs = require('fs');
 
 
 
+
 module.exports.funcuserpfp = function funcuserpfp(req, res) {
   res.send({
     message: 'This is the mockup controller for funcuserpfp'
@@ -11,42 +12,65 @@ module.exports.funcuserpfp = function funcuserpfp(req, res) {
 }
 
 module.exports.get_user_pfp = async function get_user_pfp(req, res) {
+  let id = req.query.id==='0'?req.user.id:req.query.id
+  console.log(`Looking for image id=${id} user id is ${req.user.id}`)
   try {
-    let reqID = req.query.id
-    res.removeHeader('Content-Type'); 
-    res.removeHeader('Content-Type-Options');
 
-    
-    res.setHeader('Content-Type', 'image/png');
-    
-     
-    if(!reqID){reqID=req.user.id}
-    const filename=req.user.id + ".png"
-    console.log(reqID)
-    const sql = `SELECT data FROM "User_PFP" WHERE id=$1;`
+    const callback = (imageData) => {
+      try {
 
-    const response = (await db.query(sql, [reqID]));
-    console.log(response.rowCount)
-    const defaultNo = Math.floor(Math.random()*3)
-    if (response.rowCount === 0||response.rows[0].data===null){
-      const defaultImage = `./media/defaultImage${defaultNo}.png` /* note: this should be relative to the servers working folder not the one this script resides in*/ 
-      const imageBuffer = fs.readFileSync(defaultImage);
-      
-      res.setHeader('Content-Disposition', `inline; filename=defaultImage${defaultNo}.png`);
+        if (!imageData) {
+          const err = new Error(`Image not found id=${id} image_type=${id}`)
+          err.status = 404
+          throw err
+        }
+        const { filename, data } = imageData;
 
-
-      console.log(imageBuffer)
-      return res.send({data:imageBuffer})
-    }else{
-      res.setHeader('Content-Disposition', `inline; filename=${filename}`);
-      return res.status(200).send(response.rows[0])
+        // Set appropriate response headers
+        res.setHeader('Content-Disposition', `inline; filename=${filename}`);
+        res.setHeader('Content-Type', 'image/png');
+        // Send the image data
+        console.log(data)
+        res.send(data);
+      } catch (error) {
+        throw(error)
+      }
     }
-
+    getImageById(id, callback);
   } catch (e) {
-    console.log('get_user_pfp error', e)
-    return res.status(400).send(e)
+    console.log(`error in get_images id=${id || 'unknown'}`)
+    res.status(500 || e.status).send('Internal Server Error' || e.message);
   }
 }
+
+
+async function getImageById(id, callback) {
+  const at = new db.atomicTrasaction()
+  try {
+    
+    const query = 'SELECT data FROM "User_PFP" WHERE id=$1;';
+    await at.begin()
+    const result = await at.query(query, [id]);
+
+    // Check if a matching image was found
+    if (result.rows.length === 0) {
+      callback(null)
+      return null; // No image found for the given ID
+    }
+
+    // Extract filename and image data from the result
+    //console.log(result.rows[0])
+    const { filename, data } = result.rows[0];
+
+    callback({ filename, data });
+  } catch (error) {
+    console.error('Error fetching image from the database:', error);
+    throw error; // Rethrow the error for the calling code to handle
+  }finally{
+    at.releaseClient()
+  }
+}
+
 
 module.exports.update_user_pfp = async function update_user_pfp(req, res) {
   try {

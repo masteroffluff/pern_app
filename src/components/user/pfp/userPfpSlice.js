@@ -3,10 +3,10 @@ import apiFetch from '../../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
 
-const initialState ={
-    data:'',
+const initialState = {
+    data: null,
     isLoading: false,
-    hasError: null,       
+    hasError: null,
 }
 
 const name = "pfp"
@@ -14,11 +14,10 @@ const name = "pfp"
 
 export const userPfpFetch = createAsyncThunk(
     'userPfpFetch',
-    async ({userId}, { rejectWithValue, getState }) => {
-
+    async (_, { rejectWithValue, getState }) => {
+        alert('userPfpFetch')
         const authToken = getState().user.authentication.authToken
-        if (!userId){userId=0}// 0 should return users profile if not there 
-        const endPoint = `${apiUrl}/user/pfp?id=${userId}`
+        const endPoint = `${apiUrl}/user/pfp`
         //console.log (endPoint)
         const options = {
             method: 'GET',
@@ -30,7 +29,35 @@ export const userPfpFetch = createAsyncThunk(
             },
 
         };
-        return await apiFetch(endPoint, options, rejectWithValue)
+        try {
+            const response = await fetch(endPoint, options);
+            if (response.ok) {
+
+                const data = await response.blob();
+                console.log(endPoint + ' success')
+                try {
+                    return JSON.parse(data)  // trap them tricksy double encoded replies
+                }
+                catch (error) {            // this simply passes throuch anything JSON.parse doesn't like
+                    return data
+                }
+            } else {
+                //console.log({response})
+                console.log(endPoint + ' failed')
+                try {
+                    const message = await response.json()
+                    return rejectWithValue({ status: response.status, message })
+                }
+                catch (e) {
+                    rejectWithValue(e)
+                }
+
+            }
+
+        } catch (e) {
+
+            return rejectWithValue(e)
+        }
     }
 )
 
@@ -62,7 +89,7 @@ export const userPfpSlice = createSlice({
     name,
     initialState,
     reducers: {
-        reset:()=>{
+        reset: () => {
             return initialState;
         }
     },
@@ -73,19 +100,19 @@ export const userPfpSlice = createSlice({
                     userPfpFetch.fulfilled,
                     userPfpUpdate.fulfilled
 
-                    ),
+                ),
                     (state, action) => {
                         //console.log(action.payload)
                         state.isLoading = false;
                         state.hasError = null;
-                        state.data=action.payload
+                        state.data = action.payload
                     })
-  
+
                 .addMatcher(
                     isAnyOf(
                         userPfpFetch.pending,
                         userPfpUpdate.pending,
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
                         state.hasError = null;
@@ -102,9 +129,9 @@ export const userPfpSlice = createSlice({
                         state.hasError = action.error;
                     }
                 )
-                // .addDefaultCase(
-                //     (_, action) => { console.log(action) }
-                // )
+            // .addDefaultCase(
+            //     (_, action) => { console.log(action) }
+            // )
         }
 })
 
@@ -115,5 +142,5 @@ export const isLoadingUserPfp = (state) => state.user.pfp.isLoading;
 export const hasErrorUserPfp = (state) => state.user.pfp.hasError;
 export const selectUserPfp = (state) => state.user.pfp.data;
 
-export const {reset} = userPfpSlice.actions
+export const { reset } = userPfpSlice.actions
 export default userPfpSlice.reducer

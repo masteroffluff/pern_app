@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedUserDetails, userDetailsFetch } from "./userDetailsSlice";
-import { LogoutButton } from '../../user'
+import { LogoutButton, AnyPFP } from '../../user'
 
 
 export default function UserDetailsMini() {
@@ -18,7 +18,7 @@ export default function UserDetailsMini() {
 
   return (
   <div>
-    <div><img src='./images/fluffbook_blankpfp.png' alt='profile'/></div>
+    <AnyPFP id='0' height='200' width='200' />
     <div>
       <h4>{display_name}</h4>
       <LogoutButton />
