@@ -52,7 +52,7 @@ nav a{
 
 .Appcontainer {
   padding:10px;
-  width: 100%;
+  width: 900px;
   background-color: var(--main-background-color);
 }
 
@@ -75,7 +75,7 @@ nav a{
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   background-color: var(--main-background-color-alt);
   padding: 10px;
   justify-content: space-between;
@@ -89,14 +89,12 @@ nav a{
   padding: 20px;
   text-align: center;
   height: 700px;
-  max-width: 600px;
+  /* width: 75%; */
   flex: 1
   
 }
 
 .content {
-
-
   height: 600px;
   overflow-y: auto;
   clear: both;
