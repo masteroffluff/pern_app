@@ -9,7 +9,7 @@ async function insertDefaultImage(id) {
 
     const imagePath = `./media/defaultImage${id % 3}.png`
     const imageBuffer = fs.readFileSync(imagePath);
-    const query = `INSERT INTO "User_PFP" (id, data,ext) VALUES ($1, $2, 'png')`;
+    const query = `INSERT INTO "User_PFP" (id, data, type) VALUES ($1, $2, 'image/png')`;
     const values = [id, imageBuffer];
 
     await db.query(query, values);
