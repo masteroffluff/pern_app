@@ -137,7 +137,10 @@ module.exports.update_user_pfp = async function update_user_pfp(req, res) {
         response = await at.query(`INSERT INTO "User_PFP" (id, data, type) VALUES ($1, $2, $3) RETURNING data, type`, [req.user.id, imageBlob, type]);
       }
       await at.commit();
-
+      const contentDisposition=`inline; filename=${file.originalname}`
+  
+      res.setHeader('Content-Disposition', contentDisposition);
+      res.setHeader('Content-Type', type);
       res.send(response.rows[0].data);
     });
   } catch (e) {
