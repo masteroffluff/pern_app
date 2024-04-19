@@ -35,7 +35,7 @@
 // get     /wall                       wallSlice       wallFetch        list of items on users wall in descending date order
 import userDetails, { userDetailsFetch, userDetailsUpdate } from '../components/user/details/userDetailsSlice.js'
 import userAuth, { userAuthCheckExists, userAuthLogin, userAuthRegister } from '../components/user/auth/userAuthSlice.js'
-import friends, { friendsFetch, friendsAdd, friendConfirm, friendsBlock, friendsUnfollow, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
+import friends, { friendsFetch, friendsAdd, friendUpdate, friendsPotential } from '../components/user/friends/userFriendsSlice.js'
 
 
 import calendar, { calendarFetch, calendarPost, calendarDelete, calendarPostAttendee, calendarDeleteAttendee, calendarUpdateAttendee } from '../components/calandar/calendarSlice.js'
@@ -518,135 +518,7 @@ describe('dispatch tests', () => {
       ///////////////////////////////////////////////////////////////////////
     });
 
-    describe('friendConfirm', () => {
-      it('should handle friendConfirm.pending', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-          potentials: []
-        }
-
-        const newState = friends(initialState, friendConfirm.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle friendConfirm.fulfilled', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-        }
-
-        const friendsData = [
-          { name: 'bob', status: 'friend' },
-          { name: 'charlie', status: 'unfollow' },
-          { name: 'dan', status: 'blocked' },
-        ]
-
-        const action = friendConfirm.fulfilled(friendsData);
-
-        const newState = friends(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        //console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(friendsData);
-        expect(newState.hasError).toBe(null);
-      });
-      /////////////////////////////////////////////////////////////////////////
-
-      it('should handle friendConfirm.rejected', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-          potentials: []
-        }
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = friendConfirm.rejected(null, null, errorMessage);
-
-        const newState = friends(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.list.length).toBe(0);
-        expect(newState.hasError).not.toStrictEqual(false);;
-      });
-
-    })
-    ///////////////////////////////////////////////////////////////////////
-    describe('friendsUnfollow', () => {
-      it('should handle friendsUnfollow.pending', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-          potentials: []
-        }
-
-        const newState = friends(initialState, friendsUnfollow.pending());
-
-        // Check state after dispatching the pending action
-        expect(newState.isLoading).toBe(true);
-        expect(newState.list.length).toBe(0);
-        expect(newState.hasError).toBe(null);
-      });
-      ///////////////////////////////////////////////////////////////////////
-      it('should handle friendsUnfollow.fulfilled', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-          potentials: []
-        }
-
-        const friendsData = [
-          { name: 'bob', status: 'friend' },
-          { name: 'charlie', status: 'unfollow' },
-          { name: 'dan', status: 'blocked' },
-        ]
-
-        const action = friendsUnfollow.fulfilled(friendsData);
-
-        const newState = friends(initialState, action);
-
-        // Check state after dispatching the fulfilled action
-        //console.log(newState)
-        expect(newState.isLoading).toBe(false);
-        expect(newState.list).toEqual(friendsData);
-        expect(newState.hasError).toBe(null);
-      });
-      /////////////////////////////////////////////////////////////////////////
-      it('should handle friendsUnfollow.rejected', () => {
-        const initialState = {
-          list: [],
-          isLoading: true,
-          hasError: null,
-          potentials: []
-        }
-
-        const errorMessage = 'Failed to fetch user details';
-
-        const action = friendsUnfollow.rejected(null, null, errorMessage);
-
-        const newState = friends(initialState, action);
-
-        // Check state after dispatching the rejected action
-        expect(newState.isLoading).toBe(false);
-        expect(newState.list.length).toBe(0);
-        expect(newState.hasError).not.toStrictEqual(false);;
-      });
-
-    });
-
-    describe('friendsBlock', () => {
+    describe('friendsUpdate', () => {
       it('should handle friendsBlock.pending', () => {
         const initialState = {
           list: [],
@@ -655,7 +527,7 @@ describe('dispatch tests', () => {
           potentials: []
         }
 
-        const newState = friends(initialState, friendsAdd.pending());
+        const newState = friends(initialState, friendUpdate.pending());
 
         // Check state after dispatching the pending action
         expect(newState.isLoading).toBe(true);
@@ -663,7 +535,7 @@ describe('dispatch tests', () => {
         expect(newState.hasError).toBe(null);
       });
       ///////////////////////////////////////////////////////////////////////
-      it('should handle friendsBlock.fulfilled', () => {
+      it('should handle friendsUpdate.fulfilled', () => {
         const initialState = {
           list: [],
           isLoading: true,
@@ -677,7 +549,7 @@ describe('dispatch tests', () => {
           { name: 'dan', status: 'blocked' },
         ]
 
-        const action = friendsBlock.fulfilled(friendsData);
+        const action = friendUpdate.fulfilled(friendsData);
 
         const newState = friends(initialState, action);
 
@@ -688,7 +560,7 @@ describe('dispatch tests', () => {
         expect(newState.hasError).toBe(null);
       });
       /////////////////////////////////////////////////////////////////////////
-      it('should handle friendsBlock.rejected', () => {
+      it('should handle friendsUpdate.rejected', () => {
         const initialState = {
           list: [],
           isLoading: true,
@@ -698,7 +570,7 @@ describe('dispatch tests', () => {
 
         const errorMessage = 'Failed to fetch user details';
 
-        const action = friendsBlock.rejected(null, null, errorMessage);
+        const action = friendUpdate.rejected(null, null, errorMessage);
 
         const newState = friends(initialState, action);
 
@@ -708,6 +580,196 @@ describe('dispatch tests', () => {
         expect(newState.hasError).not.toStrictEqual(false);;
       });
     });
+    // describe('friendConfirm', () => {
+    //   it('should handle friendConfirm.pending', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const newState = friends(initialState, friendConfirm.pending());
+
+    //     // Check state after dispatching the pending action
+    //     expect(newState.isLoading).toBe(true);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   ///////////////////////////////////////////////////////////////////////
+    //   it('should handle friendConfirm.fulfilled', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //     }
+
+    //     const friendsData = [
+    //       { name: 'bob', status: 'friend' },
+    //       { name: 'charlie', status: 'unfollow' },
+    //       { name: 'dan', status: 'blocked' },
+    //     ]
+
+    //     const action = friendConfirm.fulfilled(friendsData);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the fulfilled action
+    //     //console.log(newState)
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list).toEqual(friendsData);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   /////////////////////////////////////////////////////////////////////////
+
+    //   it('should handle friendConfirm.rejected', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const errorMessage = 'Failed to fetch user details';
+
+    //     const action = friendConfirm.rejected(null, null, errorMessage);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the rejected action
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).not.toStrictEqual(false);;
+    //   });
+
+    // })
+    // ///////////////////////////////////////////////////////////////////////
+    // describe('friendsUnfollow', () => {
+    //   it('should handle friendsUnfollow.pending', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const newState = friends(initialState, friendsUnfollow.pending());
+
+    //     // Check state after dispatching the pending action
+    //     expect(newState.isLoading).toBe(true);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   ///////////////////////////////////////////////////////////////////////
+    //   it('should handle friendsUnfollow.fulfilled', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const friendsData = [
+    //       { name: 'bob', status: 'friend' },
+    //       { name: 'charlie', status: 'unfollow' },
+    //       { name: 'dan', status: 'blocked' },
+    //     ]
+
+    //     const action = friendsUnfollow.fulfilled(friendsData);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the fulfilled action
+    //     //console.log(newState)
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list).toEqual(friendsData);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   /////////////////////////////////////////////////////////////////////////
+    //   it('should handle friendsUnfollow.rejected', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const errorMessage = 'Failed to fetch user details';
+
+    //     const action = friendsUnfollow.rejected(null, null, errorMessage);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the rejected action
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).not.toStrictEqual(false);;
+    //   });
+
+    // });
+
+    // describe('friendsBlock', () => {
+    //   it('should handle friendsBlock.pending', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const newState = friends(initialState, friendsAdd.pending());
+
+    //     // Check state after dispatching the pending action
+    //     expect(newState.isLoading).toBe(true);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   ///////////////////////////////////////////////////////////////////////
+    //   it('should handle friendsBlock.fulfilled', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const friendsData = [
+    //       { name: 'bob', status: 'friend' },
+    //       { name: 'charlie', status: 'unfollow' },
+    //       { name: 'dan', status: 'blocked' },
+    //     ]
+
+    //     const action = friendsBlock.fulfilled(friendsData);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the fulfilled action
+    //     //console.log(newState)
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list).toEqual(friendsData);
+    //     expect(newState.hasError).toBe(null);
+    //   });
+    //   /////////////////////////////////////////////////////////////////////////
+    //   it('should handle friendsBlock.rejected', () => {
+    //     const initialState = {
+    //       list: [],
+    //       isLoading: true,
+    //       hasError: null,
+    //       potentials: []
+    //     }
+
+    //     const errorMessage = 'Failed to fetch user details';
+
+    //     const action = friendsBlock.rejected(null, null, errorMessage);
+
+    //     const newState = friends(initialState, action);
+
+    //     // Check state after dispatching the rejected action
+    //     expect(newState.isLoading).toBe(false);
+    //     expect(newState.list.length).toBe(0);
+    //     expect(newState.hasError).not.toStrictEqual(false);;
+    //   });
+    // });
   });
 
 

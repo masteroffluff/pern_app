@@ -115,7 +115,7 @@ export const userAuthSlice = createSlice({
     name,
     initialState,
     reducers: {
-        userAuthCheck: (state) => {
+        userAuthCheck: () => {
             // 1. Retrieve the token from localStorage
             //console.log('auth check reducer')
             const token = localStorage.getItem(storageKey);
@@ -123,22 +123,26 @@ export const userAuthSlice = createSlice({
             if (token) {
                 // 3. Check if token is expired
                 if (!isTokenExpired(token)) {
-                    //console.log('auth check logged in!')
-                    state.id = idFromToken(token)
-                    state.authToken = token
-                    state.isLoggedIn = true
-
+                    console.log('auth check logged in!')
+                    console.log(idFromToken(token))
+                    // state.id = idFromToken(token)
+                    // state.authToken = token
+                    // state.isLoggedIn = true
+                    const tempState = {    
+                        id: idFromToken(token),
+                        authToken: token,
+                        isLoggedIn: true,
+                        userAlreadyExists: null,
+                    }
+                    return tempState
                 } else {
                     //console.log('auth check old token')
                     //console.log(token)
-                    state.authToken = ""
-                    state.isLoggedIn = false
-                    localStorage.removeItem(storageKey); // as well as not logging in remove the out of date token           
+                    return initialState
                 }
             } else {
                 //console.log('auth check, no token')
-                state.authToken = ""
-                state.isLoggedIn = false
+                return initialState
             }
         },
         userLogOut: (state) => {
@@ -156,9 +160,9 @@ export const userAuthSlice = createSlice({
                 // handle the general user calls 
                 .addCase(userAuthLogin.fulfilled,
                     (state, action) => {
-                        const { token } = action.payload
+                        const { token, id } = action.payload
                         localStorage.setItem(storageKey, token);
-
+                        state.id = id;
                         state.authToken = token;
                         state.isLoggedIn = true
                         state.isLoading = false;

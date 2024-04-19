@@ -15,7 +15,7 @@ const decodeJwtToken = (token) => {
 export const idFromToken = (token) =>{
   try {
     const decodedToken = decodeJwtToken(token); 
-    return decodedToken.sub
+    return decodedToken.payload.sub
   } catch (err) {
         ////console.log('token decoding error')
     //console.log(err)

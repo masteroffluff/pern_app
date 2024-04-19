@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectWall, wallFetch } from "../wallSlice";
 import DisplayItem from "../DisplayItem";
 import { useNavigate } from "react-router";
+import { itemsNoteFetch } from "../../items/itemSlice";
 
 export default function DisplayWall() {
     const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function DisplayWall() {
     
     useEffect(()=>{
         dispatch(wallFetch())
+        dispatch(itemsNoteFetch())
     }, [dispatch]);
 
     const newNote_click = (e) =>{

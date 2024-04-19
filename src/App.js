@@ -8,7 +8,7 @@ import {
 import './App.css';
 import AppLayout from './AppLayout';
 import {UserLogin, UserDisplay, AddFriend} from './components/user'
-import {NewNote, NewTodo} from './components/items'
+import {DeleteNote, NewNote, NewTodo, UpdateNote} from './components/items'
 import { NewAppointment, NewEvent, NewReminder } from "./components/calandar";
 import MainDisplay from "./components/mainPage/MainDisplay";
 
@@ -24,6 +24,8 @@ function App() {
             <Route path="newAppointment" element={<NewAppointment />}/>
             <Route path="newEvent" element={<NewEvent />}/>
             <Route path="newReminder" element={<NewReminder />}/>
+            <Route path="deletenote" element={<DeleteNote />} />
+            <Route path="updatenote" element={<UpdateNote />} />
           </Route>
           <Route path="/userdetails" element={<UserDisplay />}>
             <Route path="addfriend" element={<AddFriend />}/>

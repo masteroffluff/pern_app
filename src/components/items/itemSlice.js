@@ -63,7 +63,7 @@ export const itemsNoteAdd = createAsyncThunk(
 
 export const itemsNoteUpdate = createAsyncThunk(
     'itemsNoteUpdate',
-    async ({ id, title, notes }, { rejectWithValue, getState }) => {
+    async ({ id, title, notes, shared_to }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/items/note`
         //console.log (endPoint)
@@ -78,7 +78,8 @@ export const itemsNoteUpdate = createAsyncThunk(
             body: JSON.stringify({
                 id,
                 title,
-                notes
+                notes,
+                shared_to
             })
         };
         return await apiFetch(endPoint, options, rejectWithValue)

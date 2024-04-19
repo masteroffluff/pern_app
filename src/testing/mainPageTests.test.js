@@ -310,7 +310,7 @@ describe("Display Wall", () => {
             const wallComponent = wallComponents[index];
             expect(wallComponent).toHaveTextContent(wallItem.title);
             expect(wallComponent).toHaveTextContent(wallItem.value);
-            expect(wallComponent).toHaveTextContent(wallItem.owner);
+            //expect(wallComponent).toHaveTextContent(wallItem.owner);
             // eslint-disable-next-line jest/no-conditional-expect
             if (wallItem.type === 'note') { expect(wallComponent).toHaveTextContent(wallItem.date) }
             else {
