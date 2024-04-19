@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live,selectFriends_Sent, selectFriends_Unfollowed, friendsFetch} from './userFriendsSlice'
+import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Sent, selectFriends_Unfollowed, friendsFetch } from './userFriendsSlice'
 import { useNavigate } from "react-router";
 import { selectPopupState } from "../../mainPage/popupSlice";
+import Friend from './Friend'
 
-
-export default function UserFriends(){
+export default function UserFriends() {
     const popupState = useSelector(selectPopupState)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -15,9 +15,9 @@ export default function UserFriends(){
     const pending = useSelector(selectFriends_Pending)
     const sent = useSelector(selectFriends_Sent)
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(friendsFetch())
-    },[dispatch])
+    }, [dispatch])
 
     const addFriend = (e) => {
         e.preventDefault()
@@ -26,17 +26,19 @@ export default function UserFriends(){
 
     return (
         <div data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
-            <h3>Friends</h3>
-            <h4>Your Friends</h4>
-            {friends.length>0?<ul >{friends.map((e,i)=><li key={i} aria-label="friends">{e.display_name}</li>)}</ul>:<p>You have no freinds.</p>}
-            <h4>Pending Requests to be friends from other users</h4>
-            {pending.length>0?<ul >{pending.map((e,i)=><li key={i} aria-label="pending">{e.display_name}</li>)}</ul>:<p>There are no pending friend requests</p>}
-            <h4>Sent requests to be friends</h4>
-            {sent.length>0?<ul >{sent.map((e,i)=><li key={i} aria-label="sent">{e.display_name}</li>)}</ul>:<p>You have not got any unaccepted friend requests.</p>}
-            <h4>Unfollowed</h4>
-            {unfollowed.length>0?<ul >{unfollowed.map((e,i)=><li key={i} aria-label="unfollowed">{e.display_name}</li>)}</ul>:<p>You have no unfollowed freinds.</p>}
-            <h4>Blocked</h4>
-            {blocked.length>0?<ul >{blocked.map((e,i)=><li key={i} aria-label="blocked">{e.display_name}</li>)}</ul>:<p>You have no freinds blocked.</p>}
+            <div className="friend-list-container">
+                <h3>Friends</h3>
+                <h4>Your Friends</h4>
+                {friends.length > 0 ? <div className='friend-list' aria-label="friends">{friends.map((e, i) => <Friend key={i} person={e} type='friend' />)}</div> : <p>You currently have no freinds.</p>}
+                <h4>Pending Requests to be friends from other users</h4>
+                {pending.length > 0 ? <div className='friend-list' aria-label="pending">{pending.map((e, i) => <Friend key={i} person={e} type='pending' >{e.display_name}</Friend>)}</div> : <p>There are no pending friend requests</p>}
+                <h4>Sent requests to be friends</h4>
+                {sent.length > 0 ? <div className='friend-list' aria-label="sent">{sent.map((e, i) => <Friend key={i} person={e} type='sent' />)}</div> : <p>You have not got any unaccepted friend requests.</p>}
+                <h4>Unfollowed</h4>
+                {unfollowed.length > 0 ? <div className='friend-list' aria-label="unfollowed">{unfollowed.map((e, i) => <Friend key={i} person={e} type='unfollowed' />)}</div> : <p>You have no unfollowed freinds.</p>}
+                <h4>Blocked</h4>
+                {blocked.length > 0 ? <div className='friend-list' aria-label="blocked">{blocked.map((e, i) => <Friend key={i} person={e} type='blocked' />)}</div> : <p>You have no freinds blocked.</p>}
+            </div>
             <button onClick={addFriend} >Add Friend</button>
         </div>)
 }

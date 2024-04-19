@@ -4,11 +4,8 @@ import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
-import { friendsPotential, selectPotentials, isLoadingfriends, hasErrorfriends, friendsAdd } from "./userFriendsSlice";
+import { friendsPotential, selectPotentials, isLoadingfriends, friendsAdd } from "./userFriendsSlice";
 import AnyPFP from "../pfp/AnyPFP";
-
-
-
 
 
 export default function AddFriend() {
@@ -17,7 +14,7 @@ export default function AddFriend() {
 
     const potentialFriends = useSelector(selectPotentials)
     const isLoading = useSelector(isLoadingfriends)
-    const hasError = useSelector(hasErrorfriends)
+    //const hasError = useSelector(hasErrorfriends)
 
     const blank = { id: -1, display_name: '_' }
     //const [potentialFriends, setPotentialFriends] = useState([])

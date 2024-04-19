@@ -81,12 +81,78 @@ export const friendsAdd = createAsyncThunk(
 
 // // update  /friends/confirm            friendsSlice    friendConfirm    list of users friends and their state (friend, unfollowed, blocked)
 
-export const friendConfirm = createAsyncThunk(
-    'friendsUpdate',
-    async (_, { rejectWithValue, getState }) => {
+// export const friendConfirm = createAsyncThunk(
+//     'friendsUpdate',
+//     async (person, { rejectWithValue, getState }) => {
+//         const authToken = getState().user.authentication.authToken
+
+//         const endPoint = `${apiUrl}/friends/confirm`
+//         //console.log (endPoint)
+//         const options = {
+//             method: 'PUT',
+//             credentials: 'include',
+//             headers: {
+//                 "Content-Type": "application/json; charset=utf-8",
+//                 'Authorization': 'Bearer ' + authToken,
+
+//             },
+//             body:JSON.stringify(person)
+//         };
+//         return await apiFetch(endPoint, options, rejectWithValue)
+//     }
+// )
+
+// // // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users friends and their state (friend, unfollowed, blocked)
+
+// export const friendsUnfollow = createAsyncThunk(
+//     'friendsUpdate',
+//     async (person, { rejectWithValue, getState }) => {
+//         const authToken = getState().user.authentication.authToken
+
+//         const endPoint = `${apiUrl}/friends/unfollow`
+//         //console.log (endPoint)
+//         const options = {
+//             method: 'PUT',
+//             credentials: 'include',
+//             headers: {
+//                 "Content-Type": "application/json; charset=utf-8",
+//                 'Authorization': 'Bearer ' + authToken,
+
+//             },
+//             body:JSON.stringify(person)
+//         };
+//         return await apiFetch(endPoint, options, rejectWithValue)
+//     }
+// )
+
+// // // update  /friends/block              friendsSlice    friendsBlock     list of users friends and their state (friend, unfollowed, blocked)
+
+// export const friendsBlock = createAsyncThunk(
+//     'friendsBlock',
+//     async (person, { rejectWithValue, getState }) => {
+//         const authToken = getState().user.authentication.authToken
+
+//         const endPoint = `${apiUrl}/friends/block`
+//         //console.log (endPoint)
+//         const options = {
+//             method: 'PUT',
+//             credentials: 'include',
+//             headers: {
+//                 "Content-Type": "application/json; charset=utf-8",
+//                 'Authorization': 'Bearer ' + authToken,
+
+//             },
+//             body:JSON.stringify(person)
+//         };
+//         return await apiFetch(endPoint, options, rejectWithValue)
+//     }
+// )
+export const friendUpdate = createAsyncThunk(
+    'friendUpdate',
+    async ({person, command}, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
 
-        const endPoint = `${apiUrl}/friends/confirm`
+        const endPoint = `${apiUrl}/friends/${command}`
         //console.log (endPoint)
         const options = {
             method: 'PUT',
@@ -95,51 +161,8 @@ export const friendConfirm = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
-            }
-        };
-        return await apiFetch(endPoint, options, rejectWithValue)
-    }
-)
-
-// // update  /friends/unfollow           friendsSlice    friendsUnfollow  list of users friends and their state (friend, unfollowed, blocked)
-
-export const friendsUnfollow = createAsyncThunk(
-    'friendsUpdate',
-    async (_, { rejectWithValue, getState }) => {
-        const authToken = getState().user.authentication.authToken
-
-        const endPoint = `${apiUrl}/friends/unfollow`
-        //console.log (endPoint)
-        const options = {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                'Authorization': 'Bearer ' + authToken,
-
-            }
-        };
-        return await apiFetch(endPoint, options, rejectWithValue)
-    }
-)
-
-// // update  /friends/block              friendsSlice    friendsBlock     list of users friends and their state (friend, unfollowed, blocked)
-
-export const friendsBlock = createAsyncThunk(
-    'friendsUpdate',
-    async (_, { rejectWithValue, getState }) => {
-        const authToken = getState().user.authentication.authToken
-
-        const endPoint = `${apiUrl}/friends/block`
-        //console.log (endPoint)
-        const options = {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                'Authorization': 'Bearer ' + authToken,
-
-            }
+            },
+            body:JSON.stringify(person)
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -166,9 +189,10 @@ export const friendsSlice = createSlice({
                 .addMatcher(isAnyOf(
                     friendsFetch.fulfilled,
                     friendsAdd.fulfilled,
-                    friendConfirm.fulfilled,
-                    friendsUnfollow.fulfilled,
-                    friendsBlock.fulfilled,
+                    friendUpdate.fulfilled,
+                    // friendConfirm.fulfilled,
+                    // friendsUnfollow.fulfilled,
+                    // friendsBlock.fulfilled,
 
 
                 ),
@@ -183,9 +207,10 @@ export const friendsSlice = createSlice({
                     isAnyOf(
                         friendsFetch.pending,
                         friendsAdd.pending,
-                        friendConfirm.pending,
-                        friendsUnfollow.pending,
-                        friendsBlock.pending,
+                        // friendConfirm.pending,
+                        // friendsUnfollow.pending,
+                        // friendsBlock.pending,
+                        friendUpdate.pending,
                         friendsPotential.pending
                     ),
                     (state) => {
@@ -197,9 +222,10 @@ export const friendsSlice = createSlice({
                     isAnyOf(
                         friendsFetch.rejected,
                         friendsAdd.rejected,
-                        friendConfirm.rejected,
-                        friendsUnfollow.rejected,
-                        friendsBlock.rejected,
+                        // friendConfirm.rejected,
+                        // friendsUnfollow.rejected,
+                        // friendsBlock.rejected,
+                        friendUpdate.rejected,
                         friendsPotential.rejected
                     ),
                     (state, action) => {

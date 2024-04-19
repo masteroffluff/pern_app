@@ -122,7 +122,7 @@ textarea {
   display:block;
   margin: 0;
   padding:0;
-  border:1px solid green;
+  
   width: 100%;
   
   filter: none;
@@ -144,4 +144,28 @@ textarea {
 }
 .addButton div {
   display:inline;
+}
+.friend{
+  width:100%;
+}
+
+.friend-list-container{
+  border:1px solid var(--main-background-color-alt);
+  margin-bottom: 10px;
+}
+.friend-details{
+  display:flex;
+  justify-content: space-between;
+
+}
+
+.friend-details div{
+  display:inline-flex;
+  text-align: center;
+  width:100%;
+}
+
+.friend-button-bar{
+  display:flexbox;
+  justify-content: space-between;
 }

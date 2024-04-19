@@ -9,8 +9,8 @@ module.exports.funcfriendsaction = function funcfriendsaction(req, res) {
 
 module.exports.confirm_friend = async function confirm_friend(req, res) {
     const { action } = req.params
-    const { id: friendID, displayName: friendDisplayName } = req.body
-    const { id, displayName } = req.user
+    const { id: friendID, display_name: friendDisplayName } = req.body
+    const { id, display_name } = req.user
     const atomic = db.atomicTrasaction()
     
 
@@ -19,6 +19,7 @@ module.exports.confirm_friend = async function confirm_friend(req, res) {
         const qry  = await atomic.query(sql,arr)
         if (qry.rows.length===0){
             console.log(message)
+            console.log(arr)
             const err = new Error(message)
             throw err
         } 
@@ -42,10 +43,10 @@ module.exports.confirm_friend = async function confirm_friend(req, res) {
                     'confirmation failed'
                 )
                 await helperFunctions.postWallNotification(id, `You have confirmed ${friendDisplayName} as your friend.`, '', atomic)
-                await helperFunctions.postWallNotification(friendID, `${displayName} has confirmed they are your friend.`, '', atomic)
-                await atomic.query(
-                    `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2`,[id,friendID]
-                )
+                await helperFunctions.postWallNotification(friendID, `${display_name} has confirmed they are your friend.`, '', atomic)
+                // await atomic.query(
+                //     `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2`,[id,friendID]
+                // )
                 break;
             case 'unfollow':
                 await atomic_sql(
@@ -65,7 +66,7 @@ module.exports.confirm_friend = async function confirm_friend(req, res) {
                 break;
             case 'refollow':
                 await atomic_sql(
-                    `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2 AND status = 3 RETURNING *`,
+                    `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2 AND status = 4 RETURNING *`,
                     [id,friendID],
                     'refollow failed'
                 )
@@ -73,7 +74,7 @@ module.exports.confirm_friend = async function confirm_friend(req, res) {
                 break;
             case 'unblock':
                 await atomic_sql(
-                    `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2 AND status = 4 RETURNING *`,
+                    `UPDATE "Friends" SET status=2 WHERE user_id = $1 AND friend_id = $2 AND status = 3 RETURNING *`,
                     [id,friendID],
                     'unblock failed'
                 )
