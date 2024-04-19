@@ -12,7 +12,7 @@ module.exports.funcuserpfp = function funcuserpfp(req, res) {
 }
 
 module.exports.get_user_pfp = async function get_user_pfp(req, res) {
-  let id = typeof(req.query.id)!=='number' ? req.user.id : req.query.id
+  let id = req.query.id&&req.query.id.match(/[0-9]/g)?req.query.id: req.user.id
   console.log(`Looking for image id=${id} user id is ${req.user.id}`)
   try {
 

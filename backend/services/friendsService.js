@@ -22,15 +22,15 @@ module.exports.add_friend = async function add_friend(req, res) {
 
     try {
         console.log('add_friend')
-        const { id: friendID, displayName: friendDisplayName } = req.body
+        const { id: friendID, display_name: friendDisplayName } = req.body
         const { id, display_name } = req.user
         console.log('check friend exists')
         const friendExists = await helperFunctions.findIfUserNameExists(friendDisplayName)
-        if (!friendExists) { throw new Error({ message: `${friendDisplayName} does not exist` }) }
+        if (!friendExists) { throw new Error(`${friendDisplayName} does not exist`) }
         console.log('make sure relationship does not already exist')
         const friendshipExists = await existingFriend(id, friendID)
         console.log('...')
-        if (friendshipExists) { throw new Error({ message: `${friendDisplayName} is already a friend` }) }
+        if (friendshipExists) { throw new Error(`${friendDisplayName} is already a friend`) }
         //add to fiends lists and don't forget to add the other dude too
         console.log('adding friend and reverse relationship')
         await addfriends(id, friendID)

@@ -58,7 +58,7 @@ export const friendsPotential = createAsyncThunk(
 
 export const friendsAdd = createAsyncThunk(
     'friendsAdd',
-    async ({ friend_id }, { rejectWithValue, getState }) => {
+    async (person, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
 
         const endPoint = `${apiUrl}/friends`
@@ -70,7 +70,8 @@ export const friendsAdd = createAsyncThunk(
                 "Content-Type": "application/json; charset=utf-8",
                 'Authorization': 'Bearer ' + authToken,
 
-            }
+            },
+            body:JSON.stringify(person)
         };
         return await apiFetch(endPoint, options, rejectWithValue)
     }
@@ -151,7 +152,7 @@ export const friendsSlice = createSlice({
     reducers: {
         reset:()=>{
             return initialState;
-        }
+        },
     },
     extraReducers:
         (builder) => {

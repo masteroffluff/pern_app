@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selectFriends_Unfollowed, friendsFetch} from './userFriendsSlice'
+import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live,selectFriends_Sent, selectFriends_Unfollowed, friendsFetch} from './userFriendsSlice'
 import { useNavigate } from "react-router";
 import { selectPopupState } from "../../mainPage/popupSlice";
 
@@ -13,6 +13,7 @@ export default function UserFriends(){
     const blocked = useSelector(selectFriends_Blocked)
     const unfollowed = useSelector(selectFriends_Unfollowed)
     const pending = useSelector(selectFriends_Pending)
+    const sent = useSelector(selectFriends_Sent)
 
     useEffect(()=>{
         dispatch(friendsFetch())
@@ -28,8 +29,10 @@ export default function UserFriends(){
             <h3>Friends</h3>
             <h4>Your Friends</h4>
             {friends.length>0?<ul >{friends.map((e,i)=><li key={i} aria-label="friends">{e.display_name}</li>)}</ul>:<p>You have no freinds.</p>}
-            <h4>Pending Requests to be friends</h4>
+            <h4>Pending Requests to be friends from other users</h4>
             {pending.length>0?<ul >{pending.map((e,i)=><li key={i} aria-label="pending">{e.display_name}</li>)}</ul>:<p>There are no pending friend requests</p>}
+            <h4>Sent requests to be friends</h4>
+            {sent.length>0?<ul >{sent.map((e,i)=><li key={i} aria-label="sent">{e.display_name}</li>)}</ul>:<p>You have not got any unaccepted friend requests.</p>}
             <h4>Unfollowed</h4>
             {unfollowed.length>0?<ul >{unfollowed.map((e,i)=><li key={i} aria-label="unfollowed">{e.display_name}</li>)}</ul>:<p>You have no unfollowed freinds.</p>}
             <h4>Blocked</h4>

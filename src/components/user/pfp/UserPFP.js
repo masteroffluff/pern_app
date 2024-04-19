@@ -17,7 +17,7 @@ export default function UserPFP({ height, width }) {
     const [imageSrc, setImageSrc] = useState(default_image);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false)
-    const [imageType, setImageType] = useState('')
+
 
     useEffect(() => {
         async function fetchImage() {
@@ -118,9 +118,7 @@ export default function UserPFP({ height, width }) {
             };
         }
         if (file) {
-            setImageType(file.type)
             reader.readAsDataURL(file);
-
         }
 
     }
@@ -135,20 +133,17 @@ export default function UserPFP({ height, width }) {
     }
     if (hasError) {
         return (
-            <div data-testid="PFP">
-                <img aria-label='profile image' src={error_image} height={height} width={width} alt='profile picture(error)' />
-            </div>
-        );
-    }
+        <label data-testid="PFP" htmlFor="filepicker">
+            <img aria-label='profile image' src={error_image} height={height} width={width} alt='profile picture' />
+            <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
+        </label>
+    )}
 
-    return (<>
-
+    return (
         <label data-testid="PFP" htmlFor="filepicker">
             <img aria-label='profile image' src={imageSrc} height={height} width={width} alt='profile picture' />
             <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
         </label>
-
-    </>
     );
 }
 

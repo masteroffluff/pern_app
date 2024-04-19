@@ -58,21 +58,21 @@ export default function AnyPFP({ id, height, width }) {
 
     if (isLoading){
         return (
-            <div data-testid="PFP">
+            <div data-testid="PFP" style={{height:`${height}px`, width:`${width}px`}}>
                 <img aria-label='profile image' src={loading_image} height={height} width={width} alt='profile picture(loading)' />
             </div>
         );
     }
     if (hasError){
         return (
-            <div data-testid="PFP">
+            <div data-testid="PFP" style={{height:{height}, width:{width}}}>
                 <img aria-label='profile image' src={error_image} height={height} width={width} alt='profile picture(error)' />    
             </div>
         );
     }
 
     return (
-        <div data-testid="PFP">
+        <div data-testid="PFP" style={{height:{height}, width:{width}}}>
             <img aria-label='profile image' src={imageSrc} height={height} width={width} alt='profile picture' />
         </div>
     );

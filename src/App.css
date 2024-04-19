@@ -38,9 +38,11 @@ h4 {
   font-family: "Gabarito", sans-serif;
   margin: 0;
 }
-nav a{
-  padding:10px;
+
+nav a {
+  padding: 10px;
 }
+
 .popup {
   color: var(--popup-text-color);
   background-color: var(--popup-background-color);
@@ -51,7 +53,7 @@ nav a{
 }
 
 .Appcontainer {
-  padding:10px;
+  padding: 10px;
   width: 900px;
   background-color: var(--main-background-color);
 }
@@ -68,8 +70,9 @@ nav a{
   text-align: justify;
   list-style-type: none;
 }
+
 .wall h4 {
-  font-size:1.1em;
+  font-size: 1.1em;
 }
 
 
@@ -91,7 +94,6 @@ nav a{
   height: 700px;
   /* width: 75%; */
   flex: 1
-  
 }
 
 .content {
@@ -109,9 +111,37 @@ nav a{
 }
 
 .calendarItem {
-  border: 1px solid var(--main-background-color-alt)
+  border: 1px solid var(--main-background-color-alt);
 }
 
 textarea {
   resize: none;
+}
+
+.addButton {
+  display:block;
+  margin: 0;
+  padding:0;
+  border:1px solid green;
+  width: 100%;
+  
+  filter: none;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+
+}
+
+.addButton:hover {
+
+  filter: none;
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+
+}
+.addButton div {
+  display:inline;
 }

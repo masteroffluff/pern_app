@@ -2,9 +2,9 @@ const db = require('./db')
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-module.exports.generate_jwt_token= function generate_jwt_token (id){
-    if(typeof id !='number'){
-        throw new Error({message:"unexpected token type"})
+module.exports.generate_jwt_token = function generate_jwt_token(id) {
+    if (typeof id != 'number') {
+        throw new Error({ message: "unexpected token type" })
     }
     const token = jwt.sign({ sub: id }, process.env.SECRET_KEY, { expiresIn: '6h' });
     return token
@@ -16,7 +16,7 @@ module.exports.findIfUserNameExists = function findIfUserNameExists(display_name
             console.log('response', response.rows[0].a >= 1)
             return response.rows[0].a >= 1
         })
-        .catch((e)=>{
+        .catch((e) => {
             console.log(e)
             return false
         })
@@ -50,15 +50,15 @@ module.exports.findByUsername = async function findByUsername(display_name) {
     }
 }
 
-module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour){
-    try{
-    const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour )
+module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour) {
+    try {
+        const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour )
                 VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )
                 RETURNING id`
-    const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour])
-    const user = response.rows[0]
-    return user
-    }catch(e){
+        const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour])
+        const user = response.rows[0]
+        return user
+    } catch (e) {
         console.log(e)
         return null
     }
@@ -80,39 +80,39 @@ module.exports.findByThirdPartyId = async function findByThirdPartyId(id, third_
 
 }
 
-module.exports.postWallNotification = async function (id, title, notes, client = db){
+module.exports.postWallNotification = async function (id, title, notes, client = db) {
     const now = new Date()
     const sql =
-    `INSERT INTO "Items" ( type, owner_id, shared_to, title, notes, date )
+        `INSERT INTO "Items" ( type, owner_id, shared_to, title, notes, date )
     VALUES ( 6, $1, 1, $2, $3, $4 );`
     await client.query(sql, [id, title, notes, now.toISOString()])
 }
 
 module.exports.getfriends = async function getfriends(id) {
     const sql =
-    `SELECT "Users".id, "Users".display_name, "Friends_status".status
-    FROM "Users" 
-    JOIN "Friends" ON "Users".id = "Friends".friend_id
-    JOIN "Friends_status" ON "Friends".status = "Friends_status".id
-    WHERE user_id = $1`
-    const response = await db.queryPromisified(sql, [id],'getfriends')
-    return  response.rows
+        `SELECT "Users".id, "Users".display_name, "Friends_status".status
+        FROM "Users" 
+        JOIN "Friends" ON "Users".id = "Friends".friend_id
+        JOIN "Friends_status" ON "Friends".status = "Friends_status".id
+        WHERE user_id = $1`
+    const response = await db.queryPromisified(sql, [id], 'getfriends')
+    return response.rows
 
 }
 
-module.exports.deleteItem = async function deleteItem(req,res){
-       
-        const {item_id} = req.query
+module.exports.deleteItem = async function deleteItem(req, res) {
 
-        const sql =
+    const { item_id } = req.query
+
+    const sql =
         `DELETE FROM "Items" 
         WHERE id = $1
         RETURNING *`
-        const response = await db.queryPromisified(sql, [item_id])
-        if (response.rows.length===0){
-            const err = new Error({message:'Delete Items Failed'})
-            throw err
-        }
+    const response = await db.queryPromisified(sql, [item_id])
+    if (response.rows.length === 0) {
+        const err = new Error({ message: 'Delete Items Failed' })
+        throw err
+    }
 
 }
 
@@ -157,16 +157,16 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
     return mapArrayontoArray(todos, todoItems, 'items')
 }
 
-module.exports.getListofCalendarItems = async function getListofCalendarItems(req, date_from, date_to){
-    if(!date_from){
+module.exports.getListofCalendarItems = async function getListofCalendarItems(req, date_from, date_to) {
+    if (!date_from) {
         date_from = new Date('2000/01/01')
     }
-    if(!date_to){
+    if (!date_to) {
         date_to = new Date('9999/01/01')
     }
-    const {id} = req.user
+    const { id } = req.user
     const sqlCalandar =
-    `SELECT DISTINCT * FROM (
+        `SELECT DISTINCT * FROM (
         SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
             FROM "Items"
             JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
@@ -188,27 +188,27 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
         ) as t`
     const calendarResponse = await db.queryPromisified(sqlCalandar, [id, date_from, date_to])
     const calendarItems = calendarResponse.rows
-    const itemIds = calendarItems.map((e)=>e.id)
+    const itemIds = calendarItems.map((e) => e.id)
     const sqlAttendees =
-    `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
+        `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
     FROM "Attending"
     JOIN "Users" ON "Attending".person = "Users".id
     WHERE "Attending".item_id = ANY($1)`
     const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
     const attendees = attemdeesResponse.rows
     //console.log(attendees)
-    const calendarWithMappedAttendees =mapArrayontoArray(calendarItems, attendees, 'attendees')
+    const calendarWithMappedAttendees = mapArrayontoArray(calendarItems, attendees, 'attendees')
     console.log(calendarWithMappedAttendees)
     return calendarWithMappedAttendees
 }
 
-module.exports.insertDefaultImage = async function insertDefaultImage(id){
-    
-    const imagePath = `../media/defaultImage${id%3}.png`
+module.exports.insertDefaultImage = async function insertDefaultImage(id) {
+
+    const imagePath = `../media/defaultImage${id % 3}.png`
     const imageBuffer = fs.readFileSync(imagePath);
     const query = 'INSERT INTO User_PFP (id, data) VALUES ($1, $2)';
     const values = [id, imageBuffer];
-  
+
     await db.queryPromisified(query, values);
     console.log(`${imagePath}: Image inserted successfully. into as ${id}`);
 }
