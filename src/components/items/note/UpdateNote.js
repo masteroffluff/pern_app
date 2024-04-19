@@ -22,7 +22,7 @@ export default function UpdateNote() {
     const [title, setTitle] = useState()
     const [value, setValue] = useState()
     const [sharedTo, setSharedTo] = useState()
-    const [id, setId] = useState(searchParams.get('id'))
+    const [id] = useState(searchParams.get('id'))
 
 
 
@@ -87,7 +87,7 @@ export default function UpdateNote() {
                 <option value="2">My Friends</option>
             </select>
             <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
-            <button type='submit' disabled={(!title || !value)} data-testid="Done" aria-label="Done" id='updateNote' >Update</button>
+            <button type='submit' disabled={(!title || !value)} data-testid="Update" aria-label="Update" id='updateNote' >Update</button>
             <p>{isLoading ? 'Generating Note' : hasError ? <span className='errorMessage'>{hasError}</span> : <></>}</p>
 
         </form>

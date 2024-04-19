@@ -65,7 +65,7 @@ module.exports.update_note = async function update_note(req, res) {
 
 module.exports.delete_note = async function delete_note(req, res) {
     try {
-        await helperFunctions.deleteItem(req.res)
+        await helperFunctions.deleteItem(req,res)
         const { id } = req.user
         const list = await getListOfNotes(id)
         return res.send(list)

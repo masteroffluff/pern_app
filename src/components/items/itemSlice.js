@@ -91,7 +91,7 @@ export const itemsNoteDelete = createAsyncThunk(
     'itemsNoteDelete',
     async ({ id }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
-        const endPoint = `${apiUrl}/items/note`
+        const endPoint = `${apiUrl}/items/note?item_id=${id}`
         //console.log (endPoint)
         const options = {
             method: 'DELETE',

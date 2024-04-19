@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hasErrorItems, isLoadingItems, selectNotes, itemsNoteUpdate } from "../itemSlice";
+import { hasErrorItems, isLoadingItems, selectNotes, itemsNoteUpdate, itemsNoteDelete } from "../itemSlice";
 import { wallFetch } from "../../mainPage/wallSlice";
 
 import { setPopup } from "../../mainPage/popupSlice";
@@ -62,7 +62,7 @@ export default function DeleteNote() {
 
             return
         }
-        dispatch(itemsNoteUpdate({ title, notes: value, shared_to:sharedTo, id })).unwrap()
+        dispatch(itemsNoteDelete({ title, notes: value, shared_to:sharedTo, id })).unwrap()
         .then(()=>dispatch(wallFetch()))
         //dispatch(wallFetch()).unwrap()
         navigate('/main')
@@ -73,21 +73,13 @@ export default function DeleteNote() {
     }
 
     return <div data-testid="newNote" className='popup'>
-        <h3>Note</h3>
+        <h3>Really Delete Note?</h3>
         <form onSubmit={submitNote} >
-            <label htmlFor="title">Title</label><br />
-            <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
-            <label htmlFor="value">Notes</label><br />
-            <textarea rows="4" cols="50" data-testid="notes" id='value' onChange={notesUpdate} value={value} /><br />
+            <h4>"{title}"</h4>
             <br />
-            <label htmlFor="shareButton">Share</label><br />
-            <select data-testid="shareButton" value="sharedTo" id='shareButton' onChange={sharedToChange}>
-                <option value="1">Myself</option>
-                <option value="2">My Friends</option>
-            </select>
-            <button type='cancel' data-testid="cancelButton" id='cancel' value='cancel' onClick={cancelNote}>Cancel</button>
-            <button type='submit' disabled={(!title || !value)} data-testid="Done" aria-label="Done" id='updateNote' >Update</button>
+            <button type='no' data-testid="cancelButton" id='no' value='no' onClick={cancelNote}>No</button>
+            <button type='submit' disabled={(!title || !value)} data-testid="yes" aria-label="yes" id='updateNote' >Yes</button>
             <p>{isLoading ? 'Generating Note' : hasError ? <span className='errorMessage'>{hasError}</span> : <></>}</p>
 
         </form>
