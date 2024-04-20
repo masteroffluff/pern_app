@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf, createSelector } from '@reduxjs/toolkit';
 import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
@@ -253,6 +253,8 @@ export const calendarSlice = createSlice({
 export const isLoadingCalendar = (state) => state.calendar.isLoading;
 export const hasErrorCalendar = (state) => state.calendar.hasError;
 export const selectCalendar = (state) => state.calendar.calendarItems;
+
+
 
 export const {reset} = calendarSlice.actions
 export default calendarSlice.reducer
