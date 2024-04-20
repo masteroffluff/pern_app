@@ -134,7 +134,7 @@ export default function DisplayCalendar() {
                         return (
                             <tr key={i}>
                                 <td>
-                                    <h4>{dt}</h4>
+                                    <h5>{dt}</h5>
                                 </td>
                                 {items.filter(item => item.show).map((item, ii) => (
                                     <td className='calendarItem' rowSpan={item.days} key={ii}><DisplayItem data={item} /></td>

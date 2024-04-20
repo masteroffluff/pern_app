@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 // import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
 import { Provider } from 'react-redux';
-import { Note, NewNote, Todo, NewTodo } from '../components/items'
-import { Appointment, NewAppointment, Event, NewEvent, Reminder } from '../components/calandar';
-import { AddFriend,UserDetails } from '../components/user';
+import { Note, NewNote, Todo, NewTodo, DeleteNote, UpdateNote } from '../components/items'
+import { Appointment, NewAppointment, Event, NewEvent, Reminder, DeleteCalendarItem } from '../components/calandar';
+import { AddFriend, UserDetails } from '../components/user';
 import store from '../store';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Routes, Route, Outlet } from 'react-router-dom';
 import moment from 'moment';
 
 
@@ -261,7 +261,7 @@ describe('component Tests', () => {
     })
 
     const title = "foo", value = "bar", date_from = date, date_to = date, place = 'baz'
-    const dateMoment= moment(date)
+    const dateMoment = moment(date)
 
     // Note
     describe('Note', () => {
@@ -295,7 +295,7 @@ describe('component Tests', () => {
 
         it("renders Todo Props properly", () => {
             render(<BrowserRouter>
-            
+
                 <Provider store={store}><Todo title={title} notes={value} items={items} /></Provider>
             </BrowserRouter>)
             //title
@@ -387,11 +387,11 @@ describe('component Tests', () => {
             cleanup();
         })
         // Render the parent component and store its container
-        
+
         it('has enter friend text box"', () => {
 
             //render(<NewNote notes={notes} title={title} date={date} />);
-            const testElement = screen.getByLabelText('Select Friend',  {exact:false});
+            const testElement = screen.getByLabelText('Select Friend', { exact: false });
             expect(testElement).toBeInTheDocument();
         });
         cleanup();
@@ -407,20 +407,74 @@ describe('component Tests', () => {
             cleanup();
         })
         // Render the parent component and store its container
-        
+
         it('has element for display name, email, phone numbers, birthday and colour"', () => {
 
             //render(<NewNote notes={notes} title={title} date={date} />);
-            const displayNameElement = screen.getByLabelText('Display Name',  {exact:false});
+            const displayNameElement = screen.getByLabelText('Display Name', { exact: false });
             expect(displayNameElement).toBeInTheDocument();
-            const emailElement = screen.getByLabelText('Email',  {exact:false});
+            const emailElement = screen.getByLabelText('Email', { exact: false });
             expect(emailElement).toBeInTheDocument();
-            const phoneNumberElement = screen.getByLabelText('Telephone Number',  {exact:false});
+            const phoneNumberElement = screen.getByLabelText('Telephone Number', { exact: false });
             expect(phoneNumberElement).toBeInTheDocument();
-            const birthdayElement = screen.getByLabelText('Birthday',  {exact:false});
+            const birthdayElement = screen.getByLabelText('Birthday', { exact: false });
             expect(birthdayElement).toBeInTheDocument();
-            const colourElement = screen.getByLabelText('Colour Scheme',  {exact:false});
+            const colourElement = screen.getByLabelText('Colour Scheme', { exact: false });
             expect(colourElement).toBeInTheDocument();
+        });
+        cleanup();
+    })
+    describe('deleteItem', () => {
+        beforeEach(() => {
+            // eslint-disable-next-line testing-library/no-render-in-setup
+            render(
+                <Provider store={store}>
+                    <MemoryRouter initialEntries={[`/main/deletenote?id=1`]}>
+                        <Routes>
+                            <Route path="/main" element={<><Outlet /></>}>
+                                <Route path="deletenote" element={<DeleteNote />} />
+                                <Route path="updatenote" element={<UpdateNote />} />
+                                <Route path="deletecalendar" element={<DeleteCalendarItem />} />
+                            </Route>
+                        </Routes>
+                    </MemoryRouter>
+                </Provider>);
+        })
+        afterEach(() => {
+            cleanup();
+        })
+        it('has yes button"', () => {
+
+            //render(<NewNote notes={notes} title={title} date={date} />);
+            const testElement = screen.getByTestId('yes');
+            expect(testElement).toBeInTheDocument();
+        });
+        cleanup();
+    })
+    describe('delete Calendar Item', () => {
+        beforeEach(() => {
+            // eslint-disable-next-line testing-library/no-render-in-setup
+            render(
+                <Provider store={store}>
+                    <MemoryRouter initialEntries={[`/main/deletecalendar?id=1`]}>
+                        <Routes>
+                            <Route path="/main" element={<><Outlet /></>}>
+                                <Route path="deletenote" element={<DeleteNote />} />
+                                <Route path="updatenote" element={<UpdateNote />} />
+                                <Route path="deletecalendar" element={<DeleteCalendarItem />} />
+                            </Route>
+                        </Routes>
+                    </MemoryRouter>
+                </Provider>);
+        })
+        afterEach(() => {
+            cleanup();
+        })
+        it('has yes button"', () => {
+
+            //render(<NewNote notes={notes} title={title} date={date} />);
+            const testElement = screen.getByTestId('yes');
+            expect(testElement).toBeInTheDocument();
         });
         cleanup();
     })

@@ -4,6 +4,9 @@ import moment from 'moment';
 export default function Event({title, value, date_to, date_from, place}){
     const dateFrom = moment(date_from)
     const dateTo= moment(date_to)
+    // TODO: add cancel
+    // TODO: add/remove myself to attendees
+    // TODO: upadte events
     return <div data-testid="event">
         <h4 aria-label="Title">{title}</h4>
         <p aria-label="Description">{value}</p>

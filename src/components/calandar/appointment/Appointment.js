@@ -4,6 +4,9 @@ import moment from "moment";
 export default function Appointment({title, value, date_to, date_from , place, owner}){
     const dateFrom = moment(date_from)
     const dateTo= moment(date_to)
+    // TODO: add confirm/deny
+    // TODO: update details
+    
     return <div data-testid="appointment">
         <h4 aria-label="Title">{title}</h4>
         <p aria-label="Description">{value}</p>

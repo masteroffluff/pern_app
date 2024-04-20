@@ -167,7 +167,7 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     const { id } = req.user
     const sqlCalandar =
         `SELECT DISTINCT * FROM (
-        SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
+        SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
             FROM "Items"
             JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
             JOIN "Item_type" ON "Items".type = "Item_type".id
@@ -175,8 +175,8 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
             WHERE "Items".type IN (3,4,5) AND 
             ("Items".owner_id = $1 ) AND
             ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-          UNION ALL
-        SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Users".display_name,  "Calendar_Details".*
+        UNION ALL
+        SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
             FROM "Items"
             JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
             JOIN "Item_type" ON "Items".type = "Item_type".id

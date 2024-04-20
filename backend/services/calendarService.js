@@ -112,7 +112,6 @@ module.exports.delete_calendar = async function delete_calendar(req, res) {
         await at.query(`
         DELETE FROM "Items" 
         WHERE id = $1`,[item_id])
-      
         
         await at.commit()
         res.send(await helperFunctions.getListofCalendarItems(req));
