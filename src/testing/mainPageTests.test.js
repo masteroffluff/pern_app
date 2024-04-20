@@ -14,13 +14,13 @@ import dummyStore, { date, time1, time2, time3 } from './dummyData.js'
 import { BrowserRouter } from 'react-router-dom';
 
 // appoinment
-jest.mock('../components/calandar/appointment/Appointment', () => ({ title, value, date_from, date_to, owner }) =>
+jest.mock('../components/calandar/appointment/Appointment', () => ({item:{ title, value, date_from, date_to, owner }}) =>
     <div data-testid="mocked-appointment">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
 // event
-jest.mock('../components/calandar/event/Event', () => ({ title, value, date_from, date_to, owner }) =>
+jest.mock('../components/calandar/event/Event', () => ({item:{ title, value, date_from, date_to, owner }}) =>
     <div data-testid="mocked-event">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
 // reminder
-jest.mock('../components/calandar/reminder/Reminder', () => ({ title, value, date_from, date_to, owner }) =>
+jest.mock('../components/calandar/reminder/Reminder', () => ({item:{ title, value, date_from, date_to, owner }}) =>
     <div data-testid="mocked-reminder">{value}, {title}, {date_from}, {date_to}, {owner} </div>);
 // todo
 jest.mock('../components/items/todo/Todo', () => ({ title, value, items, owner }) => (

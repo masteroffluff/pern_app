@@ -7,17 +7,17 @@ import { selectUserID } from "../user/auth/userAuthSlice";
 
 
 export default function DisplayItem({data}){
-    const {id, type, title, value, owner_id:owner, date_to, date_from, date}=data
+    const {id, type, title, value, owner_id:owner, date}=data
     const userID = useSelector(selectUserID)
     const editable = owner == userID
     //console.log(owner +"+"+ userID)
     switch(type){
         case 'appointment':
-            return <Appointment editable={editable} id={id} title={title} value={value} date_from={date_from} date_to={date_to} owner={owner} />
+            return <Appointment editable={editable} item={data}/>
         case 'reminder':
-            return <Reminder editable={editable} id={id} title={title} value={value} date_from={date_from} date_to={date_to} owner={owner} />
+            return <Reminder editable={editable} item={data} />
         case 'event':
-            return <Event editable={editable} id={id} title={title} value={value} date_from={date_from} date_to={date_to}  owner={owner} />
+            return <Event editable={editable} item={data} />
         case 'note':
         case 'notification':
             return <Note type={type} editable={editable} id={id} title={title} value={value} date={date} owner={owner} />

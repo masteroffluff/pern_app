@@ -49,7 +49,7 @@ nav a {
   background-color: var(--popup-background-color);
 }
 
-.errorMessage {
+.errorMessage, .error {
   color: red;
 }
 
@@ -93,10 +93,14 @@ nav a {
   padding: 20px;
   text-align: center;
   height: 700px;
-  /* width: 75%; */
-  flex: 1
+  overflow: hidden;
+  flex: 1;
 }
-
+.calendar{
+  overflow-x:scroll;
+  
+  
+}
 .content {
   height: 600px;
   overflow-y: auto;
@@ -109,7 +113,9 @@ nav a {
 } */
 .calendar tr {
   border-bottom: 1px solid var(--main-text-color);
+  
 }
+
 
 .calendarItem {
   border: 1px solid var(--main-background-color-alt);

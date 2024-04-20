@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isAnyOf, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import apiFetch from '../../utils/apiFetch';
 
 const apiUrl = process.env.REACT_APP_API_URL// actual api path is stored in .env.client
@@ -9,7 +9,7 @@ const initialState = {
     calendarItems: [],
     isLoading: false,
     hasError: null,
-  };
+};
 
 
 
@@ -22,8 +22,8 @@ export const calendarFetch = createAsyncThunk(
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/calendar`
         //                // .addDefaultCase(
-                //     (_, action) => { console.log(action) }
-                // ) (endPoint)
+        //     (_, action) => { console.log(action) }
+        // ) (endPoint)
         const options = {
             method: 'GET',
             credentials: 'include',
@@ -43,8 +43,8 @@ export const calendarFetch = createAsyncThunk(
 
 export const calendarPost = createAsyncThunk(
     'calendarPost',
-    async ({ title,type, notes, place, date_from, date_to, attendees, shared_to}, { rejectWithValue, getState }) => {
-        
+    async ({ title, type, notes, place, date_from, date_to, attendees, shared_to }, { rejectWithValue, getState }) => {
+
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
         const authToken = getState().user.authentication.authToken
@@ -56,7 +56,7 @@ export const calendarPost = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 type,
                 title,
                 notes,
@@ -74,7 +74,7 @@ export const calendarPost = createAsyncThunk(
 
 export const calendarUpdate = createAsyncThunk(
     'calendarUpdate',
-    async ({ item_id, title,type, notes, place, date_from, date_to, attendees, shared_to}, { rejectWithValue, getState }) => {
+    async ({ item_id, title, type, notes, place, date_from, date_to, attendees, shared_to }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar`
         //console.log (endPoint)
@@ -87,7 +87,7 @@ export const calendarUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 type,
                 title,
                 notes,
@@ -112,7 +112,7 @@ export const calendarDelete = createAsyncThunk(
     async ({ item_id }, { rejectWithValue, getState }) => {
         const authToken = getState().user.authentication.authToken
         const endPoint = `${apiUrl}/calendar?item_id=${item_id}`
-    
+
         const options = {
             method: 'DELETE',
             credentials: 'include',
@@ -128,7 +128,7 @@ export const calendarDelete = createAsyncThunk(
 
 export const calendarPostAttendee = createAsyncThunk(
     'calendarPostAttendees',
-    async ({ item_id, attendee}, { rejectWithValue, getState }) => {
+    async ({ item_id, attendee }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar/attendees?item_id=${item_id}&attendee=${attendee}s`
         //console.log (endPoint)
@@ -169,7 +169,7 @@ export const calendarDeleteAttendee = createAsyncThunk(
 
 export const calendarUpdateAttendee = createAsyncThunk(
     'calendarUpdateAttendee',
-    async ({ item_id, attendees}, { rejectWithValue, getState }) => {
+    async ({ item_id, attendees }, { rejectWithValue, getState }) => {
 
         const endPoint = `${apiUrl}/calendar/attendees`
         //console.log (endPoint)
@@ -182,7 +182,7 @@ export const calendarUpdateAttendee = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 item_id,
                 attendees
             })
@@ -195,7 +195,7 @@ export const calendarSlice = createSlice({
     name,
     initialState,
     reducers: {
-        reset:()=>{
+        reset: () => {
             return initialState;
         }
 
@@ -205,8 +205,8 @@ export const calendarSlice = createSlice({
             builder
                 .addMatcher(
                     isAnyOf(
-                        calendarFetch.fulfilled,   
-                        calendarPost.fulfilled,  
+                        calendarFetch.fulfilled,
+                        calendarPost.fulfilled,
                         calendarDelete.fulfilled,
                         calendarPostAttendee.fulfilled,
                         calendarDeleteAttendee.fulfilled,
@@ -217,16 +217,16 @@ export const calendarSlice = createSlice({
                         state.calendarItems = action.payload
                         state.isLoading = false;
                         state.hasError = null;
-                    }) 
+                    })
                 .addMatcher(
                     isAnyOf(
-                        calendarFetch.pending,   
-                        calendarPost.pending,  
+                        calendarFetch.pending,
+                        calendarPost.pending,
                         calendarDelete.pending,
                         calendarPostAttendee.pending,
                         calendarDeleteAttendee.pending,
                         calendarUpdateAttendee.pending
-                        ),
+                    ),
                     (state) => {
                         state.isLoading = true;
                         state.hasError = null;
@@ -234,13 +234,13 @@ export const calendarSlice = createSlice({
                 )
                 .addMatcher(
                     isAnyOf(
-                        calendarFetch.rejected,   
-                        calendarPost.rejected,  
+                        calendarFetch.rejected,
+                        calendarPost.rejected,
                         calendarDelete.rejected,
                         calendarPostAttendee.rejected,
                         calendarDeleteAttendee.rejected,
                         calendarUpdateAttendee.rejected
-                        ),
+                    ),
                     (state, action) => {
                         //console.log(action)
                         state.isLoading = false;
@@ -256,5 +256,5 @@ export const selectCalendar = (state) => state.calendar.calendarItems;
 
 
 
-export const {reset} = calendarSlice.actions
+export const { reset } = calendarSlice.actions
 export default calendarSlice.reducer

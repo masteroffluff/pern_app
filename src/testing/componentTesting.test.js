@@ -319,8 +319,9 @@ describe('component Tests', () => {
         // requires props title, value, date_from, date_to, place
 
         it("renders Appointment Props properly", () => {
+            const item = {title,value,date_to, date_from,place,  attendees:[3,2,4]}
             render(<BrowserRouter>
-                <Provider store={store}><Appointment title={title} value={value} date_from={date_from} date_to={date_to} place={place} /></Provider>
+                <Provider store={store}><Appointment editable={false} item={item} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
@@ -340,8 +341,9 @@ describe('component Tests', () => {
         // requires props title, value, date_from, date_to, place
 
         it("renders Event Props properly", () => {
+            const item = {title,value,date_to, date_from,place,  attendees:[3,2,4]}
             render(<BrowserRouter>
-                <Provider store={store}><Event title={title} value={value} date_to={date_to} date_from={date_from} place={place} /></Provider>
+                <Provider store={store}><Event editable={false} item={item}  /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);
@@ -362,8 +364,9 @@ describe('component Tests', () => {
 
 
         it("renders Reminder props properly", () => {
+            const item = {title,value,date_to, date_from, attendees:[3,2,4]}
             render(<BrowserRouter>
-                <Provider store={store}><Reminder title={title} value={value} date_to={date_to} date_from={date_from} /></Provider>
+                <Provider store={store}><Reminder editable={false} item={item} /></Provider>
             </BrowserRouter>)
             //title
             expect(screen.getByLabelText('Title')).toHaveTextContent(title);

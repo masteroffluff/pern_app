@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { calendarDeleteAttendee } from "./calendarSlice";
 import { selectUserID } from "../user/auth/userAuthSlice";
 
-export default function ButtonBlock({ item }) {
+export default function CalendarItemButtonBar({ editable, item }) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -13,15 +13,11 @@ export default function ButtonBlock({ item }) {
 
     const { item_id, owner_id, type, attendees } = item
 
-    const [owned, setOwned] = useState()
     const [iAmAttending, setIamAttending] = useState()
-
-
 
 
     useEffect(() => {
         // eslint-disable-next-line eqeqeq
-        setOwned(userId == owner_id)
         setIamAttending(attendees.includes(userId))
     }, [userId, owner_id, attendees])
 
@@ -48,7 +44,7 @@ export default function ButtonBlock({ item }) {
     switch (type) {
         case 'appointment':
         case 'event':
-            if (owned) {
+            if (editable) {
                 return (
                     <div>
                         <button onClick={deleteClick}>Delete</button>
@@ -71,7 +67,7 @@ export default function ButtonBlock({ item }) {
         case 'reminder':
             return (
                 <div>
-                    <button onClick={deleteClick}>Delete</button>
+                    <button onClick={deleteClick}>Dismiss</button>
                     <button onClick={editClick}>Edit</button>
                 </div>
             )
