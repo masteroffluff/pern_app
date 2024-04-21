@@ -80,7 +80,7 @@ export const calendarUpdate = createAsyncThunk(
         //console.log (endPoint)
         const authToken = getState().user.authentication.authToken
         const options = {
-            method: 'POST',
+            method: 'PUT',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -208,6 +208,7 @@ export const calendarSlice = createSlice({
                         calendarFetch.fulfilled,
                         calendarPost.fulfilled,
                         calendarDelete.fulfilled,
+                        calendarUpdate.fulfilled,
                         calendarPostAttendee.fulfilled,
                         calendarDeleteAttendee.fulfilled,
                         calendarUpdateAttendee.fulfilled
@@ -223,6 +224,7 @@ export const calendarSlice = createSlice({
                         calendarFetch.pending,
                         calendarPost.pending,
                         calendarDelete.pending,
+                        calendarUpdate.pending,
                         calendarPostAttendee.pending,
                         calendarDeleteAttendee.pending,
                         calendarUpdateAttendee.pending
@@ -237,6 +239,7 @@ export const calendarSlice = createSlice({
                         calendarFetch.rejected,
                         calendarPost.rejected,
                         calendarDelete.rejected,
+                        calendarUpdate.rejected,
                         calendarPostAttendee.rejected,
                         calendarDeleteAttendee.rejected,
                         calendarUpdateAttendee.rejected

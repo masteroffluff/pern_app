@@ -63,8 +63,8 @@ export default function UpdateReminder({calendarItem}) {
         navigate('/')
     }
 
-    return <div data-testid="newReminder" className='popup'>
-        <h3>Add Reminder</h3>
+    return <div data-testid="updateReminder" className='popup'>
+        <h3>Edit Reminder</h3>
         <form onSubmit={submitReminder}>
             <label htmlFor="title">Title</label><br />
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />

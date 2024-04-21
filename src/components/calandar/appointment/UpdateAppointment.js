@@ -22,7 +22,7 @@ export default function UpdateAppointment({calendarItem}) {
     const {item_id} = calendarItem
     
     const [attendee, setAttendee] = useState(false)
-    const [attendees_map, setAttendees] = useState(null)
+    const [attendees_map, setAttendees] = useState(new Map())
 
     const friendsMap = useSelector(selectFriends_LiveMap)
 
