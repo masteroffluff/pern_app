@@ -1,39 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
+import { calendarUpdate, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
+
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
+
 import { selectFriends_LiveMap, friendsFetch } from "../../user/friends/userFriendsSlice";
 
 
-export default function NewAppointment() {
+export default function UpdateAppointment({calendarItem}) {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
 
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
     const [place, setPlace] = useState('')
     const [date_from, setDateFrom] = useState('')
     const [date_to, setDateTo] = useState('')
+    const {item_id} = calendarItem
+    
     const [attendee, setAttendee] = useState(false)
-    const [attendees, setAttendees] = useState(new Map())
+    const [attendees_map, setAttendees] = useState(null)
 
     const friendsMap = useSelector(selectFriends_LiveMap)
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
     const hasError = useSelector(hasErrorCalendar)
     const isLoading = useSelector(isLoadingCalendar)
+    
+
 
     useEffect(() => {
         dispatch(setPopup(true))
         dispatch(friendsFetch())
+        
+        
+        const { title,notes,attendees:attendee_list,date_from, date_to, place} = calendarItem
+
+        setTitle(title)
+        setNotes(notes)
+        setDateFrom(date_from)
+        setDateTo(date_to)
+        setPlace(place)
+        const tempMap = new Map()
+        attendee_list.forEach(({person,display_name})=>{tempMap.set(person,display_name)})
+        setAttendees(tempMap)
         return () => dispatch(setPopup(false))
-    }, [dispatch])
+    }, [calendarItem, dispatch])
+
+    useEffect(()=>{
+        
+    })
 
     const submitAppointment = (e) => {
         e.preventDefault();
-        console.log(Array.from(attendees.keys()))
-        dispatch(calendarPost({ title, type: 'appointment', notes, place, date_from, date_to, attendees:Array.from(attendees.keys()), shared_to: 1 })).unwrap()
+        dispatch(calendarUpdate({ item_id, title, type: 'appointment', notes, place, date_from, date_to, attendees:Array.from(attendees_map.keys), shared_to: 1 })).unwrap()
         navigate('/')
     }
 
@@ -52,23 +74,17 @@ export default function NewAppointment() {
     const date_fromUpdate = (e) => {
         e.preventDefault();
         setDateFrom(e.target.value)
-        if (!date_to||date_from > date_to){
-            setDateTo(e.target.value) 
-        }
     }
     const date_toUpdate = (e) => {
         e.preventDefault();
         setDateTo(e.target.value)
-        if (!date_from||date_from > date_to){
-            setDateFrom(e.target.value) 
-        }
     }
     const attendeesClick = (e) => {
         e.preventDefault()
-        //console.log(attendee,friendsMap, friendsMap.get(attendee))
+        console.log(attendee,friendsMap, friendsMap.get(attendee))
 
         if (attendee) {
-            const newAttendees = new Map(attendees)
+            const newAttendees = new Map(attendees_map)
             newAttendees.set(attendee, friendsMap.get(Number(attendee)))
             setAttendees(newAttendees)
             setAttendee(false)
@@ -113,7 +129,7 @@ export default function NewAppointment() {
             <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesClick}>Invite Attendee</button>
             <br />
             <label>Invited:</label>
-            <p>{Array.from(attendees.values()).join(', ')}</p>
+            <p>{Array.from(attendees_map.values()).join(', ')}</p>
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
             <button type='submit' data-testid='Done' disabled={!title || !notes || !date_from || !date_to} aria-label="Done" value='Done'>Done</button>

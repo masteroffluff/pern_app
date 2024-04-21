@@ -1,41 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
+import { calendarUpdate, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
+
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
-export default function UpdateEvent() {
-
-    const [title, setTitle] = useState('')
-    const [notes, setNotes] = useState('')
-    const [place, setPlace] = useState('')
-    const [date_from, setDateFrom] = useState('')
-    const [date_to, setDateTo] = useState('')
-    const [sharedTo, setSharedTo] = useState('1')
+export default function UpdateEvent({calendarItem}) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    
+
+    const [title, setTitle] = useState()
+    const [notes, setNotes] = useState()
+    const [place, setPlace] = useState()
+    const [date_from, setDateFrom] = useState()
+    const [date_to, setDateTo] = useState()
+    const [sharedTo, setSharedTo] = useState()
+    //const [attendees,] = useState([])
+
+    const {item_id} = calendarItem
 
     const hasError = useSelector(hasErrorCalendar)
     const isLoading = useSelector(isLoadingCalendar)
 
-
-    useEffect(()=>{
+    useEffect(() => {
+        
         dispatch(setPopup(true))
-    return ()=>dispatch(setPopup(false))
-    },[dispatch])
+        // eslint-disable-next-line eqeqeq
+        const {title,notes,shared_to,date_from, date_to, place} = calendarItem
+        setTitle(title)
+        setNotes(notes)
+        setSharedTo(shared_to)
+        setDateFrom(date_from)
+        setDateTo(date_to)
+        setPlace(place)
+        //setAttendees()
+        return () => dispatch(setPopup(false))
+    }, [calendarItem, dispatch])
 
     const submitEvent = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'event', notes, place, date_from, date_to, attendees:[], shared_to:sharedTo })).unwrap()
+        dispatch(calendarUpdate({ item_id, title, type: 'event', notes, place, date_from, date_to, attendees: [], shared_to: sharedTo })).unwrap()
         navigate('/main')
     }
-    const cancelEvent=(e)=>{
+    const cancelEvent = (e) => {
         e.preventDefault()
         navigate('/main')
     }
-    
+
 
     const titleUpdate = (e) => {
         e.preventDefault();
@@ -64,8 +78,8 @@ export default function UpdateEvent() {
     }
 
 
-    return <div data-testid="newEvent"  className='popup'>
-        <h3>Add Event</h3>
+    return <div data-testid="updateEvent" className='popup'>
+        <h3>Edit Event</h3>
         <form onSubmit={submitEvent}>
             <label htmlFor="title">Title</label><br />
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
@@ -90,8 +104,8 @@ export default function UpdateEvent() {
             </select>
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelEvent}>Cancel</button>
-            <button type='submit' disabled={!title||!notes||!date_from||!date_to} data-testid='Done' aria-label="Done" value='Done' >Done</button>
+            <button type='submit' disabled={!title || !notes || !date_from || !date_to} data-testid='Done' aria-label="Done" value='Done' >Done</button>
         </form>
-        <p>{isLoading?'Generating Event':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
+        <p>{isLoading ? 'Generating Event' : hasError ? <span className='errorMessage'>{hasError}</span> : <></>}</p>
     </div>
 }

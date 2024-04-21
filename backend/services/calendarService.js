@@ -20,41 +20,41 @@ module.exports.post_calendar = async function post_calendar(req, res) {
     const at = db.atomicTrasaction()
     try {
         const { id } = req.user
-        const {shared_to, type, title, notes, date_from, date_to, place, attendees} = req.body
-        const now = new Date() 
-        const types ={
-            reminder:3,
-            appointment:4,
-            event:5,
+        const { shared_to, type, title, notes, date_from, date_to, place, attendees } = req.body
+        const now = new Date()
+        const types = {
+            reminder: 3,
+            appointment: 4,
+            event: 5,
         }
         await at.begin()
-        console.log('create items')        
+        console.log('create items')
         const sqlItems = `
         INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
         VALUES( $1, $2, $3, $4, $5, $6 )
         RETURNING id;`
-        const item_idResponse = await at.query(sqlItems,[shared_to, types[type], title, notes, id, now.toISOString()])
+        const item_idResponse = await at.query(sqlItems, [shared_to, types[type], title, notes, id, now.toISOString()])
         const item_id = item_idResponse.rows[0].id
 
         console.log('create calendar detail')
         const sqlCalendarDetails = `
         INSERT INTO "Calendar_Details" (item_id, date_from, date_to, place )
         VALUES( $1, $2, $3, $4 );`
-        await at.query(sqlCalendarDetails,[item_id, date_from, date_to, place])
+        await at.query(sqlCalendarDetails, [item_id, date_from, date_to, place])
 
-        
+
         const sqlAttendees = `
         INSERT INTO "Attending" (item_id, person)
         VALUES ( $1, $2 );`
-
-        for(const i in attendees){
-            //console.log(attendee)
-            await at.query(sqlAttendees,[item_id, attendees[i]])
+        const updatePromiseList = []
+        for (const i in attendees) {
+            console.log('attendee', attendees[i])
+            updatePromiseList.push(at.query(sqlAttendees, [item_id, attendees[i]]))
         }
-
+        Promise.all(updatePromiseList)
         console.log('committing')
         await at.commit()
-        
+
 
         res.send(await helperFunctions.getListofCalendarItems(req));
 
@@ -68,24 +68,53 @@ module.exports.post_calendar = async function post_calendar(req, res) {
 module.exports.update_calendar = async function update_calendar(req, res) {
     const at = db.atomicTrasaction()
     try {
-        const {item_id, shared_to, title, notes, date_from, date_to, place } = req.body
+        const { item_id, shared_to, title, notes, date_from, date_to, place, attendees: new_attendees, type } = req.body
         await at.begin()
-        console.log(item_id, shared_to, title, notes, date_from, date_to, place )
+        console.log(item_id, shared_to, title, notes, date_from, date_to, place)
         const sqlItems = `
         UPDATE "Items"
         SET shared_to= $2, title= $3, notes= $4
         WHERE id = $1
         RETURNING *;`
-        const item_rows = await at.query(sqlItems,[item_id, shared_to , title, notes ])
+        const item_rows = await at.query(sqlItems, [item_id, shared_to, title, notes])
         const sqlCalendarDetails = `
         UPDATE "Calendar_Details"
         SET date_from= $2, date_to= $3, place= $4
         WHERE item_id = $1
         RETURNING *;`
-        const calendar_rows = await at.query(sqlCalendarDetails,[item_id, date_from, date_to, place])
-        if(item_rows.rows.length + calendar_rows.rows.length===0){
+        const calendar_rows = await at.query(sqlCalendarDetails, [item_id, date_from, date_to, place])
+        if (item_rows.rows.length + calendar_rows.rows.length === 0) {
             const err = new Error('Update Calendar Failed')
             throw err
+        }
+        if (type === 'appointment') {
+            const attendingSQL = 
+            `SELECT * 
+            FROM "Attending" 
+            WHERE item_id=$1`;
+            const existing_attendee_rows = await at.query(attendingSQL,[item_id])
+            // remove attendees no on the new list
+            const updatePromiseList = []
+            existing_attendee_rows.forEach(attendee => {
+                if (!new_attendees.includes(attendee)){
+                    const removeAttendeeSQL = 
+                    `DELETE * 
+                    FROM "Attending" 
+                    WHERE item_id=$1 AND person=$1`;
+                    updatePromiseList.push(at.query(removeAttendeeSQL,[item_id,attendee],))
+                }
+            });
+            // add attendees missing from existing list
+            new_attendees.filter(item => !existing_attendee_rows.includes(item));
+            new_attendees.forEach(attendee => {
+                if (!existing_attendee_rows.includes(attendee)){
+                    const addAttendeeSQL = 
+                    `INSERT INTO "Attending" (item_id, person)
+                    VALUES ( $1, $2 );`
+                    updatePromiseList.push(at.query(addAttendeeSQL,[item_id,attendee],))
+                }
+            });
+            Promise.all(updatePromiseList)
         }
         await at.commit()
         at.releaseClient()
@@ -98,7 +127,7 @@ module.exports.update_calendar = async function update_calendar(req, res) {
 
 module.exports.delete_calendar = async function delete_calendar(req, res) {
     const at = db.atomicTrasaction()
-    const {item_id} = req.query
+    const { item_id } = req.query
     try {
         await at.begin();
         // await at.query(`
@@ -107,16 +136,16 @@ module.exports.delete_calendar = async function delete_calendar(req, res) {
 
         await at.query(`
         DELETE FROM "Calendar_Details" 
-        WHERE item_id = $1`,[item_id]);  
+        WHERE item_id = $1`, [item_id]);
 
         await at.query(`
         DELETE FROM "Items" 
-        WHERE id = $1`,[item_id])
-        
+        WHERE id = $1`, [item_id])
+
         await at.commit()
         res.send(await helperFunctions.getListofCalendarItems(req));
         at.releaseClient()
-        
+
     } catch (e) {
         await at.rollback()
         console.log('delete_calendar error', e)

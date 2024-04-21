@@ -191,14 +191,14 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
     const itemIds = calendarItems.map((e) => e.id)
     const sqlAttendees =
         `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
-    FROM "Attending"
-    JOIN "Users" ON "Attending".person = "Users".id
-    WHERE "Attending".item_id = ANY($1)`
+        FROM "Attending"
+        JOIN "Users" ON "Attending".person = "Users".id
+        WHERE "Attending".item_id = ANY($1)`
     const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
     const attendees = attemdeesResponse.rows
     //console.log(attendees)
     const calendarWithMappedAttendees = mapArrayontoArray(calendarItems, attendees, 'attendees')
-    console.log(calendarWithMappedAttendees)
+    //console.log(calendarWithMappedAttendees)
     return calendarWithMappedAttendees
 }
 

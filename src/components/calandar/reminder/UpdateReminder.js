@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calendarPost, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
+import { calendarUpdate, hasErrorCalendar, isLoadingCalendar } from "../calendarSlice";
 import { setPopup } from "../../mainPage/popupSlice";
 import { useNavigate } from "react-router";
 
 
-export default function UpdateEvent() {
-
+export default function UpdateReminder({calendarItem}) {
     const [title, setTitle] = useState('')
     const [notes, setNotes] = useState('')
     const [place, setPlace] = useState('')
     const [date_from, setDateFrom] = useState('')
     const [date_to, setDateTo] = useState('')
-    const [sharedTo, setSharedTo] = useState('1')
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,22 +18,25 @@ export default function UpdateEvent() {
     const hasError = useSelector(hasErrorCalendar)
     const isLoading = useSelector(isLoadingCalendar)
 
+    const {item_id} = calendarItem
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setPopup(true))
-    return ()=>dispatch(setPopup(false))
-    },[dispatch])
 
-    const submitEvent = (e) => {
+        const {title,notes,date_from, date_to, place} = calendarItem
+        setTitle(title)
+        setNotes(notes)
+        setDateFrom(date_from)
+        setDateTo(date_to)
+        setPlace(place)
+        return () => dispatch(setPopup(false))
+    }, [calendarItem, dispatch])
+
+    const submitReminder = (e) => {
         e.preventDefault();
-        dispatch(calendarPost({ title, type: 'event', notes, place, date_from, date_to, attendees:[], shared_to:sharedTo })).unwrap()
+        dispatch(calendarUpdate({ item_id, title, type: 'reminder', notes, place, date_from, date_to, attendees: [], shared_to:1 })).unwrap()
         navigate('/main')
     }
-    const cancelEvent=(e)=>{
-        e.preventDefault()
-        navigate('/main')
-    }
-    
 
     const titleUpdate = (e) => {
         e.preventDefault();
@@ -57,16 +58,14 @@ export default function UpdateEvent() {
         e.preventDefault();
         setDateTo(e.target.value)
     }
-    const sharedToChange = (e) => {
-        e.preventDefault();
-        //alert(e.target.value)
-        setSharedTo(e.target.value)
+    const cancelReminder = (e) => {
+        e.preventDefault()
+        navigate('/')
     }
 
-
-    return <div data-testid="newEvent"  className='popup'>
-        <h3>Add Event</h3>
-        <form onSubmit={submitEvent}>
+    return <div data-testid="newReminder" className='popup'>
+        <h3>Add Reminder</h3>
+        <form onSubmit={submitReminder}>
             <label htmlFor="title">Title</label><br />
             <input data-testid="title" type='text' id='title' onChange={titleUpdate} value={title} /><br />
 
@@ -82,16 +81,10 @@ export default function UpdateEvent() {
             <label htmlFor="date_to">Date To</label>
             <input data-testid="date_to" type='date' id='date_to' onChange={date_toUpdate} value={date_to} />
             <br />
-            <label htmlFor="shareButton">Shared To</label>
-            <select data-testid="shareButton" value={sharedTo} id='shareButton' onChange={sharedToChange}>
-                <option value="1">Myself</option>
-                <option value="2">My Friends</option>
-                <option value="3">Everyone</option>
-            </select>
-            <br />
-            <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelEvent}>Cancel</button>
-            <button type='submit' disabled={!title||!notes||!date_from||!date_to} data-testid='Done' aria-label="Done" value='Done' >Done</button>
+            {/* <button type='button' data-testid='shareButton' aria-label="Share" value='Share'>Share</button> */}
+            <button type='cancel' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelReminder}>Cancel</button>
+            <button type='submit' data-testid='Done' aria-label="Done" value='Done'>Done</button>
         </form>
-        <p>{isLoading?'Generating Event':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
+        <p>{isLoading?'Generating Todo':hasError?<span className='errorMessage'>{hasError}</span>:<></>}</p>
     </div>
 }
