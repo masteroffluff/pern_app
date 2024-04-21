@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { calendarDeleteAttendee } from "./calendarSlice";
+import { calendarDeleteAttendee, calendarPostAttendee } from "./calendarSlice";
 import { selectUserID } from "../user/auth/userAuthSlice";
 
 export default function CalendarItemButtonBar({ editable, item }) {
@@ -11,15 +11,16 @@ export default function CalendarItemButtonBar({ editable, item }) {
 
     const userId = useSelector(selectUserID)
 
-    const { item_id, owner_id, type, attendees } = item
+    const { item_id, type, attendees } = item
 
     const [iAmAttending, setIamAttending] = useState()
 
 
     useEffect(() => {
         // eslint-disable-next-line eqeqeq
-        setIamAttending(attendees.includes(userId))
-    }, [userId, owner_id, attendees])
+        console.log(item_id, attendees)
+        setIamAttending(attendees.map((e)=>e.person).includes(userId))
+    }, [attendees, item_id, userId])
 
     const deleteClick = (e) => {
         e.preventDefault()
@@ -33,7 +34,7 @@ export default function CalendarItemButtonBar({ editable, item }) {
     }
     const attendingClick = (e) => {
         e.preventDefault()
-        dispatch()
+        dispatch(calendarPostAttendee({ item_id, attendee: userId }))
     }
     const notAttening = (e) => {
         e.preventDefault()

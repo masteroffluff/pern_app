@@ -79,6 +79,14 @@ export default function UpdateAppointment({calendarItem}) {
         e.preventDefault();
         setDateTo(e.target.value)
     }
+    const cancelAppointment = (e) => {
+        e.preventDefault()
+        navigate('/main')
+    }
+    const attendeeUpdate = (e) => {
+        e.preventDefault();
+        setAttendee(e.target.value)
+    }
     const attendeesClick = (e) => {
         e.preventDefault()
         console.log(attendee,friendsMap, friendsMap.get(attendee))
@@ -90,15 +98,23 @@ export default function UpdateAppointment({calendarItem}) {
             setAttendee(false)
         }
     }
-    const attendeeUpdate = (e) => {
-        e.preventDefault();
-        setAttendee(e.target.value)
-    }
-    const cancelAppointment = (e) => {
+    const removeAttendeeClick = (e) => {
         e.preventDefault()
-        navigate('/main')
+        const attendeeToRemove = e.target.value
+
+        if (attendeeToRemove) {
+            const newAttendees = new Map(attendees_map)
+            newAttendees.delete(attendeeToRemove)
+            setAttendees(newAttendees)
+        }
     }
-    
+
+
+    const Attendee = ({person})=>{
+        const [id, display_name] = person 
+        return <span>{display_name} <button value={id} onClick={removeAttendeeClick}>X</button></span>
+
+    }
 
     return <div data-testid="newAppointment" className='popup'>
         <h3>Add Appointement</h3>
@@ -129,7 +145,7 @@ export default function UpdateAppointment({calendarItem}) {
             <button type='button' data-testid='invite-attendee' aria-label="Invite Attendee" value='Invite Attendee' onClick={attendeesClick}>Invite Attendee</button>
             <br />
             <label>Invited:</label>
-            <p>{Array.from(attendees_map.values()).join(', ')}</p>
+            {Array.from(attendees_map.entries()).map((person)=><Attendee person={person} />)}
             <br />
             <button type='button' data-testid='cancelButton' aria-label="Cancel" value='Cancel' onClick={cancelAppointment}>Cancel</button>
             <button type='submit' data-testid='Done' disabled={!title || !notes || !date_from || !date_to} aria-label="Done" value='Done'>Done</button>

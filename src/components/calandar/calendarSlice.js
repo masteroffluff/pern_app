@@ -130,7 +130,7 @@ export const calendarPostAttendee = createAsyncThunk(
     'calendarPostAttendees',
     async ({ item_id, attendee }, { rejectWithValue, getState }) => {
 
-        const endPoint = `${apiUrl}/calendar/attendees?item_id=${item_id}&attendee=${attendee}s`
+        const endPoint = `${apiUrl}/calendar/attendees?item_id=${item_id}&attendee=${attendee}`
         //console.log (endPoint)
         const authToken = getState().user.authentication.authToken
         const options = {

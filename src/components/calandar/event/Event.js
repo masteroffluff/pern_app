@@ -6,7 +6,7 @@ export default function Event({editable, item}){
     const { title, value, date_to, date_from, place, attendees} = item
     const dateFrom = moment(date_from)
     const dateTo= moment(date_to)
-    // TODO: upadte events
+
     const attendee_list = attendees.map((e)=>e.display_name).join(', ')
     return <div data-testid="event">
         <h4 aria-label="Title">{title}</h4>
