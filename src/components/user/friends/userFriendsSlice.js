@@ -200,7 +200,7 @@ export const friendsSlice = createSlice({
                         // console.log(action.payload)
                         state.isLoading = false;
                         state.hasError = null;
-                        state.list = action.payload;
+                        state.list = action.payload||[]; // force undefined to array for testing. 
                     })
 
                 .addMatcher(

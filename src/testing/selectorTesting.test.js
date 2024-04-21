@@ -79,9 +79,9 @@ describe('display', () => {
   describe('Today Selector', () => {
     test('returns todays items', () => {
       const expected = [
-        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
-        { id: 2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
-        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
+        { id: 1, item_id:1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
+        { id: 2, item_id:2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
+        { id: 3, item_id:3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
       ]
       const selectedItems = selectToday(state);
 
@@ -99,13 +99,13 @@ describe('Calendar Selector', () => {
 
     expect(selectedItems).toEqual(
       [
-        { id: 1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
-        { id: 2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
-        { id: 3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
-        { id: 4, type: 'appointment', title: 'QUX', value: 'qux', date_from: tomorrow, date_to: tomorrow },
-        { id: 5, type: 'event', title: 'QUUX', value: 'quux', date_from: tomorrow, date_to: tomorrow },
-        { id: 6, type: 'reminder', title: 'CORGE', value: 'corge', date_from: tomorrow, date_to: tomorrow },
-        { id: 7, type: 'reminder', title: 'LOOONG', value: 'looooooong', date_from: tomorrow, date_to: loooong },
+        { id: 1, item_id:1, type: 'appointment', title: 'FOO', value: 'foo', date_from: date, date_to: date },
+        { id: 2, item_id:2, type: 'event', title: 'BAR', value: 'bar', date_from: date, date_to: date },
+        { id: 3, item_id:3, type: 'reminder', title: 'BAZ', value: 'baz', date_from: date, date_to: date },
+        { id: 4, item_id:4, type: 'appointment', title: 'QUX', value: 'qux', date_from: tomorrow, date_to: tomorrow },
+        { id: 5, item_id:5, type: 'event', title: 'QUUX', value: 'quux', date_from: tomorrow, date_to: tomorrow },
+        { id: 6, item_id:6, type: 'reminder', title: 'CORGE', value: 'corge', date_from: tomorrow, date_to: tomorrow },
+        { id: 7, item_id:7, type: 'reminder', title: 'LOOONG', value: 'looooooong', date_from: tomorrow, date_to: loooong },
       ]
     );
   });

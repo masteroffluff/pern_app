@@ -196,7 +196,7 @@ describe("action tests", () => {
     describe('NewReminder', () => {
         test('dispatches addReminder action when button is clicked', async () => {
             // const store = mockStore(initialState); // Initial store state
-            const store = setupStore({})
+            const store = setupStore(dummyStore)
             render(
                 <BrowserRouter>
                     <Provider store={store}>
@@ -208,7 +208,7 @@ describe("action tests", () => {
             const textBox_place = screen.getByLabelText("Place");
             const textBox_date_from = screen.getByLabelText("Date From");
             const textBox_date_to = screen.getByLabelText("Date To");
-
+                console.log('dummyStore',dummyStore)
             // add the title
             await act(async () => {
                 fireEvent.change(textBox_title, { target: { value: 'New Reminder' } });
