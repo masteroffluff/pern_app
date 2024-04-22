@@ -2,6 +2,7 @@ const db = require('./db')
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
+
 module.exports.generate_jwt_token = function generate_jwt_token(id) {
     if (typeof id != 'number') {
         throw new Error({ message: "unexpected token type" })
@@ -224,9 +225,9 @@ module.exports.getListofCalendarItems = async function getListofCalendarItems(re
 
 module.exports.insertDefaultImage = async function insertDefaultImage(id) {
 
-    const imagePath = `../media/defaultImage${id % 3}.png`
+    const imagePath = `./media/defaultImage${id % 3}.png`
     const imageBuffer = fs.readFileSync(imagePath);
-    const query = 'INSERT INTO User_PFP (id, data) VALUES ($1, $2)';
+    const query = `INSERT INTO "User_PFP" (id, data, type) VALUES ($1, $2, 'image/png')`;
     const values = [id, imageBuffer];
 
     await db.queryPromisified(query, values);

@@ -247,7 +247,15 @@ export const calendarSlice = createSlice({
                     (state, action) => {
                         //console.log(action)
                         state.isLoading = false;
-                        state.hasError = action.error.message;
+                        //console.log(action)
+                        state.isLoading = false;
+                        //state.hasError = JSON.stringify({error:action.error,actionType:action.type});
+                        let temp = action.payload?.message || action.error.message
+                        if (typeof (temp) === 'object') {
+                            temp = JSON.stringify(temp)
+                        }
+                        console.log(temp)
+                        state.hasError = temp
                     }
                 )
         }

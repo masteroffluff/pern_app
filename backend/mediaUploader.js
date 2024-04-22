@@ -1,9 +1,12 @@
+// this is a system to rapidly upload pfps for test users that may have been createdd via admin access. 
+// note it will clear any images from the site so do not use in prod!!
+
 const dotenv = require('dotenv')
 const db = require('./utils/db')
 dotenv.config();
 const fs = require('fs');
 
-const idArray = [1,3,4,5,6,7]; // the list of id numbers theat have missing default images
+const idArray = [1,3,4,5,6,7,8,9, 10 ,11,12, 13]; // the list of id numbers theat have missing default images
 
 async function insertDefaultImage(id) {
 

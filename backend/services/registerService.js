@@ -30,6 +30,7 @@ module.exports.post_register = async function post_register(req, res) {
         return res.status(201).send({id:newUser, token:newToken})
   } catch (error) {
     console.log(display_name, email, phone_no, password, birthday)
+    console.log(error.message)
     return res.status(401).send({ message: error.message })
   }
 }

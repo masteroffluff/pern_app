@@ -227,16 +227,18 @@ export const itemsTodoItemsAdd = createAsyncThunk(
 export const itemsTodoItemsUpdate = createAsyncThunk(
     'itemsTodoItemsUpdate',
     async (_, { rejectWithValue, getState }) => {
-        
+
         const state = getState()
 
         const authToken = state.user.authentication.authToken
-        const todos = state.items.todos.filter((todo)=>todo.dirty)
-        const  items =[]
-        
-        todos.forEach((todo)=>{todo.items.forEach((item)=>{
-            items.push(item)
-        })})
+        const todos = state.items.todos.filter((todo) => todo.dirty)
+        const items = []
+
+        todos.forEach((todo) => {
+            todo.items.forEach((item) => {
+                items.push(item)
+            })
+        })
 
         const endPoint = `${apiUrl}/items/todo/items`
         //console.log (endPoint)
@@ -248,7 +250,7 @@ export const itemsTodoItemsUpdate = createAsyncThunk(
                 'Authorization': 'Bearer ' + authToken,
 
             },
-            body: JSON.stringify({items})
+            body: JSON.stringify({ items })
         };
         //alert(JSON.stringify({items}))
         return await apiFetch(endPoint, options, rejectWithValue)
@@ -281,16 +283,16 @@ export const itemSlice = createSlice({
     name,
     initialState,
     reducers: {
-        todoItemsUpdateDone (state, action) {
-            
-            const {todoIndex,index,done} = action.payload
+        todoItemsUpdateDone(state, action) {
+
+            const { todoIndex, index, done } = action.payload
             //console.log('state',state)
             //console.log('action', action)
-            state.todos[todoIndex].items[index].item_done=done
-            state.todos[todoIndex].dirty= true
+            state.todos[todoIndex].items[index].item_done = done
+            state.todos[todoIndex].dirty = true
 
         },
-        reset:()=>{
+        reset: () => {
             return initialState;
         }
     },
@@ -315,10 +317,10 @@ export const itemSlice = createSlice({
                     itemsTodoDelete.fulfilled),
                     (state, action) => {
                         //console.log(action.payload)
-                        
+
                         state.todos = action.payload
                         // got to add the if statement to make the test happy
-                        if (state.todos) {state.todos.forEach((todo)=>delete todo.dirty)}
+                        if (state.todos) { state.todos.forEach((todo) => delete todo.dirty) }
                         state.isLoading = false;
                         state.hasError = null;
                     })
@@ -351,7 +353,13 @@ export const itemSlice = createSlice({
                     (state, action) => {
                         //console.log(action)
                         state.isLoading = false;
-                        state.hasError = action.error;
+                        //state.hasError = JSON.stringify({error:action.error,actionType:action.type});
+                        let temp = action.payload?.message || action.error.message
+                        if (typeof (temp) === 'object') {
+                            temp = JSON.stringify(temp)
+                        }
+                        console.log(temp)
+                        state.hasError = temp
                     }
                 )
             // .addDefaultCase(
@@ -367,8 +375,8 @@ export const hasErrorItems = (state) => state.items.hasError;
 export const selectTodos = (state) => state.items.todos;
 export const selectNotes = (state) => state.items.notes;
 
-export const selectHasDirtyTodoItems = createSelector(selectTodos,(todos)=>todos.filter((todo)=>todo.dirty).length>0)
+export const selectHasDirtyTodoItems = createSelector(selectTodos, (todos) => todos.filter((todo) => todo.dirty).length > 0)
 
-export const {todoItemsUpdateDone, reset} = itemSlice.actions 
+export const { todoItemsUpdateDone, reset } = itemSlice.actions
 
 export default itemSlice.reducer
