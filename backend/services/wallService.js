@@ -19,14 +19,17 @@ module.exports.get_wall = async function get_wall(req, res) {
         const friendsList = friendsResponse.rows.map((e)=>e.friend_id)
         friendsList.push(id) // always remenber to be friends with yourself
         const wallSQL =
-            `SELECT "Items".id, "Item_type".type, "Items".owner_id, "Items".shared_to, "Items".title, "Items".notes as value, "Items".date	
+            `
+            SELECT "Items".id, "Item_type".type, "Items".owner_id, "Items".shared_to, "Items".title, "Items".notes as value, "Items".date	
             FROM "Items"
             JOIN "Item_type" ON "Items".type = "Item_type".id   
             
-            WHERE "Items".type IN (1,6) AND owner_id = ANY($1)
+            WHERE ("Items".type IN (1) AND "Items".owner_id = ANY($1) AND "Items".shared_to = 2)
+            OR ("Items".type IN (1,6) AND "Items".owner_id = $2)
             ORDER BY "Items".date DESC
+
             `
-        const wallResponse = await db.queryPromisified(wallSQL, [friendsList], 'get_wall')
+        const wallResponse = await db.queryPromisified(wallSQL, [friendsList, id], 'get_wall')
         res.send(wallResponse.rows)
     } catch (e) {
         console.log(e)
