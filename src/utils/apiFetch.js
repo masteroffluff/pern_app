@@ -1,5 +1,6 @@
 export default async function apiFetch(endPoint, options, rejectionCallback){
     try{
+        console.log(options)
         const response = await fetch(endPoint,options);
         //console.log(response)
 
