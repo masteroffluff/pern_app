@@ -104,7 +104,8 @@ VALUES
 (2, 'todo'),
 (3, 'reminder'),
 (4, 'appointment'),
-(5, 'event');
+(5, 'event'),
+(6, 'notification');
 
 INSERT INTO "Friends_status" (id, status)
 VALUES
@@ -139,8 +140,6 @@ AFTER DELETE ON "Friends"
 FOR EACH ROW
 EXECUTE FUNCTION check_reverse_friendship();
 
-CREATE UNIQUE INDEX enforce_unique_friendship
-ON "Friends" (LEAST("user_id", "friend_id"), GREATEST("user_id", "friend_id"));
 
 -- set up role for users
 CREATE ROLE user1 WITH LOGIN PASSWORD 'myPassword';

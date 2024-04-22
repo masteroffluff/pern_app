@@ -228,6 +228,18 @@ textarea,
   line-height: 1.15;
   margin: 0;
 }
+.popup button,
+.popup input,
+.popup optgroup,
+.popup select,
+.popup textarea {
+  background-color: var(--popup-text-color);
+  color: var(--popup-background-color);
+  font-family: "Poppins", sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
 
 button:disabled {
   filter: grayscale(100%);

@@ -33,7 +33,7 @@ export default function Todo({todoIndex,item_id, title, notes, items}){
             </div>            
             <div className="todo">
                 
-                <textarea aria-label="Description" rows="10" cols="20"  onBlur={updateNotes} defaultValue={notes}/>
+                <textarea aria-label="Description" rows="10" cols="18"  onBlur={updateNotes} defaultValue={notes}/>
                 
             </div>
 
