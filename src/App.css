@@ -166,7 +166,7 @@ textarea {
 }
 
 .addButton div {
-  display: inline;
+  display:  inline-block;
 }
 
 .friend {
