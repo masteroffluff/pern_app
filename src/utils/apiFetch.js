@@ -1,6 +1,8 @@
+const apiUrl = process.env.REACT_APP_API_URL
+
 export default async function apiFetch(endPoint, options, rejectionCallback){
     try{
-        console.log(options)
+        options['headers']['Access-Control-Allow-Origin']= apiUrl
         const response = await fetch(endPoint,options);
         //console.log(response)
 
