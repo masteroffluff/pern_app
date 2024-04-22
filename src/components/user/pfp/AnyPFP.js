@@ -72,8 +72,8 @@ export default function AnyPFP({ id, height, width }) {
     }
 
     return (
-        <div data-testid="PFP" style={{height:{height}, width:{width}}}>
-            <img aria-label='profile image' src={imageSrc} height={height} width={width} alt='profile picture' />
+        <div className="PFP" style={{ height: `${height}px`, width: `${width}px` }}>
+            <img aria-label='profile image' src={imageSrc} style={{maxHeight:'100%',maxWidth:'100%'}} alt='profile picture' />
         </div>
     );
 }

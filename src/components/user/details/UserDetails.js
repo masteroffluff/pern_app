@@ -4,6 +4,7 @@ import { hasErrorUserDetails, selectedUserDetails, userDetailsFetch, userDetails
 import { setPopup, selectPopupState } from "../../mainPage/popupSlice";
 
 import '../../../App.css'
+import UserPFP from "../pfp/UserPFP";
 
 // ✕ displays user display name (4 ms)
 // ✕ displays user phone number (3 ms)
@@ -89,7 +90,7 @@ export default function UserDetails() {
           background-image:url(${main_background_image_URL});
         }
       `}</style>
-    <form onSubmit={submitForm}><div data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
+    <form onSubmit={submitForm}><div id='details' data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
       <h3>User Details</h3><br />
       <label htmlFor="display_name">
         <h4>Display Name</h4>
@@ -120,15 +121,18 @@ export default function UserDetails() {
       </select><br />
       <button onClick={saveButton}>Save</button>
       <p className={errorUserDetails?'error':'hidden'}>{errorUserDetails}</p>
+      <br />
+      <p>Click to change your Profile Picture:</p>
+      <UserPFP height='200' width='200'/>
     </div>
       <div className={popupState ? 'popup' : 'hidden'}>
         <h4>Save Details?</h4>
         <button type='submit'>Yes</button>
         <button onClick={noButton}>No</button>
       </div>
-        
+      
     </form>
-
+    
 
   </>
 }

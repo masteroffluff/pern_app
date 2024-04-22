@@ -117,7 +117,7 @@ export default function DisplayCalendar() {
         navigate('/main/newappointment')
     }
 
-    return <div data-testid="displayCalendar">
+    return <div id='calendar' data-testid="displayCalendar">
         <h3>Calendar</h3>
         {/* <p>...{JSON.stringify(calendarMap)}</p> */}
         <form>

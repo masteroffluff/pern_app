@@ -9,6 +9,7 @@ import { selectUserID } from "../user/auth/userAuthSlice";
 export default function DisplayItem({data}){
     const {id, type, title, value, owner_id:owner, date}=data
     const userID = useSelector(selectUserID)
+    // eslint-disable-next-line eqeqeq
     const editable = owner == userID
     //console.log(owner +"+"+ userID)
     switch(type){

@@ -126,24 +126,28 @@ export default function UserPFP({ height, width }) {
 
     if (isLoading) {
         return (
-            <div data-testid="PFP">
+            <div data-testid="PFP" >
                 <img aria-label='profile image' src={loading_image} height={height} width={width} alt='profile picture(loading)' />
             </div>
         );
     }
     if (hasError) {
         return (
-        <label data-testid="PFP" htmlFor="filepicker">
-            <img aria-label='profile image' src={error_image} height={height} width={width} alt='profile picture' />
-            <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
-        </label>
-    )}
+            <label data-testid="PFP" htmlFor="filepicker">
+                <img aria-label='profile image' src={error_image} height={height} width={width} alt='profile picture' />
+                <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
+            </label>
+        )
+    }
 
     return (
-        <label data-testid="PFP" htmlFor="filepicker">
-            <img aria-label='profile image' src={imageSrc} height={height} width={width} alt='profile picture' />
-            <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
-        </label>
+
+        <div className="PFP" style={{ height: `${height}px`, width: `${width}px` }}>
+            <label data-testid="PFP" htmlFor="filepicker">
+                <img aria-label='profile image' src={imageSrc} style={{ maxHeight: '100%', maxWidth: '100%' }} alt='profile picture' />
+                <input id="filepicker" type="file" style={{ display: 'none' }} onChange={handleImageChange} accept="jpeg, jpg, png, webp" />
+            </label>
+        </div>
     );
 }
 

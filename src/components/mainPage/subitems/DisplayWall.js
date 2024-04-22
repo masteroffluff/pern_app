@@ -22,7 +22,7 @@ export default function DisplayWall() {
     }
 
 
-    return <div data-testid="displayWall" className="wallContainer">
+    return <div id='wall' data-testid="displayWall" className="wallContainer">
         <h3>My Wall</h3>
         <div className="content">
             <ul className="wall">

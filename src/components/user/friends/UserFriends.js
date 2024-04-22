@@ -25,19 +25,25 @@ export default function UserFriends() {
     }
 
     return (
-        <div data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
-            <div className="friend-list-container">
+        <div id='friends' data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
+            <div className="friends-container" >
                 <h3>Friends</h3>
-                <h4>Your Friends</h4>
-                {friends.length > 0 ? <div className='friend-list' aria-label="friends">{friends.map((e, i) => <Friend key={i} person={e} type='friend' />)}</div> : <p>You currently have no freinds.</p>}
-                <h4>Pending Requests to be friends from other users</h4>
-                {pending.length > 0 ? <div className='friend-list' aria-label="pending">{pending.map((e, i) => <Friend key={i} person={e} type='pending' >{e.display_name}</Friend>)}</div> : <p>There are no pending friend requests</p>}
-                <h4>Sent requests to be friends</h4>
-                {sent.length > 0 ? <div className='friend-list' aria-label="sent">{sent.map((e, i) => <Friend key={i} person={e} type='sent' />)}</div> : <p>You have not got any unaccepted friend requests.</p>}
-                <h4>Unfollowed</h4>
-                {unfollowed.length > 0 ? <div className='friend-list' aria-label="unfollowed">{unfollowed.map((e, i) => <Friend key={i} person={e} type='unfollowed' />)}</div> : <p>You have no unfollowed freinds.</p>}
-                <h4>Blocked</h4>
-                {blocked.length > 0 ? <div className='friend-list' aria-label="blocked">{blocked.map((e, i) => <Friend key={i} person={e} type='blocked' />)}</div> : <p>You have no freinds blocked.</p>}
+                <div className="friend-list-container">
+
+                    <h4>Pending Requests to be friends from other users</h4>
+                    {pending.length > 0 ? <div className='friend-list' aria-label="pending">{pending.map((e, i) => <Friend key={i} person={e} type='pending' >{e.display_name}</Friend>)}</div> : <p>There are no pending friend requests</p>}
+                    <h4>Sent requests to be friends</h4>
+                    {sent.length > 0 ? <div className='friend-list' aria-label="sent">{sent.map((e, i) => <Friend key={i} person={e} type='sent' />)}</div> : <p>You have not got any unaccepted friend requests.</p>}
+                    <h4>Your Current Friends</h4>               
+                    {friends.length > 0 ? <div className='friend-list' aria-label="friends">{friends.map((e, i) => <Friend key={i} person={e} type='friend' />)}</div> : <p>You currently have no freinds.</p>}
+                    <h4>Unfollowed</h4>
+                    {unfollowed.length > 0 ? <div className='friend-list' aria-label="unfollowed">{unfollowed.map((e, i) => <Friend key={i} person={e} type='unfollowed' />)}</div> : <p>You have no unfollowed freinds.</p>}
+                    <h4>Blocked</h4>
+                    {blocked.length > 0 ? <div className='friend-list' aria-label="blocked">{blocked.map((e, i) => <Friend key={i} person={e} type='blocked' />)}</div> : <p>You have not blocked anyone.</p>}
+                    <br />
+                    <br />
+                    <br />
+                </div>
             </div>
             <button onClick={addFriend} >Add Friend</button>
         </div>)

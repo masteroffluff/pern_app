@@ -18,7 +18,7 @@ export default function DisplayNotes() {
         e.preventDefault()
         navigate('/main/newnote')
     }
-    return <div data-testid="displayNotes">
+    return <div id='notes' data-testid="displayNotes">
         <h3>Notes</h3>
         <div className="content">
 

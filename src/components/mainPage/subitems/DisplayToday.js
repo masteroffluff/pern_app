@@ -14,7 +14,7 @@ export default function DisplayToday(){
     }, [dispatch]);
     
 
-    return <div data-testid="displayToday">
+    return <div id='today' data-testid="displayToday">
         <h3>Today</h3>
         
         <div className='content'>

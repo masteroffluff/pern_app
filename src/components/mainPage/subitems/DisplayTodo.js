@@ -20,7 +20,7 @@ export default function DisplayTodo() {
             e.preventDefault()
         navigate('/main/newtodo')
     }
-    return <div data-testid="displayTodo">
+    return <div id='todo' data-testid="displayTodo">
 
         <h3>Todo</h3>
         <div className="content">

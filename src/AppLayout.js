@@ -48,18 +48,38 @@ function AppLayout() {
           background-image:url(${main_background_image_URL});
           
         }
+        .main{
+          ${location.pathname === '/main'?'diplay:inline-block':'display:none'}
+        }
+        .user-details{
+          ${location.pathname === '/userdetails'?'diplay:inline-block':'display:none'}
+        }
       `}</style>
         <div className={popupState ? 'App blur-background' : 'App'}>
-          <header><div>
-            <h1>Fluffbook</h1>
-          </div>
+          <header>
+            <div className="title">
+              <h1>Fluffbook</h1>
+            </div>
             <div>
               <UserDetailsMini />
             </div>
           </header>
           <nav>
-            <NavLink to='/userdetails'>User Details</NavLink>
-            <NavLink to='/main'>Main Page</NavLink>
+            <div>
+              <NavLink className='button-like-link' to='/userdetails'>User Details</NavLink>
+              <NavLink className='button-like-link' to='/main'>Main Page</NavLink>
+            </div>
+            <div className='smallvp-button-block main'>
+              <a className='button-like-link' href='#today'>Today</a>
+              <a className='button-like-link' href='#wall'>Wall</a>
+              <a className='button-like-link' href='#calendar'>Calendar</a>
+              <a className='button-like-link' href='#todo'>Todo</a>
+            </div>
+            <div className='smallvp-button-block user-details'>
+              <a className='button-like-link' href='#details'>User Details</a>
+              <a className='button-like-link' href='#friends'>Friends</a>
+            </div>
+            
           </nav>
 
         </div>
