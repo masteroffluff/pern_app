@@ -18,7 +18,8 @@ export default function UserRegister() {
   const { main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
 
   const colourSelectState = useSelector(selectColourChoice)
-  const errorAuth  = useSelector(selectHasErrorAuth) 
+  const errorAuth  = useSelector(selectHasErrorAuth)
+  const isWaiting = useSelector(selectIsWaitingAuth) 
   const popupState = useSelector(selectPopupState)
 
   const dispatch = useDispatch()
@@ -29,23 +30,28 @@ export default function UserRegister() {
   const [emailTemp, setEmailTemp] = useState('')
   const [telephoneNumberTemp, setTelephoneNumberTemp] = useState('')
   const [birthdayTemp, setBirthdayTemp] = useState('')
-
   
+  
+
+  const enableSave = passwordTemp&&passwordTemp1&&passwordTemp===passwordTemp1&&display_nameTemp
+
   const colourSelectorChangeHandler = (e) => {
     e.preventDefault()
     dispatch(setColour(e.target.value))
   }
   const display_nameChange = (e) => {
     e.preventDefault()
-    setDisplayNameTemp(e.target.value)
+    setDisplayNameTemp(e.target.value )
+    
   }
   const passwordChange = (e) => {
     e.preventDefault()
-    setPasswordTemp(e.target.value)
+    setPasswordTemp(e.target.value) 
+    
   }
   const password1Change = (e) => {
     e.preventDefault()
-    setPasswordTemp1(e.target.value)
+    setPasswordTemp1(e.target.value )
   }
   const emailChange = (e) => {
     e.preventDefault()
@@ -132,11 +138,12 @@ export default function UserRegister() {
         <option value="contrast">High Contrast</option>
         <option value="dark">Dark</option>
       </select><br />
-      <button onClick={saveButton}>Save</button>
+      <button onClick={saveButton} disabled={!enableSave} >Register</button>
       <p className={errorAuth?'error':'hidden'}>{errorAuth}</p>
+      <p className={isWaiting?'':'hidden'}>Please Wait Registering</p>
     </div>
       <div className={popupState ? 'popup' : 'hidden'}>
-        <h4>Save Details?</h4>
+        <h4>Register Details?</h4>
         <button type='submit'>Yes</button>
         <button onClick={noButton}>No</button>
       </div>

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 // import configureStore from 'redux-mock-store'; // Import configureStore from your Redux library or mock it
 import { Provider } from 'react-redux';
 import { Note, NewNote, Todo, NewTodo, DeleteNote, UpdateNote } from '../components/items'
-import { Appointment, NewAppointment, Event, NewEvent, Reminder, DeleteCalendarItem } from '../components/calandar';
+import { Appointment, NewAppointment, Event, NewEvent, Reminder, DeleteCalendarItem, UpdateCalendarItem } from '../components/calandar';
 import { AddFriend, UserDetails } from '../components/user';
 import store from '../store';
 import { BrowserRouter, MemoryRouter, Routes, Route, Outlet } from 'react-router-dom';
@@ -465,6 +465,7 @@ describe('component Tests', () => {
                                 <Route path="deletenote" element={<DeleteNote />} />
                                 <Route path="updatenote" element={<UpdateNote />} />
                                 <Route path="deletecalendar" element={<DeleteCalendarItem />} />
+                                <Route path="updatecalendar" element={<UpdateCalendarItem />} />
                             </Route>
                         </Routes>
                     </MemoryRouter>
@@ -476,8 +477,10 @@ describe('component Tests', () => {
         it('has yes button"', () => {
 
             //render(<NewNote notes={notes} title={title} date={date} />);
-            const testElement = screen.getByTestId('yes');
-            expect(testElement).toBeInTheDocument();
+            const yesButton = screen.getByTestId('yes');
+            expect(yesButton).toBeInTheDocument();
+            const noButton = screen.getByTestId('no');
+            expect(noButton).toBeInTheDocument();
         });
         cleanup();
     })

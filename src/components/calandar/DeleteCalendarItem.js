@@ -55,7 +55,7 @@ export default function DeleteNote() {
             <form onSubmit={submit} >
                 <h4>"{title}"</h4>
                 <br />
-                <button type='no' data-testid="cancelButton" id='no' value='no' onClick={cancelClick}>No</button>
+                <button type='no' data-testid="no" id='no' value='no' onClick={cancelClick}>No</button>
                 <button type='submit' data-testid="yes" aria-label="yes" id='updateNote' >Yes</button>
                 <p>{isLoading ? 'Generating Note' : hasError ? <span className='errorMessage'>{hasError}</span> : <></>}</p>
             </form>

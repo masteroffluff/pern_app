@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React from "react";
+import {  useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCalendar } from "./calendarSlice";
 import UpdateEvent from "./event/UpdateEvent";
@@ -13,7 +13,7 @@ export default function UpdateCalendarItem(){
     
 
     const [searchParams] = useSearchParams()
-    const navigate = useNavigate()
+    
 
     const calendar = useSelector(selectCalendar)
     const item_id = searchParams.get('id')

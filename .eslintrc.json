@@ -1,0 +1,10 @@
+{
+    "ignorePatterns": [
+      "node_modules/",
+      "build/",
+      "backend/",
+      "src/testing/"
+    ],
+    "extends": ["eslint:recommended", "react-app"]
+  }
+  

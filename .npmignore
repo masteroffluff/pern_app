@@ -1,0 +1,4 @@
+backend/
+src/testing/
+temp/
+database.sql

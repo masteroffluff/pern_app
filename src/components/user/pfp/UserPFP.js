@@ -115,7 +115,7 @@ export default function UserPFP({ height, width }) {
                     }
                     updateImage(file)
                 }
-            };
+            }
         }
         if (file) {
             reader.readAsDataURL(file);
