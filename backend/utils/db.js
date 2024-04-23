@@ -33,16 +33,19 @@ function where_from_query({query}){
 
 function queryPromisified(sql, params, action = 'unknown action') {
   return new Promise((resolve, reject) => {
-    sharedPool.query(sql, params, (error, results) => {
+    sharedPool.connect().then((client)=>{
+    client.query(sql, params, (error, results) => {
       if (error) {
         console.log(`queryPromisified: Error in query ${action}: ${error}`);
+        client.release()
         reject(error);
       } else {
-        
+        client.release()
         resolve(results);
         //console.log(results);
       }
     });
+  })
   });
 }
 // atomic transactions for queries 
