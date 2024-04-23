@@ -1,14 +1,21 @@
-const Pool = require('pg').Pool
+const {Pool, Client} = require('pg')
 const dotenv = require('dotenv')
 dotenv.config();
 
-const sharedPool = new Pool({
+constConnectionOptions= {
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
   port: process.env.DB_PORT,
-})
+}
+
+const sharedPool = new Pool(constConnectionOptions)
+
+const makeClient = async () => {
+  const client = new Client(constConnectionOptions);
+  await client.connect();
+  return client}
 
 // Function to execute a query
 async function query(text, params, callback) {
@@ -33,14 +40,16 @@ function where_from_query({query}){
 
 function queryPromisified(sql, params, action = 'unknown action') {
   return new Promise((resolve, reject) => {
-    sharedPool.connect().then((client)=>{
+    
+    makeClient().then((client)=>{
     client.query(sql, params, (error, results) => {
       if (error) {
         console.log(`queryPromisified: Error in query ${action}: ${error}`);
-        client.release()
+        
+        client.end()
         reject(error);
       } else {
-        client.release()
+        client.end()
         resolve(results);
         //console.log(results);
       }

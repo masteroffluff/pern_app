@@ -39,7 +39,7 @@ export default function UserLogin(){
         <form onSubmit={loginSubmit}>
             <label htmlFor="display_name"><h4>Display Name</h4></label>
             <input type="text" id='display_name' value = {display_name} onChange={display_nameChange} />
-            <label htmlFor="password"><h4>Pasword</h4></label>
+            <label htmlFor="password"><h4>Password</h4></label>
             <input type="password" id='password' value = {password} onChange={passwordChange} />
             <button type="submit" id='submit' >Log In</button>
             {errorMessage?<p className="errorMessage">{errorMessage}</p>:<></>}

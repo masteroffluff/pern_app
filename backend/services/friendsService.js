@@ -19,7 +19,7 @@ module.exports.get_friend = async function get_friend(req, res) {
 }
 
 module.exports.add_friend = async function add_friend(req, res) {
-
+    
     try {
         console.log('add_friend')
         const { id: friendID, display_name: friendDisplayName } = req.body
@@ -33,7 +33,10 @@ module.exports.add_friend = async function add_friend(req, res) {
         if (friendshipExists) { throw new Error(`${friendDisplayName} is already a friend`) }
         //add to fiends lists and don't forget to add the other dude too
         console.log('adding friend and reverse relationship')
-        await addfriends(id, friendID)
+        const sql =
+        `INSERT INTO "Friends" ( user_id, friend_id, status )
+        VALUES ( $1, $2, 1 ),( $2, $1, 0 );`
+        await db.queryPromisified(sql, [id, friendID])
         const friendsList = await helperFunctions.getfriends(id)
         await helperFunctions.postWallNotification(id, `You have asked ${friendDisplayName} to be friends`, '')
         await helperFunctions.postWallNotification(friendID, `${display_name} has asked to be friends with you.`, 'Confirm on the friends page')
@@ -74,11 +77,11 @@ async function existingFriend(id, friendID) {
 
 }
 
-async function addfriends(id, friendID) {
-    const sql =
-        `INSERT INTO "Friends" ( user_id, friend_id, status )
-    VALUES ( $1, $2, 1 ),( $2, $1, 0 );`
-    await db.queryPromisified(sql, [id, friendID])
+// async function addfriends(id, friendID) {
+//     const sql =
+//         `INSERT INTO "Friends" ( user_id, friend_id, status )
+//     VALUES ( $1, $2, 1 ),( $2, $1, 0 );`
+//     await db.queryPromisified(sql, [id, friendID])
 
-}
+// }
 
