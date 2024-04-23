@@ -1,4 +1,4 @@
-const apiUrl = process.env.REACT_APP_API_URL
+//const apiUrl = process.env.REACT_APP_API_URL
 
 export default async function apiFetch(endPoint, options, rejectionCallback){
     try{
