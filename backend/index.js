@@ -24,11 +24,7 @@ app.use(passport.initialize());
 //app.use(passport.session());
 
 
-app.use((req, res, next) => {
 
-    //res.setHeader('content-type', 'application/json;charset=utf-8'); 
-    next()
-});
 
 const config = {
     middleware: {
@@ -45,6 +41,7 @@ app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_ADDRESS,
 }));
+
 function do_auth_middleware(req, res, next) {
     if (res.locals.oas.security?.bearerAuth) {
         isAuthenticated(req, res).then(() => {
@@ -62,6 +59,11 @@ function do_auth_middleware(req, res, next) {
     //next();
 }
 use(do_auth_middleware)
+use((req, res,next) => {
+
+    res.setHeader('content-type', 'application/json;charset=utf-8'); 
+    next()
+},3);
 
 initialize(app, config).then(() => {
     http.createServer(app).listen(serverPort, () => {
