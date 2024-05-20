@@ -4,6 +4,8 @@ import { selectFriends_Blocked, selectFriends_Pending, selectFriends_Live, selec
 import { useNavigate } from "react-router";
 import { selectPopupState } from "../../mainPage/popupSlice";
 import Friend from './Friend'
+import '../../../App.css'
+import '../user.css'
 
 export default function UserFriends() {
     const popupState = useSelector(selectPopupState)
@@ -25,7 +27,7 @@ export default function UserFriends() {
     }
 
     return (
-        <div id='friends' data-testid="userFriends" className={popupState ? 'grid-item blur-background' : 'grid-item'}>
+        <div id='friends' data-testid="userFriends" className={(popupState ? 'blur-background' : '')+'grid-item user-grid'}>
             <div className="friends-container" >
                 <h3>Friends</h3>
                 <div className="friend-list-container">

@@ -25,7 +25,7 @@ function AppLayout() {
   const colourObject = useSelector(selectColourObject)
 
 
-  const { main_text_color, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
+  const { main_text_color,main_text_color_button, popup_text_color, main_background_color, main_background_color_alt, popup_background_color, main_background_image_URL } = colourObject
 
   const popupState = useSelector(selectPopupState)
   const isLoggedIn = useSelector(selectIsLoggedIn)
@@ -37,8 +37,8 @@ function AppLayout() {
         <style>{`
         :root {
           --main-text-color: ${main_text_color};
-          --main_background_color: ${main_background_color};
-          --main-background-color:${main_background_color};
+          --main-button-text-color:${main_text_color_button};
+          --main-background-color: ${main_background_color};
           --main-background-color-alt:${main_background_color_alt};
           --popup-text-color:${popup_text_color};
           --popup-background-color:${popup_background_color};
@@ -91,7 +91,7 @@ function AppLayout() {
     return (
       <div className='Appcontainer' >
         <header><h1>Welcome to Fluffbook</h1></header>
-        <div className="grid-container">
+        <div className="grid-container main-grid-container">
           <div className="grid-item">
             <UserLogin />
           </div>

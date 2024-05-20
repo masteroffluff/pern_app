@@ -4,6 +4,7 @@ import { hasErrorUserDetails, selectedUserDetails, userDetailsFetch, userDetails
 import { setPopup, selectPopupState } from "../../mainPage/popupSlice";
 
 import '../../../App.css'
+import '../user.css'
 import UserPFP from "../pfp/UserPFP";
 
 // ✕ displays user display name (4 ms)
@@ -90,7 +91,7 @@ export default function UserDetails() {
           background-image:url(${main_background_image_URL});
         }
       `}</style>
-    <form onSubmit={submitForm}><div id='details' data-testid="userDetails" className={popupState ? 'grid-item blur-background' : 'grid-item'} >
+    <form onSubmit={submitForm}><div id='details' data-testid="userDetails" className={(popupState ? 'blur-background' : '')+'grid-item user-grid'} >
       <h3>User Details</h3><br />
       <label htmlFor="display_name">
         <h4>Display Name</h4>

@@ -1,6 +1,11 @@
-.details{
+.user-grid{
+    height:850px;
+}
+
+
+/* .details{
     width:100%;
     all:inherit;
     border:1px solid var(--main-background-color-alt);
-}
+} */
 

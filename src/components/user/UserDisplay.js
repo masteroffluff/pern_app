@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 
 export default function UserDisplay(){
     return (<>
-    <div data-testid="userDisplay" className="grid-container">
+    <div data-testid="userDisplay" className="grid-container main-grid-container">
         <UserDetails />
         <UserFriends />
     </div>

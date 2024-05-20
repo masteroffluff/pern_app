@@ -26,6 +26,7 @@
 .todo_item:hover{
     font-weight:bold;
     background-color: var(--main-background-color-alt);
+    color: var(--main-button-text-color);
 }
 
 .todo_done{

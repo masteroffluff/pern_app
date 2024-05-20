@@ -32,7 +32,7 @@ export default function MainDisplay() {
     }, [dispatch]);
 
     return (<>
-        <div className={popupState ? 'grid-container blur-background' : 'grid-container'}>
+        <div className={popupState ? 'grid-container main-grid-container blur-background' : 'grid-container main-grid-container'}>
             <div className='grid-item'>
                 <DisplayToday />
             </div>

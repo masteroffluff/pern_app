@@ -3,26 +3,34 @@
 
 :root {
   --main-text-color: darkgrey;
+  --main-button-text-color:darkgrey;
   --popup-text-color: #1b012d;
   --main-background-color: black;
   --main-background-color-alt: #474747;
   --popup-background-color: darkgray;
+
 }
 
+html,body { height:100%; }
 
 body {
   /* background-color: var(--main-background-color); */
+  padding:0;
+  margin:0;
   font-family: "Poppins", sans-serif;
   color: var(--main-text-color);
   display: flex;
-  align-items: center;
+  align-items:stretch;
   justify-content: center;
   background-color: var(--main-background-color);
   background-image: url('../public/images/joshua-woroniecki-3mXIZP6_6zY-unsplash.jpg');
   background-size: cover;
 }
 
-
+#root{
+  padding:0;
+  margin:0;
+}
 
 p {
   font-family: "Poppins", sans-serif;
@@ -66,11 +74,13 @@ nav a {
 }
 
 .Appcontainer {
+  margin-top:0;
+  padding-top:100px;
   padding: 10px;
   width: 900px;
   background-color: var(--main-background-color);
+  height:100%;
 }
-
 
 .App {
   color: var(--main-text-color);
@@ -101,12 +111,17 @@ nav a {
   flex: 1 0 80px;
   margin: 10px;
   background-color: var(--main-background-color);
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 20px;
   text-align: center;
   height: 700px;
   overflow: hidden;
   flex: 1;
+  border-radius: 2%;
+}
+
+.main-grid-container {
+  border-radius: 2%;
 }
 
 .calendar {
@@ -215,18 +230,28 @@ textarea {
 }
 
 
+
 button,
 input,
 optgroup,
 select,
 textarea,
 .button-like-link {
-  background-color: var(--main-background-color);
-  color: var(--main-text-color);
+  border: none;
+  border-radius: 2%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+
+  background-color: var(--main-background-color-alt);
+  color: var(--main-button-text-color);
   font-family: "Poppins", sans-serif;
   font-size: 100%;
   line-height: 1.15;
-  margin: 0;
+  margin: 5px;
+  margin-top: 10px;
+  
 }
 .popup button,
 .popup input,
@@ -250,34 +275,53 @@ button:disabled {
   -o-filter: grayscale(100%);
 }
 
+button,
 .button-like-link {
+  box-shadow: 10px var(--main-text-color);
+  color: var(--main-button-text-color);
+  will-change: transform;
+  transition: transform 250ms;
+}
+
+
+button:hover,
+.button-like-link:hover  {
+  transform: translateY(-4px);
+  
+}
+button:active,
+.button-like-link:active {
+  transform: translateY(0px);
+  
+
+}
+
+.button-like-link {
+  margin:10px;
   /* Basic button styles */
-  display: inline-block;
+  /* display: inline-block;
   text-decoration: none;
   background-color: var(--main-background-color);
-  color: var(--main-text-color);
+  
   ;
   cursor: pointer;
   margin: 2px;
   border-top: 2px solid #e3e3e3;
   border-right: 2px solid #979797;
   border-bottom: 2px solid #979797;
-  border-left: 2px solid #e3e3e3;
+  border-left: 2px solid #e3e3e3; */
 }
 
-button,
-.button-like-link {
-  box-shadow: 10px var(--main-text-color);
-}
 
-.button-like-link:active {
+
+/* .button-like-link:active {
 
   background-color: var(--main-background-color);
   border-top: 2px solid #979797;
   border-right: 2px solid #e3e3e3;
   border-bottom: 2px solid #e3e3e3;
   border-left: 2px solid #979797;
-}
+} */
 
 .button-like-link.active {
   font-weight: bold;
