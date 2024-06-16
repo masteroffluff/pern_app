@@ -120,14 +120,21 @@ export default function DisplayCalendar() {
     return <div id='calendar' data-testid="displayCalendar">
         <h3>Calendar</h3>
         {/* <p>...{JSON.stringify(calendarMap)}</p> */}
+        <div className='calendar-header'>
         <form>
-            <label htmlFor="dateFrom">Date From</label>
-            <input data-testid="dateFrom" type='date' id='dateFrom' value={dateFrom.format('YYYY-MM-DD')} onChange={dateFrom_change} />
+            <table><tbody>
+            <tr>
+                <td><label htmlFor="dateFrom">Date From</label></td>
+                <td><input className="calendar-control" data-testid="dateFrom" type='date' id='dateFrom' value={dateFrom.format('YYYY-MM-DD')} onChange={dateFrom_change} /></td>
+            </tr>
 
-            <label htmlFor="dateTo">Date To</label>
-            <input data-testid="dateTo" type='date' id='dateTo' value={dateTo.format('YYYY-MM-DD')} onChange={dateTo_change} />
+            <tr>
+                <label htmlFor="dateTo">Date To</label>
+                <td><input className="calendar-control" data-testid="dateTo" type='date' id='dateTo' value={dateTo.format('YYYY-MM-DD')} onChange={dateTo_change} /></td>
+            </tr> </tbody></table>
         </form>
-        <div className='calendar content'>
+        </div>
+        <div className='calendar-body content'>
             <table >
                 <tbody>
                     {Object.entries(calendarMap).map(([dt, items], i) => {
@@ -146,8 +153,11 @@ export default function DisplayCalendar() {
 
             </table>
         </div>
-        <button data-testid='newEvent' value='newEvent' onClick={newEvent_click} >New Event</button>
-        <button data-testid='newReminder' value='newReminder' onClick={newReminder_click} >New Reminder</button>
-        <button data-testid='newAppointment' value='newAppointment' onClick={newAppointment_click} >New Appointment</button>
+        <div className="calendar-footer">
+            <button data-testid='newEvent' value='newEvent' onClick={newEvent_click} >New Event</button>
+            <button data-testid='newReminder' value='newReminder' onClick={newReminder_click} >New Reminder</button>
+            <button data-testid='newAppointment' value='newAppointment' onClick={newAppointment_click} >New Appointment</button>
+        </div>
+
     </div>
 }

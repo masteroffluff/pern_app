@@ -25,6 +25,7 @@ body {
   background-color: var(--main-background-color);
   background-image: url('../public/images/joshua-woroniecki-3mXIZP6_6zY-unsplash.jpg');
   background-size: cover;
+  min-height:100%;
 }
 
 #root{
@@ -55,182 +56,6 @@ header {
 
 }
 
-.title {
-  width: 100%
-}
-
-nav a {
-  padding: 10px;
-}
-
-.popup {
-  color: var(--popup-text-color);
-  background-color: var(--popup-background-color);
-}
-
-.errorMessage,
-.error {
-  color: red;
-}
-
-.Appcontainer {
-  margin-top:0;
-  padding-top:100px;
-  padding: 10px;
-  width: 900px;
-  background-color: var(--main-background-color);
-  height:100%;
-}
-
-.App {
-  color: var(--main-text-color);
-  text-align: center;
-  max-width: 1200px;
-
-}
-
-.wall {
-  text-align: justify;
-  list-style-type: none;
-}
-
-.wall h4 {
-  font-size: 1.1em;
-}
-
-
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color: var(--main-background-color-alt);
-  padding: 10px;
-  justify-content: space-between;
-}
-
-.grid-item {
-  flex: 1 0 80px;
-  margin: 10px;
-  background-color: var(--main-background-color);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  text-align: center;
-  height: 700px;
-  overflow: hidden;
-  flex: 1;
-  border-radius: 2%;
-}
-
-.main-grid-container {
-  border-radius: 2%;
-}
-
-.calendar {
-  overflow-x: scroll;
-
-
-}
-
-.content {
-  height: 600px;
-  overflow-y: auto;
-  clear: both;
-}
-
-
-/* .content tbody{
-	overflow: auto;
-} */
-.calendar tr {
-  border-bottom: 1px solid var(--main-text-color);
-
-}
-
-
-.calendarItem {
-  border: 1px solid var(--main-background-color-alt);
-}
-
-textarea {
-  resize: none;
-}
-
-.addButton {
-  display: block;
-  margin: 0;
-  padding: 0;
-
-  width: 100%;
-
-  filter: grayscale(100%);
-  ;
-  -webkit-filter: grayscale(100%);
-  -moz-filter: grayscale(100%);
-  -ms-filter: grayscale(100%);
-  -o-filter: grayscale(100%);
-
-}
-
-.addButton:hover {
-
-  filter: grayscale(0%);
-  -webkit-filter: grayscale(0%);
-  -moz-filter: grayscale(0%);
-  -ms-filter: grayscale(0%);
-  -o-filter: grayscale(0%);
-
-}
-
-.addButton div {
-  display:  inline-block;
-}
-
-.friend {
-  width: 100%;
-}
-
-.friends-container {
-  border: 1px solid var(--main-background-color-alt);
-  margin-bottom: 10px;
-  overflow: hidden;
-  height: 95%
-}
-
-.friend-list-container {
-  overflow: scroll;
-  height: 100%
-}
-
-.friend-details {
-  display: flex;
-  justify-content: space-between;
-
-}
-
-.friend-details div {
-  display: inline-flex;
-  text-align: center;
-  width: 100%;
-}
-
-.friend-button-bar {
-  display: flexbox;
-  justify-content: space-between;
-}
-
-.PFP {
-  /* default size */
-  /*   width: 100px;
-  height: 100px; */
-  border: 1px solid var(--main-background-color-alt);
-  background-image: var(--main-background-color);
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-
 button,
 input,
 optgroup,
@@ -238,7 +63,7 @@ select,
 textarea,
 .button-like-link {
   border: none;
-  border-radius: 2%;
+  border-radius: 5px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -331,6 +156,208 @@ button:active,
   display: none;
 }
 
+.title {
+  width: 100%
+}
+
+nav a {
+  padding: 10px;
+}
+
+.popup {
+  color: var(--popup-text-color);
+  background-color: var(--popup-background-color);
+}
+
+.errorMessage,
+.error {
+  color: red;
+}
+
+.Appcontainer {
+  margin-top:0;
+  padding-top:100px;
+  padding: 10px;
+  width: 900px;
+  background-color: var(--main-background-color);
+  min-height:100%;
+}
+
+.App {
+  color: var(--main-text-color);
+  text-align: center;
+  max-width: 1200px;
+
+}
+
+.wall {
+  text-align: justify;
+  list-style-type: none;
+}
+
+.wall h4 {
+  font-size: 1.1em;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--main-background-color-alt);
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.grid-item {
+  flex: 1 0 80px;
+  margin: 10px;
+  background-color: var(--main-background-color);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+  height: 700px;
+  overflow: hidden;
+  flex: 1;
+  border-radius: 2%;
+}
+
+.main-grid-container {
+  border-radius: 2%;
+}
+
+
+
+.calendarItem {
+  border: 1px solid var(--main-background-color-alt);
+}
+
+textarea {
+  resize: none;
+}
+
+.addButton {
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+
+  filter: grayscale(100%);
+  ;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+
+}
+
+.addButton:hover {
+
+  filter: grayscale(0%);
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+
+}
+
+.addButton div {
+  display:  inline-block;
+}
+
+.friend {
+  width: 100%;
+}
+
+.friends-container {
+  border: 1px solid var(--main-background-color-alt);
+  margin-bottom: 10px;
+  overflow: hidden;
+  height: 95%
+}
+
+.friend-list-container {
+  overflow: scroll;
+  height: 100%
+}
+
+.friend-details {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.friend-details div {
+  display: inline-flex;
+  text-align: center;
+  width: 100%;
+}
+
+.friend-button-bar {
+  display: flexbox;
+  justify-content: space-between;
+}
+
+.PFP {
+  /* default size */
+  /*   width: 100px;
+  height: 100px; */
+  border: 1px solid var(--main-background-color-alt);
+  background-image: var(--main-background-color);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#calendar{
+  height:inherit;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.calendar-header{
+  flex: 0 1 auto;
+}
+
+.calendar-body {
+  overflow-x: scroll;
+  flex: 1 1 auto;
+
+}
+.calendar-footer {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+}
+.calendar-footer button{
+  padding:15px 2px;
+}
+
+.calendar-control {
+  padding:2px !important;
+}
+
+
+
+.content {
+  height: 600px;
+  overflow-y: auto;
+  clear: both;
+}
+
+
+/* .content tbody{
+	overflow: auto;
+} */
+.calendar tr {
+  border-bottom: 1px solid var(--main-text-color);
+
+}
+
+
+
 /* tablet veiw */
 @media only screen and (max-width: 900px) and (min-width:525px) {
   body {
@@ -354,6 +381,7 @@ button:active,
   }
 
 }
+
 
 @media only screen and (max-width:525px) {
   .Appcontainer {
@@ -391,4 +419,5 @@ button:active,
   .smallvp-button-block {
     display: inline-block;
   }
+
 }
