@@ -33,6 +33,7 @@ function AppLayout() {
   if (isLoggedIn) {
     if (location.pathname === '/') { navigate('/main') }
     return (<>
+      <div id="background"></div>
       <div className='Appcontainer' >
         <style>{`
         :root {
@@ -45,8 +46,11 @@ function AppLayout() {
         }
         body {
           color: var(--main-text-color);
-          background-image:url(${main_background_image_URL});
           
+          
+        }
+        #background{
+        background-image:url(${main_background_image_URL});
         }
         .main{
           ${location.pathname === '/main'?'diplay:inline-block':'display:none'}
