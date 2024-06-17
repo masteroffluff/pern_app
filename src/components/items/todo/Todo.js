@@ -26,12 +26,12 @@ export default function Todo({todoIndex,item_id, title, notes, items}){
     return <div data-testid="todo">
         <h4 ><input aria-label="Title" style={{all:'inherit'}} type='text' defaultValue={title} onBlur={updateTitle} /></h4>
         <div className="todo_container">
-            <div className="todo">
+            <div className="todo todo-list">
                 <ul>
                     {items.map(({item_text, item_done}, index)=><li key={index}><TodoItem index={index} item_text={item_text} item_done={item_done} callBack ={callBack} /></li>)}
                 </ul>
             </div>            
-            <div className="todo">
+            <div className="todo todo-description">
                 
                 <textarea aria-label="Description" rows="10" cols="18"  onBlur={updateNotes} defaultValue={notes}/>
                 
