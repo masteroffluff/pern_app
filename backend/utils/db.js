@@ -65,6 +65,9 @@ class AtomicTranasction {
     }
   async begin(){
     try{
+      if(this.client){
+        return 
+      }
       this.client = await this.pool.connect();
       await this.client.query('BEGIN')
     }catch(err){

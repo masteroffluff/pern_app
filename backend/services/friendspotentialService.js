@@ -1,4 +1,4 @@
-const e = require('express');
+// const e = require('express');
 const db = require('../utils/db')
 
 module.exports.funcfriendspotential = function funcfriendspotential(req, res) {
