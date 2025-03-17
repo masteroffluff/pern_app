@@ -1,7 +1,6 @@
 // This file will contain the database interactions for the calendar calendar/a
 
 
-const db = require("../utils/db");
 const helperFunctions = require("../utils/helperFunctions");
 const Model = require("./Model");
 
@@ -58,7 +57,7 @@ class Calendar extends Model {
             ("Items".shared_to = 2) AND
             ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
       ) as t`;
-    const calendarResponse = await db.queryPromisified(sqlCalandar, [
+    const calendarResponse = await at.query(sqlCalandar, [
       id,
       date_from,
       date_to,
@@ -69,7 +68,7 @@ class Calendar extends Model {
             FROM "Attending"
             JOIN "Users" ON "Attending".person = "Users".id
             WHERE "Attending".item_id = ANY($1)`;
-    const attemdeesResponse = await db.queryPromisified(sqlAttendees, [
+    const attemdeesResponse = await at.query(sqlAttendees, [
       itemIds,
     ]);
     const attendees = attemdeesResponse.rows;
@@ -117,7 +116,7 @@ class Calendar extends Model {
         DELETE FROM "Attending"
         WHERE item_id =$1 AND person=$2
         RETURNING *;`;
-      const response = await db.queryPromisified(sql, [item_id, attendee]);
+      const response = await at.query(sql, [item_id, attendee]);
       if (response.rows.length === 0) {
         const err = new Error("Remove Attendee Failed");
         throw err;
