@@ -15,7 +15,6 @@ class Calendar extends Model {
     date_from = new Date("2000/01/01"),
     date_to = new Date("9999/01/01")
   ) {
-    this.at.begin();
     const sqlCalandar = `
       SELECT DISTINCT * FROM (
         SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
@@ -57,11 +56,11 @@ class Calendar extends Model {
             ("Items".shared_to = 2) AND
             ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
       ) as t`;
-    const calendarResponse = await at.query(sqlCalandar, [
+    const calendarResponse = await this.atomic_query(sqlCalandar, [
       id,
       date_from,
       date_to,
-    ]);
+    ], "get_calendar failed", true);
     const calendarItems = calendarResponse.rows;
     const itemIds = calendarItems.map((e) => e.id);
     const sqlAttendees = `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
@@ -94,17 +93,13 @@ class Calendar extends Model {
             INSERT INTO "Attending" (item_id, person)
             Values($1,$2)
             RETURNING *;`;
-        const response = await at.query(sql, [item_id, attendees[index]]);
-        if (response.rows.length === 0) {
-          
-          const err = new Error("(update atendee list)Add Attendee Failed");
-          throw err;
-        }
+        await this.atomic_query(sql, [item_id, attendees[index]], "(add atendee list)Add Attendee Failed");
+        
       }
 
       return true;
     } catch (e) {
-      console.log("post_calendar_attendees error", e);
+      console.log("add_calendar_attendees error", e);
       const err = new Error(e.message);
       throw err;
     }
@@ -116,11 +111,7 @@ class Calendar extends Model {
         DELETE FROM "Attending"
         WHERE item_id =$1 AND person=$2
         RETURNING *;`;
-      const response = await at.query(sql, [item_id, attendee]);
-      if (response.rows.length === 0) {
-        const err = new Error("Remove Attendee Failed");
-        throw err;
-      }
+      await this.atomic_query(sql, [item_id, attendee], "Remove Attendee Failed");
       return true;
     } catch (e) {
       console.log("delete_calendar_attendees error", e);
@@ -135,14 +126,15 @@ class Calendar extends Model {
       INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
       VALUES( $1, $2, $3, $4, $5, $6 )
       RETURNING id;`;
-      const item_idResponse = await at.query(sqlItems, [
+      const item_idResponse = await this.atomic_query(sqlItems, [
         shared_to,
         type,
         title,
         notes,
         owner_id,
         now.toISOString(),
-      ]);
+      ],
+      "add_calendar_item error");
       return item_idResponse.rows[0].id;
     } catch (e) {
       console.log("add_calendar_item error", e);
@@ -155,9 +147,10 @@ class Calendar extends Model {
       
       const sqlCalendarDetails = `
       INSERT INTO "Calendar_Details" (item_id, date_from, date_to, place )
-      VALUES( $1, $2, $3, $4 );`;
-      await at.query(sqlCalendarDetails, [item_id, date_from, date_to, place]);
-      return item_idResponse.rows[0].id;
+      VALUES( $1, $2, $3, $4 )
+      RETURNING item_id;`;
+      const item_idResponse =  await this.atomic_query(sqlCalendarDetails, [item_id, date_from, date_to, place],"add_calendar_detail error");
+      return item_idResponse.rows[0].item_id;
     } catch (e) {
       console.log("add_calendar_detail error", e);
       const err = new Error(e.message);
@@ -202,23 +195,19 @@ class Calendar extends Model {
     place,
     ) {
     try {
-      
       const sqlCalendarDetails = `
       UPDATE "Calendar_Details"
       SET date_from= $2, date_to= $3, place= $4
       WHERE item_id = $1
       RETURNING *;`;
-      const calendar_rows = await at.query(sqlCalendarDetails, [
+      const calendar_rows = await this.atomic_query(sqlCalendarDetails, [
         item_id,
         date_from,
         date_to,
         place,
-      ]);
-      if (calendar_rows.rows.length === 0) {
-        
-        const err = new Error("update_calendar nothing updated");
-        throw err;
-      }
+      ],
+      "update_calendar nothing updated");
+      
       return calendar_rows.rows;
     } catch (e) {
       console.log("update_calendar error", e);
@@ -234,9 +223,9 @@ class Calendar extends Model {
       const sqlCalendarDetails = `
       DELETE FROM "Calendar_Details" 
         WHERE item_id = $1`;
-      await at.query(sqlCalendarDetails, [
+      await this.atomic_query(sqlCalendarDetails, [
         item_id,
-      ]);
+      ],"delete_calendar error", true);
       return true;
     } catch (e) {
       console.log("delete_calendar error", e);
@@ -252,9 +241,9 @@ class Calendar extends Model {
       const sqlCalendarDetails = `
       DELETE FROM "Items" 
         WHERE id = $1`;
-      await at.query(sqlCalendarDetails, [
+        await this.atomic_query(sqlCalendarDetails, [
         item_id,
-      ]);
+      ], "delete_item error", true);
       return true;
     } catch (e) {
       console.log("delete_item error", e);
