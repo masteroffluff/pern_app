@@ -7,8 +7,8 @@ const Model = require("./Model");
 
 class Calendar extends Model {
   // ** calendar ** //
-  constructor() {
-    super()
+  constructor(at) {
+    super(at)
   }
   async get_calendar(
     id,
@@ -87,7 +87,7 @@ class Calendar extends Model {
       if (tyopeof(attendees) === "string") {
         attendees = [attendees];
       }
-      await this.at.begin();
+      
 
       for (const index in attendees) {
         const sql = `
@@ -96,7 +96,7 @@ class Calendar extends Model {
             RETURNING *;`;
         const response = await at.query(sql, [item_id, attendees[index]]);
         if (response.rows.length === 0) {
-          await at.rollback();
+          
           const err = new Error("(update atendee list)Add Attendee Failed");
           throw err;
         }
@@ -111,7 +111,7 @@ class Calendar extends Model {
   }
   async delete_calendar_attendees(item_id, attendee) {
     try {
-      await this.at.begin();
+      
       const sql = `
         DELETE FROM "Attending"
         WHERE item_id =$1 AND person=$2
@@ -130,7 +130,7 @@ class Calendar extends Model {
   }
   async add_item(shared_to, type, title, notes, owner_id) {
     try {
-      await this.at.begin();
+      
       const sqlItems = `
       INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
       VALUES( $1, $2, $3, $4, $5, $6 )
@@ -152,7 +152,7 @@ class Calendar extends Model {
   }
   async add_calendar_detail(item_id, date_from, date_to, place) {
     try {
-      await this.at.begin();
+      
       const sqlCalendarDetails = `
       INSERT INTO "Calendar_Details" (item_id, date_from, date_to, place )
       VALUES( $1, $2, $3, $4 );`;
@@ -171,7 +171,7 @@ class Calendar extends Model {
     notes
     ) {
     try {
-      await this.at.begin();
+      
       const sqlItems = `
       UPDATE "Items"
       SET shared_to= $2, title= $3, notes= $4
@@ -184,7 +184,7 @@ class Calendar extends Model {
         notes,
       ]);
       if (item_rows.rows.length === 0) {
-        await at.rollback();
+        
         const err = new Error("update_item nothing updated");
         throw err;
       }
@@ -202,7 +202,7 @@ class Calendar extends Model {
     place,
     ) {
     try {
-      await this.at.begin();
+      
       const sqlCalendarDetails = `
       UPDATE "Calendar_Details"
       SET date_from= $2, date_to= $3, place= $4
@@ -215,7 +215,7 @@ class Calendar extends Model {
         place,
       ]);
       if (calendar_rows.rows.length === 0) {
-        await at.rollback();
+        
         const err = new Error("update_calendar nothing updated");
         throw err;
       }
@@ -230,7 +230,7 @@ class Calendar extends Model {
     item_id
     ) {
     try {
-      await this.at.begin();
+      
       const sqlCalendarDetails = `
       DELETE FROM "Calendar_Details" 
         WHERE item_id = $1`;
@@ -248,7 +248,7 @@ class Calendar extends Model {
     item_id
     ) {
     try {
-      await this.at.begin();
+      
       const sqlCalendarDetails = `
       DELETE FROM "Items" 
         WHERE id = $1`;
