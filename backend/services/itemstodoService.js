@@ -60,6 +60,7 @@ module.exports.post_todo = async function post_todo(req, res) {
 
 module.exports.update_todo = async function update_todo(req, res) {
     // only need to update the top line data here updating the lines will be done on the todod items route. 
+    
     try {
 
         const { id: item_id, title, notes } = req.body

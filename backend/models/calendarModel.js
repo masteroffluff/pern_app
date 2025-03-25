@@ -5,18 +5,15 @@ const helperFunctions = require("../utils/helperFunctions");
 const Model = require("./Model");
 
 
-class Calendar extends Model {
+class CalendarModel extends Model {
   // ** calendar ** //
   constructor(at) {
     super(at)
   }
-  async get_calendar(
-    id,
-    date_from = new Date("2000/01/01"),
-    date_to = new Date("9999/01/01")
-  ) {
-    const sqlCalandar = `
-      SELECT DISTINCT * FROM (
+
+  async getCalendar(user_id, date_from, date_to){
+    const response = this.atomic_query(
+      `SELECT DISTINCT * FROM (
         SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
             FROM "Items"
             JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
@@ -55,29 +52,21 @@ class Calendar extends Model {
             ("Friends".user_id =$1 ) AND
             ("Items".shared_to = 2) AND
             ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-      ) as t`;
-    const calendarResponse = await this.atomic_query(sqlCalandar, [
-      id,
-      date_from,
-      date_to,
-    ], "get_calendar failed", true);
-    const calendarItems = calendarResponse.rows;
-    const itemIds = calendarItems.map((e) => e.id);
-    const sqlAttendees = `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
-            FROM "Attending"
-            JOIN "Users" ON "Attending".person = "Users".id
-            WHERE "Attending".item_id = ANY($1)`;
-    const attemdeesResponse = await at.query(sqlAttendees, [
-      itemIds,
-    ]);
-    const attendees = attemdeesResponse.rows;
-    const calendarWithMappedAttendees = helperFunctions.mapArrayontoArray(
-      calendarItems,
-      attendees,
-      "attendees"
+      ) as t`,
+      [ user_id, date_from, date_to]
     );
-    return calendarWithMappedAttendees;
+    return response.rows;
   }
+  async getCalendarAttendees(){
+    const response = await this.atomic_query(
+      `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
+      FROM "Attending"
+      JOIN "Users" ON "Attending".person = "Users".id
+      WHERE "Attending".item_id = ANY($1)`
+      , [owner_id]);
+      return response.rows;
+  }
+  
 
   async add_calendar_attendees(item_id, attendees) {
     try {
@@ -120,7 +109,7 @@ class Calendar extends Model {
     }
   }
   async add_item(shared_to, type, title, notes, owner_id) {
-    try {
+
       
       const sqlItems = `
       INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
@@ -136,14 +125,8 @@ class Calendar extends Model {
       ],
       "add_calendar_item error");
       return item_idResponse.rows[0].id;
-    } catch (e) {
-      console.log("add_calendar_item error", e);
-      const err = new Error(e.message);
-      throw err;
-    }
   }
   async add_calendar_detail(item_id, date_from, date_to, place) {
-    try {
       
       const sqlCalendarDetails = `
       INSERT INTO "Calendar_Details" (item_id, date_from, date_to, place )
@@ -151,11 +134,6 @@ class Calendar extends Model {
       RETURNING item_id;`;
       const item_idResponse =  await this.atomic_query(sqlCalendarDetails, [item_id, date_from, date_to, place],"add_calendar_detail error");
       return item_idResponse.rows[0].item_id;
-    } catch (e) {
-      console.log("add_calendar_detail error", e);
-      const err = new Error(e.message);
-      throw err;
-    }
   }
   async update_item(      
     item_id,
@@ -163,7 +141,6 @@ class Calendar extends Model {
     title,
     notes
     ) {
-    try {
       
       const sqlItems = `
       UPDATE "Items"
@@ -182,19 +159,14 @@ class Calendar extends Model {
         throw err;
       }
       return item_rows.rows;
-    } catch (e) {
-      console.log("update_item error", e);
-      const err = new Error(e.message);
-      throw err;
-    }
+
   }
-  async update_calendar(      
+  async updateCalendar(      
     item_id,
     date_from,
     date_to,
     place,
     ) {
-    try {
       const sqlCalendarDetails = `
       UPDATE "Calendar_Details"
       SET date_from= $2, date_to= $3, place= $4
@@ -209,13 +181,9 @@ class Calendar extends Model {
       "update_calendar nothing updated");
       
       return calendar_rows.rows;
-    } catch (e) {
-      console.log("update_calendar error", e);
-      const err = new Error(e.message);
-      throw err;
-    }
+
   }
-  async delete_calendar(      
+  async deleteCalendar(      
     item_id
     ) {
     try {
@@ -233,26 +201,9 @@ class Calendar extends Model {
       throw err;
     }
   }
-  async delete_item(      
-    item_id
-    ) {
-    try {
-      
-      const sqlCalendarDetails = `
-      DELETE FROM "Items" 
-        WHERE id = $1`;
-        await this.atomic_query(sqlCalendarDetails, [
-        item_id,
-      ], "delete_item error", true);
-      return true;
-    } catch (e) {
-      console.log("delete_item error", e);
-      const err = new Error(e.message);
-      throw err;
-    }
-  }  
-  
+
   
   //// **END OF CLASS ** /////
 }
 
+module.exports = CalendarModel

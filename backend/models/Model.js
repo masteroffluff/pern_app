@@ -21,10 +21,10 @@ class Model {
   get at() {
     return this.at
   }
-  async atomic_query(sql,arr, message, skipCheck){
+  async atomic_query(sql,arr, message){
     console.log(sql)
-    const qry  = await atomic.query(sql,arr)
-    if (!skipCheck&&qry.rows.length===0){
+    const qry  = await this.at.query(sql,arr)
+    if (!message&&qry.rows.length===0){
         console.log(message)
         console.log(arr)
         const err = new Error(message)

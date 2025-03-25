@@ -1,6 +1,7 @@
 const db = require('../utils/db')
 const helperFunctions = require('../utils/helperFunctions')
 
+
 module.exports.funccalendar = function funccalendar(req, res) {
     res.send({
         message: 'This is the mockup controller for funccalendar'

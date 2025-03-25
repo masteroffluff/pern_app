@@ -18,7 +18,7 @@ module.exports.post_todo_items = async function post_todo_items(req, res) {
         const response = await db.queryPromisified(sql, [todo_id, item_text])
         if (response.rows.length === 0) {
             const err = new Error('post_todo_items Failed')
-            throw err
+            throw errget_items
         }
         const { id } = req.user
         res.send(await helperFunctions.getListOfTodosAndTheirItems(id));
