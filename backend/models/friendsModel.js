@@ -64,7 +64,21 @@ class FriendsModel extends Model {
             'unblock friend failed'
         )
     }
-
+    async getPotentialFriends(user_id){
+        await this.atomic_query(
+            `SELECT id, display_name
+            FROM "Users"
+            WHERE id <> $1
+            AND NOT EXISTS (
+                SELECT 1
+                FROM "Friends"
+                WHERE (user_id = $1 AND friend_id = "Users".id)
+                OR (user_id = "Users".id AND friend_id = $1)
+            )`,
+            [user_id],
+            'unblock friend failed'
+        )
+    }
 
 }
 
