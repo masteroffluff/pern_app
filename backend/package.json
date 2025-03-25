@@ -10,6 +10,7 @@
         "start": "node index.js"
     },
     "dependencies": {
+        "@faker-js/faker": "^9.6.0",
         "@oas-tools/core": "^3.0.0",
         "bcrypt": "^5.1.1",
         "body-parser": "^1.20.2",
