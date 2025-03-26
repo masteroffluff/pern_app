@@ -14,6 +14,27 @@ class FriendsModel extends Model {
         return response.rows
     
     }
+    async getFriendIDList(user_id){
+        const sql =
+            `
+            SELECT friend_id from "Friends"
+            WHERE status=2 AND user_id = $1 AND friend_id not in (
+            SELECT user_id FROM "Friends"
+            WHERE friend_id = $1 AND status = 4);
+            `
+        const response = await atomic_query(sql, [user_id])
+        return response.rows.map((e)=>e.friend_id)
+    }
+    async getFriendRequests(user_id){
+        const sql =
+            `SELECT "Users".id, "Users".display_name, "Friends_status".status
+            FROM "Users"
+            JOIN "Friends" ON "Users".id = "Friends".user_id
+            JOIN "Friends_status" ON "Friends".status = "Friends_status".id
+            WHERE friend_id = $1 AND status = 1`
+        const response = await atomic_query(sql, [user_id])
+        return response.rows
+    }
 
     async addFriend(user_id,friendID){
         await this.atomic_query(

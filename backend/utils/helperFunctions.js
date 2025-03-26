@@ -17,10 +17,9 @@ module.exports.generate_jwt_token = function generate_jwt_token(id) {
 
 module.exports.findIfUserNameExists = function findIfUserNameExists(display_name) {
     const userModel = new UserModel()
-    return userModel.findByUsername(display_name)
+    return userModel.findIfUserNameExists(display_name)
         .then((response) => {
-            console.log('response', response.rows[0].a >= 1)
-            return response.rows[0].a >= 1
+            return response
         })
         .catch((e) => {
             console.log(e)
@@ -32,8 +31,10 @@ module.exports.findIfUserNameExists = function findIfUserNameExists(display_name
 module.exports.findById = async function findById(id, callback) {
     try {
         console.log("id:", id)
-        const response = await db.queryPromisified('SELECT * FROM "Users" WHERE id=$1', [id], 'findById')
-        const user = response.rows[0]
+        const userModel = new UserModel()
+        const user = await userModel.getUser(id)
+        // const response = await db.queryPromisified('SELECT * FROM "Users" WHERE id=$1', [id], 'findById')
+        // const user = response.rows[0]
         user.password = user.password_hash
         callback(null, user)
     } catch (err) {
@@ -45,9 +46,11 @@ module.exports.findById = async function findById(id, callback) {
 // findByUsername(id, function (err, user) 
 module.exports.findByUsername = async function findByUsername(display_name) {
     try {
-        console.log("display_name:", display_name)
-        const response = await db.queryPromisified('SELECT * FROM "Users" WHERE display_name=$1', [display_name], 'findByUsername')
-        const user = response.rows[0]
+        const userModel = new UserModel()
+        const user = await userModel.findUser(display_name)
+        // console.log("display_name:", display_name)
+        // const response = await db.queryPromisified('SELECT * FROM "Users" WHERE display_name=$1', [display_name], 'findByUsername')
+        // const user = response.rows[0]
         user.password = user.password_hash
         return user
     } catch (err) {
@@ -58,12 +61,14 @@ module.exports.findByUsername = async function findByUsername(display_name) {
 
 module.exports.add_new_user = async function add_new_user(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour) {
     try {
-        const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour )
-                VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )
-                RETURNING id`
-        const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour])
-        const user = response.rows[0]
-        return user
+        const userModel = new UserModel()
+        return await userModel.addUser(display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour)
+        // const sql = `INSERT INTO "Users" ( display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour )
+        //         VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )
+        //         RETURNING id`
+        // const response = await db.queryPromisified(sql, [display_name, email, password_hash, third_party_data, third_party_provider, phone_no, birthday, colour])
+        // const user = response.rows[0]
+        // return user
     } catch (e) {
         console.log(e)
         return null
@@ -71,15 +76,19 @@ module.exports.add_new_user = async function add_new_user(display_name, email, p
 }
 
 module.exports.updateUserDetails = async function updateUserDetails(id, display_name, email, phone_no, birthday, colour) {
-    console.log(id, display_name, email, phone_no, birthday, colour)
-    const sql = `UPDATE "Users"
-    SET display_name = $2, email = $3, phone_no = $4, birthday=$5, colour=$6
-    WHERE id=$1
-    RETURNING display_name, email, phone_no, birthday, colour;`
-    const response = await db.queryPromisified(sql, [id, display_name, email, phone_no, birthday, colour], 'findByUsername')
-    //console.log('updateUserDetails',response)
-    const user = response.rows[0]
-    return user
+    const userModel = new UserModel()
+    return await userModel.updateUser(id, display_name, email, phone_no, birthday, colour)
+    
+    
+    // console.log(id, display_name, email, phone_no, birthday, colour)
+    // const sql = `UPDATE "Users"
+    // SET display_name = $2, email = $3, phone_no = $4, birthday=$5, colour=$6
+    // WHERE id=$1
+    // RETURNING display_name, email, phone_no, birthday, colour;`
+    // const response = await db.queryPromisified(sql, [id, display_name, email, phone_no, birthday, colour], 'findByUsername')
+    // //console.log('updateUserDetails',response)
+    // const user = response.rows[0]
+    // return user
 }
 
 module.exports.findByThirdPartyId = async function findByThirdPartyId(id, third_party) {

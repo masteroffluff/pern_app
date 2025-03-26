@@ -83,7 +83,19 @@ async getAllItems(owner_id){
     ], "delete_item error", true);
     return true;
   }  
-  
+  async getWall(friendsList,owner_id){
+    const sql = `
+    SELECT "Items".id, "Item_type".type, "Items".owner_id, "Items".shared_to, "Items".title, "Items".notes as value, "Items".date	
+    FROM "Items"
+    JOIN "Item_type" ON "Items".type = "Item_type".id   
+
+    WHERE ("Items".type IN (1) AND "Items".owner_id = ANY($1) AND "Items".shared_to = 2)
+    OR ("Items".type IN (1,6) AND "Items".owner_id = $2)
+    ORDER BY "Items".date DESC
+    `
+    const response = await this.atomic_query(sql, [friendsList,owner_id])
+    return response.rows
+  }
   
   //// **END OF CLASS ** /////
 }

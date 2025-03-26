@@ -25,7 +25,7 @@ class UserModel extends Model {
             [id, display_name, email, phone_no, birthday, colour],
             "update user failed"
           );
-          return response.rows;
+          return response.rows[0];
     }
     async getUser(id){
       const response = await this.atomic_query('SELECT * FROM "Users" WHERE id=$1', 
@@ -34,7 +34,7 @@ class UserModel extends Model {
     }
     async findUser(){
       const response = await this.atomic_query('SELECT * FROM "Users" WHERE display_name=$1', [display_name]);
-
+      return response.rows[0];
     }
     async findIfUserNameExists(){
       const response = await this.atomic_query('SELECT COUNT(*) AS A FROM "Users" WHERE display_name=$1', 
