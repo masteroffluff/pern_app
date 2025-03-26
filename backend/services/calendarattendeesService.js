@@ -1,6 +1,8 @@
+const TodoItemModel = require('../models/TodoItemModel')
 const db = require('../utils/db')
 const helperFunctions = require('../utils/helperFunctions')
-
+const ItemModel = require('../models/ItemModel')
+const CalendarModel = require('../models/CalendarModel')
 
 module.exports.funccalendarattendees = function funccalendar(req, res) {
     res.send({
@@ -11,36 +13,21 @@ module.exports.funccalendarattendees = function funccalendar(req, res) {
 module.exports.post_calendar_attendees = async function post_calendar_attendees(req, res) {
     try {
         const {item_id, attendee} = req.query
-        const sql = `
-        INSERT INTO "Attending" (item_id, person)
-        Values($1,$2)
-        RETURNING *;`
-        const response = await db.queryPromisified(sql, [item_id, attendee])
-        if (response.rows.length===0){
-            const err = new Error('Add Attendee Failed')
-            throw err            
-        }
-
-
+        const calendarModel = new CalendarModel()
+        await calendarModel.addCalendarAttendees(item_id, attendee)
         res.send(await helperFunctions.getListofCalendarItems(req));
     } catch (e) {
-        console.log('get_calendar error', e)
+        console.log('post_calendar_attendees error', e)
         return res.status(400).send({ message: e.message })
     }
 }
 
 module.exports.delete_calendar_attendees = async function delete_calendar_attendees(req, res) {
     try {
+        
         const {item_id, attendee} = req.query
-        const sql = `
-        DELETE FROM "Attending"
-        WHERE item_id =$1 AND person=$2
-        RETURNING *;`
-        const response = await db.queryPromisified(sql, [item_id, attendee])
-        if (response.rows.length===0){
-            const err = new Error('Remove Attendee Failed')
-            throw err            
-        }
+        const calendarModel = new CalendarModel()
+        await calendarModel.deleteCalendarAttendees(item_id, attendee)
         res.send(await helperFunctions.getListofCalendarItems(req));
     } catch (e) {
         console.log('get_calendar error', e)
@@ -53,29 +40,23 @@ module.exports.update_calendar_attendees = async function update_calendar_attend
     const at = db.atomicTrasaction()
     try {
         const {item_id, attendees} = req.body
-        await at.begin()
-        await at.query(`
-        DELETE FROM "Attending"
-        WHERE item_id =$1
-        RETURNING *;`,
-        [item_id]
-        )
+        
+        const calendarModel = new CalendarModel()
+        calendarModel.begin()
+        await calendarModel.deleteAllCalendarAttendees(item_id)
+        const promiseArray = []
         for (const index in attendees){
-            const sql = `
-            INSERT INTO "Attending" (item_id, person)
-            Values($1,$2)
-            RETURNING *;`
-            const response = await at.query(sql, [item_id, attendees[index]])
-            if (response.rows.length===0){
-                const err = new Error('(update atendee list)Add Attendee Failed')
-                throw err            
-            }
+            promiseArray.push(
+                calendarModel.addCalendarAttendees(item_id, attendees[index])
+            )
         }
-        await at.commit()
-        at.releaseClient()
+        await Promise.all(promiseArray)
+        await calendarModel.commit_and_release()
+        
         res.send(await helperFunctions.getListofCalendarItems(req));
     } catch (e) {
-        console.log('get_calendar error', e)
+        calendarModel.rollback_and_release()
+        console.log('update_calendar_attendees error', e)
         return res.status(400).send({ message: e.message })
     }
 }

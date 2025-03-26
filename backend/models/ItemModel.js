@@ -10,8 +10,21 @@ class ItemModel extends Model {
   // ** items ** //
   constructor(at) {
     super(at)
+    this.itemTypes = {
+      note: 1,
+      todo: 2,
+      reminder: 3,
+      appointment: 4,
+      event: 5,
+      notification: 6
+    };
+    this.sharedTo = {
+      private: 1,
+      friends: 2,
+      public: 3
+    };
   }
-  async get_items(owner_id, type){
+  async getItems(owner_id, type){
     const sql =
     `SELECT id, shared_to, title, notes, date
     FROM "Items"
@@ -19,7 +32,7 @@ class ItemModel extends Model {
     const response = await this.atomic_query(sql, [owner_id, type])
     return  response.rows
 }
-async get_all_items(owner_id){
+async getAllItems(owner_id){
   const sql =
   `SELECT id, shared_to, title, notes, date
   FROM "Items"
@@ -28,7 +41,7 @@ async get_all_items(owner_id){
   return  response.rows
 }
 
-  async add_item(shared_to, type, title, notes, owner_id) {
+  async addItem(shared_to, type, title, notes, owner_id, date) {
     const sqlItems = `
     INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
     VALUES( $1, $2, $3, $4, $5, $6 )
@@ -39,13 +52,13 @@ async get_all_items(owner_id){
       title,
       notes,
       owner_id,
-      now.toISOString(),
+      date
     ],
     "add_calendar_item error");
     return item_idResponse.rows[0].id;
   }
 
-  async update_item(item_id, shared_to, title, notes) {
+  async updateItem(item_id, shared_to, title, notes) {
     const sqlItems = `
     UPDATE "Items"
     SET shared_to= $2, title= $3, notes= $4
@@ -60,7 +73,7 @@ async get_all_items(owner_id){
     return item_rows.rows;
   }
 
-  async delete_item(item_id) {
+  async deleteItem(item_id) {
     const sqlCalendarDetails = `
     DELETE FROM "Items" 
     WHERE id = $1

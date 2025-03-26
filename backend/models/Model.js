@@ -21,6 +21,7 @@ class Model {
   get at() {
     return this.at
   }
+  
   async atomic_query(sql,arr, message){
     console.log(sql)
     const qry  = await this.at.query(sql,arr)

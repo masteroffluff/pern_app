@@ -1,7 +1,7 @@
 // This file will contain the database interactions for todoItemItems.
 const Model = require("./Model");
 
-class todoItemModel extends Model {
+class TodoItemModel extends Model {
   constructor(at) {
     super(at);
   }
@@ -48,4 +48,4 @@ class todoItemModel extends Model {
   }
 }
 
-module.exports = todoItemModel;
+module.exports = TodoItemModel;

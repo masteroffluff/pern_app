@@ -68,7 +68,7 @@ class CalendarModel extends Model {
   }
   
 
-  async add_calendar_attendees(item_id, attendees) {
+  async addCalendarAttendees(item_id, attendees) {
     try {
       
       // if a single attendee is provided make it an array.
@@ -93,7 +93,7 @@ class CalendarModel extends Model {
       throw err;
     }
   }
-  async delete_calendar_attendees(item_id, attendee) {
+  async deleteCalendarAttendees(item_id, attendee) {
     try {
       
       const sql = `
@@ -108,25 +108,24 @@ class CalendarModel extends Model {
       throw err;
     }
   }
-  async add_item(shared_to, type, title, notes, owner_id) {
 
+  async deleteAllCalendarAttendees(item_id) {
+    try {
       
-      const sqlItems = `
-      INSERT INTO "Items" ( shared_to, type, title, notes, owner_id, date )
-      VALUES( $1, $2, $3, $4, $5, $6 )
-      RETURNING id;`;
-      const item_idResponse = await this.atomic_query(sqlItems, [
-        shared_to,
-        type,
-        title,
-        notes,
-        owner_id,
-        now.toISOString(),
-      ],
-      "add_calendar_item error");
-      return item_idResponse.rows[0].id;
+      const sql = `
+        DELETE FROM "Attending"
+        WHERE item_id =$1
+        RETURNING *;`;
+      await this.atomic_query(sql, [item_id], "Remove Attendee Failed");
+      return true;
+    } catch (e) {
+      console.log("delete_calendar_attendees error", e);
+      const err = new Error(e.message);
+      throw err;
+    }
   }
-  async add_calendar_detail(item_id, date_from, date_to, place) {
+
+  async addCalendarDetail(item_id, date_from, date_to, place) {
       
       const sqlCalendarDetails = `
       INSERT INTO "Calendar_Details" (item_id, date_from, date_to, place )
@@ -135,32 +134,32 @@ class CalendarModel extends Model {
       const item_idResponse =  await this.atomic_query(sqlCalendarDetails, [item_id, date_from, date_to, place],"add_calendar_detail error");
       return item_idResponse.rows[0].item_id;
   }
-  async update_item(      
-    item_id,
-    shared_to,
-    title,
-    notes
-    ) {
+  // async update_item(      
+  //   item_id,
+  //   shared_to,
+  //   title,
+  //   notes
+  //   ) {
       
-      const sqlItems = `
-      UPDATE "Items"
-      SET shared_to= $2, title= $3, notes= $4
-      WHERE id = $1
-      RETURNING *;`;
-      const item_rows = await at.query(sqlItems, [
-        item_id,
-        shared_to,
-        title,
-        notes,
-      ]);
-      if (item_rows.rows.length === 0) {
+  //     const sqlItems = `
+  //     UPDATE "Items"
+  //     SET shared_to= $2, title= $3, notes= $4
+  //     WHERE id = $1
+  //     RETURNING *;`;
+  //     const item_rows = await at.query(sqlItems, [
+  //       item_id,
+  //       shared_to,
+  //       title,
+  //       notes,
+  //     ]);
+  //     if (item_rows.rows.length === 0) {
         
-        const err = new Error("update_item nothing updated");
-        throw err;
-      }
-      return item_rows.rows;
+  //       const err = new Error("update_item nothing updated");
+  //       throw err;
+  //     }
+  //     return item_rows.rows;
 
-  }
+  // }
   async updateCalendar(      
     item_id,
     date_from,

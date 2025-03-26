@@ -1,6 +1,10 @@
 const db = require('./db')
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const ItemModel = require('../models/ItemModel');
+const TodoItemModel = require('../models/TodoItemModel');
+const UserModel = require('../models/UserModel');
+const CalendarModel = require('../models/CalendarModel');
 
 
 module.exports.generate_jwt_token = function generate_jwt_token(id) {
@@ -12,7 +16,8 @@ module.exports.generate_jwt_token = function generate_jwt_token(id) {
 }
 
 module.exports.findIfUserNameExists = function findIfUserNameExists(display_name) {
-    return db.queryPromisified('SELECT COUNT(*) AS A FROM "Users" WHERE display_name=$1', [display_name], 'findByUsername')
+    const userModel = new UserModel()
+    return userModel.findByUsername(display_name)
         .then((response) => {
             console.log('response', response.rows[0].a >= 1)
             return response.rows[0].a >= 1
@@ -158,70 +163,70 @@ module.exports.getListOfTodosAndTheirItems = async function getListOfTodosAndThe
     return mapArrayontoArray(todos, todoItems, 'items')
 }
 
-// module.exports.getListofCalendarItems = async function getListofCalendarItems(req, date_from, date_to) {
-//     if (!date_from) {
-//         date_from = new Date('2000/01/01')
-//     }
-//     if (!date_to) {
-//         date_to = new Date('9999/01/01')
-//     }
-//     const { id } = req.user
-//     const sqlCalandar =
-//         `SELECT DISTINCT * FROM (
-//             SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
-//                 FROM "Items"
-//                 JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
-//                 JOIN "Item_type" ON "Items".type = "Item_type".id
-//                 JOIN "Users" ON "Items".owner_id = "Users".id
-//                 WHERE "Items".type IN (3,4,5) AND 
-//                 ("Items".owner_id = $1 ) AND
-//                 ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-//             UNION ALL
-//             SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
-//                 FROM "Items"
-//                 JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
-//                 JOIN "Item_type" ON "Items".type = "Item_type".id
-//                 JOIN "Attending" ON "Items".id = "Attending".item_id
-//                 JOIN "Users" ON "Items".owner_id = "Users".id
-//                 WHERE "Items".type IN (3,4,5) AND 
-//                 ("Attending".person=$1) AND
-//                 ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-//             UNION ALL
-//                 SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
-//                 FROM "Items"
-//                 JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
-//                 JOIN "Item_type" ON "Items".type = "Item_type".id
-//                 JOIN "Users" ON "Items".owner_id = "Users".id
-//                 WHERE "Items".type IN (3,4,5) AND 
-//                 ("Items".shared_to = 3) AND
-//                 ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-//             UNION ALL
-//             SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
-//                 FROM "Items"
-//                 JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
-//                 JOIN "Item_type" ON "Items".type = "Item_type".id
-//                 JOIN "Users" ON "Items".owner_id = "Users".id
-//                 JOIN "Friends" ON "Friends".friend_id = "Items".owner_id
-//                 WHERE "Items".type IN (3,4,5) AND 
-//                 ("Friends".user_id =$1 ) AND
-//                 ("Items".shared_to = 2) AND
-//                 ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
-//         ) as t`
-//     const calendarResponse = await db.queryPromisified(sqlCalandar, [id, date_from, date_to])
-//     const calendarItems = calendarResponse.rows
-//     const itemIds = calendarItems.map((e) => e.id)
-//     const sqlAttendees =
-//         `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
-//         FROM "Attending"
-//         JOIN "Users" ON "Attending".person = "Users".id
-//         WHERE "Attending".item_id = ANY($1)`
-//     const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
-//     const attendees = attemdeesResponse.rows
-//     //console.log(attendees)
-//     const calendarWithMappedAttendees = mapArrayontoArray(calendarItems, attendees, 'attendees')
-//     //console.log(calendarWithMappedAttendees)
-//     return calendarWithMappedAttendees
-// }
+module.exports.getListofCalendarItems = async function getListofCalendarItems(req, date_from, date_to) {
+    if (!date_from) {
+        date_from = new Date('2000/01/01')
+    }
+    if (!date_to) {
+        date_to = new Date('9999/01/01')
+    }
+    const { id } = req.user
+    const sqlCalandar =
+        `SELECT DISTINCT * FROM (
+            SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
+                FROM "Items"
+                JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
+                JOIN "Item_type" ON "Items".type = "Item_type".id
+                JOIN "Users" ON "Items".owner_id = "Users".id
+                WHERE "Items".type IN (3,4,5) AND 
+                ("Items".owner_id = $1 ) AND
+                ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
+            UNION ALL
+            SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
+                FROM "Items"
+                JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
+                JOIN "Item_type" ON "Items".type = "Item_type".id
+                JOIN "Attending" ON "Items".id = "Attending".item_id
+                JOIN "Users" ON "Items".owner_id = "Users".id
+                WHERE "Items".type IN (3,4,5) AND 
+                ("Attending".person=$1) AND
+                ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
+            UNION ALL
+                SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
+                FROM "Items"
+                JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
+                JOIN "Item_type" ON "Items".type = "Item_type".id
+                JOIN "Users" ON "Items".owner_id = "Users".id
+                WHERE "Items".type IN (3,4,5) AND 
+                ("Items".shared_to = 3) AND
+                ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
+            UNION ALL
+            SELECT DISTINCT "Item_type".type, "Items".id, "Items".shared_to, "Items".title, "Items".notes, "Items".owner_id, "Users".display_name,  "Calendar_Details".*
+                FROM "Items"
+                JOIN "Calendar_Details" ON "Items".id = "Calendar_Details".item_id
+                JOIN "Item_type" ON "Items".type = "Item_type".id
+                JOIN "Users" ON "Items".owner_id = "Users".id
+                JOIN "Friends" ON "Friends".friend_id = "Items".owner_id
+                WHERE "Items".type IN (3,4,5) AND 
+                ("Friends".user_id =$1 ) AND
+                ("Items".shared_to = 2) AND
+                ("Calendar_Details".date_from, "Calendar_Details".date_to) OVERLAPS ($2::timestamptz, $3::timestamptz)
+        ) as t`
+    const calendarResponse = await db.queryPromisified(sqlCalandar, [id, date_from, date_to])
+    const calendarItems = calendarResponse.rows
+    const itemIds = calendarItems.map((e) => e.id)
+    const sqlAttendees =
+        `SELECT  "Attending".item_id, "Attending".person, "Users".display_name
+        FROM "Attending"
+        JOIN "Users" ON "Attending".person = "Users".id
+        WHERE "Attending".item_id = ANY($1)`
+    const attemdeesResponse = await db.queryPromisified(sqlAttendees, [itemIds])
+    const attendees = attemdeesResponse.rows
+    //console.log(attendees)
+    const calendarWithMappedAttendees = mapArrayontoArray(calendarItems, attendees, 'attendees')
+    //console.log(calendarWithMappedAttendees)
+    return calendarWithMappedAttendees
+}
 
 module.exports.insertDefaultImage = async function insertDefaultImage(id) {
 
